@@ -10,27 +10,27 @@
 项目中遇到的问题：单个类的代码复杂多很高，甚者超过几千行的类逐步增多。电商类App，UI占据了很多的成分。UI变化时，牵一发动全身。特别是一个人写的东西，不感觉让别人去顶替修改，人员离">
 <meta property="og:type" content="article">
 <meta property="og:title" content="观察者模式和依赖注入（更优雅的撸代码）">
-<meta property="og:url" content="http://yoursite.com/2016/02/23/Android/观察者模式和依赖注入简介（更优雅简介的撸代码）/index.html">
+<meta property="og:url" content="http://glanwang.com/2016/02/23/Android/观察者模式和依赖注入简介（更优雅简介的撸代码）/index.html">
 <meta property="og:site_name" content="Glan Wang">
 <meta property="og:description" content="Android项目现在越来越流行的观察者模式来进行代码的解耦，更加优雅的撸码。比如现在比较火的RxJava，EventBus等等，都是基于观察这模式的。我今天分享的也是我上一个项目中，使用观察者模式对代码进行解耦。
 项目中遇到的问题：单个类的代码复杂多很高，甚者超过几千行的类逐步增多。电商类App，UI占据了很多的成分。UI变化时，牵一发动全身。特别是一个人写的东西，不感觉让别人去顶替修改，人员离">
-<meta property="og:image" content="http://yoursite.com/~/C496C7F0-BE55-4AAB-9A43-57F0C05B6029.png">
-<meta property="og:image" content="http://yoursite.com/~/1B9C25E0-7905-48E8-87B5-5136EFF67FC4.png">
-<meta property="og:image" content="http://yoursite.com/~/961A4488-B5E9-4AF4-914A-3A09F48F0AB1.png">
-<meta property="og:image" content="http://yoursite.com/~/B9041667-BA64-4C4B-B69C-F548095E5FAC.png">
-<meta property="og:image" content="http://yoursite.com/~/52F0190D-D660-40CA-AC92-2E3EC2154DCE.png">
-<meta property="og:image" content="http://yoursite.com/~/7CA2B3BE-7CA2-41C5-A78F-2B0A03679B98.png">
-<meta property="og:image" content="http://yoursite.com/~/5A727EF0-AB55-443B-B09C-0BC4651429DF.png">
-<meta property="og:image" content="http://yoursite.com/~/6DF0A70A-6615-45FC-950E-B6B895AA36E8.png">
-<meta property="og:image" content="http://yoursite.com/~/D642F25F-5064-4501-AE7C-E6F44F526DE6.png">
-<meta property="og:image" content="http://yoursite.com/~/7BFC726B-3F80-457E-87D5-3E89FC02EE57.png">
-<meta property="og:image" content="http://yoursite.com/~/C5BD01A4-1509-4964-80A9-344F4819A444.png">
+<meta property="og:image" content="http://glanwang.com/~/C496C7F0-BE55-4AAB-9A43-57F0C05B6029.png">
+<meta property="og:image" content="http://glanwang.com/~/1B9C25E0-7905-48E8-87B5-5136EFF67FC4.png">
+<meta property="og:image" content="http://glanwang.com/~/961A4488-B5E9-4AF4-914A-3A09F48F0AB1.png">
+<meta property="og:image" content="http://glanwang.com/~/B9041667-BA64-4C4B-B69C-F548095E5FAC.png">
+<meta property="og:image" content="http://glanwang.com/~/52F0190D-D660-40CA-AC92-2E3EC2154DCE.png">
+<meta property="og:image" content="http://glanwang.com/~/7CA2B3BE-7CA2-41C5-A78F-2B0A03679B98.png">
+<meta property="og:image" content="http://glanwang.com/~/5A727EF0-AB55-443B-B09C-0BC4651429DF.png">
+<meta property="og:image" content="http://glanwang.com/~/6DF0A70A-6615-45FC-950E-B6B895AA36E8.png">
+<meta property="og:image" content="http://glanwang.com/~/D642F25F-5064-4501-AE7C-E6F44F526DE6.png">
+<meta property="og:image" content="http://glanwang.com/~/7BFC726B-3F80-457E-87D5-3E89FC02EE57.png">
+<meta property="og:image" content="http://glanwang.com/~/C5BD01A4-1509-4964-80A9-344F4819A444.png">
 <meta property="og:updated_time" content="2016-06-04T06:14:06.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="观察者模式和依赖注入（更优雅的撸代码）">
 <meta name="twitter:description" content="Android项目现在越来越流行的观察者模式来进行代码的解耦，更加优雅的撸码。比如现在比较火的RxJava，EventBus等等，都是基于观察这模式的。我今天分享的也是我上一个项目中，使用观察者模式对代码进行解耦。
 项目中遇到的问题：单个类的代码复杂多很高，甚者超过几千行的类逐步增多。电商类App，UI占据了很多的成分。UI变化时，牵一发动全身。特别是一个人写的东西，不感觉让别人去顶替修改，人员离">
-<meta name="twitter:image" content="http://yoursite.com/~/C496C7F0-BE55-4AAB-9A43-57F0C05B6029.png">
+<meta name="twitter:image" content="http://glanwang.com/~/C496C7F0-BE55-4AAB-9A43-57F0C05B6029.png">
   
     <link rel="alternative" href="/atom.xml" title="Glan Wang" type="application/atom+xml">
   
@@ -82,7 +82,7 @@
           <input name=tn type=hidden value="bds">
           <input name=cl type=hidden value="3">
           <input name=ct type=hidden value="2097152">
-          <input type="hidden" name="si" value="yoursite.com">
+          <input type="hidden" name="si" value="glanwang.com">
         </form>
       </div>
     </div>
@@ -154,7 +154,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://yoursite.com/2016/02/23/Android/观察者模式和依赖注入简介（更优雅简介的撸代码）/" data-id="cip0u0sff004lbj16l9ra95ja" class="article-share-link" data-share="baidu" data-title="观察者模式和依赖注入（更优雅的撸代码）">分享到</a>
+        <a data-url="http://glanwang.com/2016/02/23/Android/观察者模式和依赖注入简介（更优雅简介的撸代码）/" data-id="cip0u0sff004lbj16l9ra95ja" class="article-share-link" data-share="baidu" data-title="观察者模式和依赖注入（更优雅的撸代码）">分享到</a>
       
 
       
