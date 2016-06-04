@@ -68,61 +68,6 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-Java/Java中各种变量、代码块的执行时机" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2015/04/21/Java/Java中各种变量、代码块的执行时机/" class="article-date">
-  <time datetime="2015-04-21T06:52:00.000Z" itemprop="datePublished">2015-04-21</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Java/">Java</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/04/21/Java/Java中各种变量、代码块的执行时机/">Java中各种变量、代码块的执行时机</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>###类变量（静态变量）、实例变量（非静态变量）、静态代码块、非静态代码块 的初始化时机<br>    1,由 static 关键字修饰的（如：类变量[静态变量]、静态代码块）<br>    将在类被初始化创建实例对象之前被初始化，而且是按顺序从上到下依次被执行；<br>    2,没有 static 关键字修饰的（如：实例变量[非静态变量]、非静态代码块）初<br>    始化实际上是会被提取到类的构造器中被执行的，但是会比类构造器中的代码块优先<br>    执行到，其也是按顺序从上到下依次被执行。</p>
-<p>###类变量 （静态变量）</p>
-<pre><code>1. 可以向前引用
-2. 变量属于类本身
-3. 类变量不依赖类的实例，类变量只在初始化时候在栈内存中被分配一次空间，无论类的实例被创建几次，都不再为类变量分配空间
-4. 通过类的任意一个实例来访问类变量，底层都将将其转为通过类本身来访问类变量，它们的效果是一样的
-5. 一旦类变量的值被改变，通过类或类的任意一个实例来访问类变量，得到的都将是被改变后的值
-6. 将在类的初始化之前初始化
-</code></pre><p>实例变量（非静态变量）</p>
-<pre><code>1. 不能向前引用，如果向前引用，则称为非法向前引用，这是不允许的
-2. 变量属于类的实例对象
-3. 随着类的实例被创建而分配内存空间
-</code></pre><p>###非静态代码块<br>    直接由 { } 包起来的代码，称为非静态代码块</p>
-<p>###静态代码块<br>    直接由 static { } 包起来的代码，称为静态代码块</p>
-<p>原文：<a href="http://www.blogjava.net/kermart/archive/2012/07/10/382700.html" target="_blank" rel="external">http://www.blogjava.net/kermart/archive/2012/07/10/382700.html</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/04/21/Java/Java中各种变量、代码块的执行时机/" data-id="cip0q3q2q0002rb165pnhz3k1" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
     <article id="post-Android/android物料设计细节" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2015/04/20/Android/android物料设计细节/" class="article-date">
@@ -156,7 +101,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/04/20/Android/android物料设计细节/" data-id="cip0q412b001erb16v3j9zssi" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2015/04/20/Android/android物料设计细节/" data-id="cip0rqquj0029cg16g7dl2chy" class="article-share-link">Share</a>
       
       
     </footer>
@@ -201,7 +146,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/04/17/Android/Android项目Build报错Unable to execute dx(65535问题解决方案)/" data-id="cip0q411i000orb16gcph5k3b" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2015/04/17/Android/Android项目Build报错Unable to execute dx(65535问题解决方案)/" data-id="cip0rqqt8000tcg16hhi3lb3c" class="article-share-link">Share</a>
       
       
     </footer>
@@ -254,7 +199,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/04/16/Mac/shell命令 /" data-id="cip0q4qiw0026rb16xmdhsov3" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2015/04/16/Mac/shell命令 /" data-id="cip0rqqwa004ccg165x7n4y9m" class="article-share-link">Share</a>
       
       
     </footer>
@@ -315,7 +260,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/04/16/Android/adb常用命令和logcat过滤/" data-id="cip0q41240019rb166ktapba9" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2015/04/16/Android/adb常用命令和logcat过滤/" data-id="cip0rqquc001zcg16fvyz9c96" class="article-share-link">Share</a>
       
       
     </footer>
@@ -360,7 +305,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/04/14/Android/onNewIntent(Intent intent)和Activity的启动模式/" data-id="cip0q412d001hrb16jzol7pah" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2015/04/14/Android/onNewIntent(Intent intent)和Activity的启动模式/" data-id="cip0rqqun002dcg1689uv093o" class="article-share-link">Share</a>
       
       
     </footer>
@@ -403,7 +348,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/04/13/Android/largeHeap属性临时性解决OOM问题/" data-id="cip0q412b001frb16tj4yiab8" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2015/04/13/Android/largeHeap属性临时性解决OOM问题/" data-id="cip0rqqul002bcg16fkj96v82" class="article-share-link">Share</a>
       
       
     </footer>
@@ -517,7 +462,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/04/10/Other/关于简历(转自codeKK写的真心不错)/" data-id="cip0q4qkq002brb1659y4my83" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2015/04/10/Other/关于简历(转自codeKK写的真心不错)/" data-id="cip0rqqwf004lcg163lxhokcp" class="article-share-link">Share</a>
       
       
     </footer>
@@ -563,7 +508,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/04/03/Java/Java获取昨天的日期/" data-id="cip0q3q2s0003rb16ktjepotq" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2015/04/03/Java/Java获取昨天的日期/" data-id="cip0rqqw30040cg16d09282q0" class="article-share-link">Share</a>
       
       
     </footer>
@@ -612,7 +557,40 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/04/03/Android/MPChart绘图库的使用/" data-id="cip0q411s000yrb16uraipo6j" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2015/04/03/Android/MPChart绘图库的使用/" data-id="cip0rqqtq001dcg16jpprfxue" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Mac/Mac下配置hosts" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/04/03/Mac/Mac下配置hosts/" class="article-date">
+  <time datetime="2015-04-03T02:30:00.000Z" itemprop="datePublished">2015-04-03</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Mac/">Mac</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>###Mac OS中对hosts文件进行又该的几个命令使用</p>
+<p>下面简单记录以下mac os下修改hosts的命令：<br>Mac OS下hosts文件所在的位置为/etc/hosts<br>1, 获取su权限,并修改hosts的权限。<br><code>sudo chmod 777 /etc/hosts</code><br>2, 使用vi 命令对hosts文件进行编辑<br><code>vi /etc/hosts</code></p>
+<p>###Vi命令的简单使用<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">1. 在默认的&quot;指令模式&quot;下按 i 进入编辑模式 </span><br><span class="line">2. 在非指令模式下按 ESC 返回指令模式 </span><br><span class="line">3. 在&quot;指令模式&quot;下输入: </span><br><span class="line">:w 保存当前文件 </span><br><span class="line">:q 退出编辑,如果文件为保存需要用强制模式 </span><br><span class="line">:q! 强制退出不保存修改 </span><br><span class="line">:wq 组合指令, 保存并退出 </span><br><span class="line">在「命令行模式（command mode）」下按一下字母「i」就可以进入「插入模式（Insert mode）」，这时候你就可以开始输入文字了</span><br><span class="line">4. 在&quot;指令模式&quot;下移动: </span><br><span class="line">h 左 </span><br><span class="line">j 下 </span><br><span class="line">k 上 </span><br><span class="line">l 右</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2015/04/03/Mac/Mac下配置hosts/" data-id="cip0rqqw70049cg161c5dqdzc" class="article-share-link">Share</a>
       
       
     </footer>
@@ -650,7 +628,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">十一月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">十月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">九月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">八月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">七月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">六月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">五月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">十一月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">十月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">九月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">八月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">七月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">六月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">五月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a></li></ul>
     </div>
   </div>
 
@@ -661,10 +639,6 @@
     <h3 class="widget-title">最新文章</h3>
     <div class="widget">
       <ul>
-        
-          <li>
-            <a href="/2016/06/04/hello-world/">Hello World</a>
-          </li>
         
           <li>
             <a href="/2016/05/31/Mac/zsh不兼容的坑/">zsh不兼容的坑-zsh:no matches found:</a>
@@ -680,6 +654,10 @@
         
           <li>
             <a href="/2016/05/17/Java/Java反射大发/">Java反射大发</a>
+          </li>
+        
+          <li>
+            <a href="/2016/05/16/Java/性能观察: Trove 集合类（转）/">性能观察: Trove 集合类（转）</a>
           </li>
         
       </ul>
