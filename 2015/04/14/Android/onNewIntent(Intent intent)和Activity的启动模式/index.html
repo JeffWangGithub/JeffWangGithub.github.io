@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>onNewIntent(Intent intent)和Activity的启动模式 | Glan Wang</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="###onNewIntent()方法使用场景当一个应用的某个Activity提供多种调用启动的情况（当前应用调用，其他应用通过隐式Intent调用，或者WAP页通过scheme调用），多个调用希望只有一个Activity的实例存在，这时候就需要Activity的onNewIntent(Intent intent)方法了。
+###onNewIntent()方法的使用&amp;gt;1 在清单文件（Andro">
+<meta property="og:type" content="article">
+<meta property="og:title" content="onNewIntent(Intent intent)和Activity的启动模式">
+<meta property="og:url" content="http://yoursite.com/2015/04/14/Android/onNewIntent(Intent intent)和Activity的启动模式/index.html">
+<meta property="og:site_name" content="Glan Wang">
+<meta property="og:description" content="###onNewIntent()方法使用场景当一个应用的某个Activity提供多种调用启动的情况（当前应用调用，其他应用通过隐式Intent调用，或者WAP页通过scheme调用），多个调用希望只有一个Activity的实例存在，这时候就需要Activity的onNewIntent(Intent intent)方法了。
+###onNewIntent()方法的使用&amp;gt;1 在清单文件（Andro">
+<meta property="og:updated_time" content="2016-06-04T06:11:53.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="onNewIntent(Intent intent)和Activity的启动模式">
+<meta name="twitter:description" content="###onNewIntent()方法使用场景当一个应用的某个Activity提供多种调用启动的情况（当前应用调用，其他应用通过隐式Intent调用，或者WAP页通过scheme调用），多个调用希望只有一个Activity的实例存在，这时候就需要Activity的onNewIntent(Intent intent)方法了。
+###onNewIntent()方法的使用&amp;gt;1 在清单文件（Andro">
+  
+    <link rel="alternate" href="/atom.xml" title="Glan Wang" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Glan Wang</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">CoderGC</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Android/onNewIntent(Intent intent)和Activity的启动模式" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/04/14/Android/onNewIntent(Intent intent)和Activity的启动模式/" class="article-date">
+  <time datetime="2015-04-14T05:00:00.000Z" itemprop="datePublished">2015-04-14</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Android/">Android</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      onNewIntent(Intent intent)和Activity的启动模式
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>###onNewIntent()方法使用场景<br>当一个应用的某个Activity提供多种调用启动的情况（当前应用调用，其他应用通过隐式Intent调用，或者WAP页通过scheme调用），多个调用希望只有一个Activity的实例存在，这时候就需要Activity的onNewIntent(Intent intent)方法了。</p>
+<p>###onNewIntent()方法的使用<br>&gt;<br>1 在清单文件（AndroidMainfest.xml）中，对应的Activity上加上启动模式lanuchMode=”singleTask”.<br>2,在Activity中复写onNewIntent(Intent intent)方法，在此方法中调用setIntent(intent)方法，将新的Intent赋值给Activity的Intent。</p>
+<p>###onNewIntent()调用时机解释<br>&gt;<br>onNewIntent（）非常好用，Activity第一启动的时候执行onCreate()—-&gt;onStart()—-&gt;onResume()等后续生命周期函数，也就时说第一次启动Activity并不会执行到onNewIntent().<br>而后面如果再有想启动Activity的时候，那就是执行onNewIntent()—-&gt;onResart()——&gt;onStart()—–&gt;onResume().  如果android系统由于内存不足把已存在Activity释放掉了，那么再次调用的时候会重新启动Activity即执行onCreate()—-&gt;onStart()—-&gt;onResume()等。</p>
+<p>###Activity的启动模式简介<br>&gt;<br> Activity启动模式设置：</p>
+<p><activity android:name=".MainActivity" android:launchmode="standard"><br>        Activity的四种启动模式：<br>        1.standard<br>        默认启动模式，每次激活Activity时都会创建Activity，并放入任务栈中。<br>        2.singleTop<br>        如果在任务的栈顶正好存在该Activity的实例， 就重用该实例，否者就会创建新的实例并放入栈顶(即使栈中已经存在该Activity实例，只要不在栈顶，都会创建实例)。<br>        3.singleTask<br>        如果在栈中已经有该Activity的实例，就重用该实例(会调用实例的onNewIntent())。重用时，会让该实例回到栈顶，因此在它上面的实例将会被移除栈。如果栈中不存在该实例，将会创建新的实例放入栈中。<br>        4.singleInstance<br>        在一个新栈中创建该Activity实例，并让多个应用共享改栈中的该Activity实例。一旦改模式的Activity的实例存在于某个栈中，任何应用再激活改Activity时都会重用该栈中的实例，其效果相当于多个应用程序共享一个应用，不管谁激活该Activity都会进入同一个应用中     </activity></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2015/04/14/Android/onNewIntent(Intent intent)和Activity的启动模式/" data-id="cip0q412d001hrb16jzol7pah" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2015/04/16/Android/adb常用命令和logcat过滤/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          adb常用命令和logcat过滤
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2015/04/13/Android/largeHeap属性临时性解决OOM问题/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">largeHeap属性临时性解决OOM问题</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Gradle/">Gradle</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac/">Mac</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Other/">Other</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/android/">android</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">十一月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">十月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">九月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">八月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">七月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">六月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">五月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2016/06/04/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2016/05/31/Mac/zsh不兼容的坑/">zsh不兼容的坑-zsh:no matches found:</a>
+          </li>
+        
+          <li>
+            <a href="/2016/05/30/Gradle/gradle(一)/">Gradle(一)</a>
+          </li>
+        
+          <li>
+            <a href="/2016/05/29/Mac/Httpie使用/">Httpie使用</a>
+          </li>
+        
+          <li>
+            <a href="/2016/05/17/Java/Java反射大发/">Java反射大发</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 GlanWang<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

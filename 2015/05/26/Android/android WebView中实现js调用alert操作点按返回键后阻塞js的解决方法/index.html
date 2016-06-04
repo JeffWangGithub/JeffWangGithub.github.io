@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>WebView中实现js调用alert操作点按返回键后阻塞js的解决方法 | Glan Wang</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Android Webview默认的alert弹出框是带有ip地址的，但是实际开发中我们一般都需要讲起进行自定义去除ip地址的显示。但是如果你的alert点击按钮之后支行了js代码，就容易出现一下的坑。状况描述：alert出现之后，不点击alert上的按钮，而是点击Android的返回键史得alert弹出框消失。此时如果你的wap页面在alert按钮点击之后掉用了js，那么你的js永远不会被执行。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="WebView中实现js调用alert操作点按返回键后阻塞js的解决方法">
+<meta property="og:url" content="http://yoursite.com/2015/05/26/Android/android WebView中实现js调用alert操作点按返回键后阻塞js的解决方法/index.html">
+<meta property="og:site_name" content="Glan Wang">
+<meta property="og:description" content="Android Webview默认的alert弹出框是带有ip地址的，但是实际开发中我们一般都需要讲起进行自定义去除ip地址的显示。但是如果你的alert点击按钮之后支行了js代码，就容易出现一下的坑。状况描述：alert出现之后，不点击alert上的按钮，而是点击Android的返回键史得alert弹出框消失。此时如果你的wap页面在alert按钮点击之后掉用了js，那么你的js永远不会被执行。">
+<meta property="og:updated_time" content="2016-06-04T06:13:06.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="WebView中实现js调用alert操作点按返回键后阻塞js的解决方法">
+<meta name="twitter:description" content="Android Webview默认的alert弹出框是带有ip地址的，但是实际开发中我们一般都需要讲起进行自定义去除ip地址的显示。但是如果你的alert点击按钮之后支行了js代码，就容易出现一下的坑。状况描述：alert出现之后，不点击alert上的按钮，而是点击Android的返回键史得alert弹出框消失。此时如果你的wap页面在alert按钮点击之后掉用了js，那么你的js永远不会被执行。">
+  
+    <link rel="alternate" href="/atom.xml" title="Glan Wang" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Glan Wang</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">CoderGC</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Android/android WebView中实现js调用alert操作点按返回键后阻塞js的解决方法" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/05/26/Android/android WebView中实现js调用alert操作点按返回键后阻塞js的解决方法/" class="article-date">
+  <time datetime="2015-05-26T06:05:00.000Z" itemprop="datePublished">2015-05-26</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Android/">Android</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      WebView中实现js调用alert操作点按返回键后阻塞js的解决方法
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Android Webview默认的alert弹出框是带有ip地址的，但是实际开发中我们一般都需要讲起进行自定义去除ip地址的显示。<br>但是如果你的alert点击按钮之后支行了js代码，就容易出现一下的坑。<br>状况描述：alert出现之后，不点击alert上的按钮，而是点击Android的返回键史得alert弹出框消失。此时如果你的wap页面在alert按钮点击之后掉用了js，那么你的js永远不会被执行。<br>解决方案：弹出的Dialog设置setCancable（false）属性，使其不能进行点击反悔的操作。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 处理alert弹出框</span><br><span class="line"> */</span><br><span class="line">public boolean onJsAlert(WebView view, String url, String message,</span><br><span class="line">                         final JsResult result) &#123;</span><br><span class="line">    MessageBoxDialog.Builder builder = new MessageBoxDialog.Builder(</span><br><span class="line">            WebActivity.this, 1);</span><br><span class="line">    builder.setMessageAndStyle(message, R.style.MessageBoxMessageStyle)</span><br><span class="line">            .setCancelButton(&quot;知道了&quot;, R.style.CancelButtonStyle, 0, new DialogInterface.OnClickListener() &#123;</span><br><span class="line">                @Override</span><br><span class="line">                public void onClick(DialogInterface dialog, int which) &#123;</span><br><span class="line">                    result.confirm();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;).setCancelable(false)</span><br><span class="line">            .create().show();</span><br><span class="line">    //以上代码注意，必须设置setCancelable(false)，禁止点击返回键弹框消失，防止js阻塞</span><br><span class="line">    return true;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * 处理confirm弹出框</span><br><span class="line"> */</span><br><span class="line"></span><br><span class="line">public boolean onJsConfirm(WebView view, String url, String message,</span><br><span class="line">                           final JsResult result) &#123;</span><br><span class="line"></span><br><span class="line">    MessageBoxDialog.Builder builder = new MessageBoxDialog.Builder(</span><br><span class="line">            WebActivity.this, 2);</span><br><span class="line">    builder.setMessageAndStyle(message,</span><br><span class="line">            R.style.MessageBoxMessageStyle)</span><br><span class="line">            .setOtherButton(R.string.sure, R.style.DoneButtonStyle,</span><br><span class="line">                    R.drawable.btn_warn_bg,</span><br><span class="line">                    new DialogInterface.OnClickListener() &#123;</span><br><span class="line"></span><br><span class="line">                        @Override</span><br><span class="line">                        public void onClick(DialogInterface dialog,</span><br><span class="line">                                            int which) &#123;</span><br><span class="line"></span><br><span class="line">                            if (!WebActivity.this.isFinishing()) &#123;</span><br><span class="line">                                result.confirm();</span><br><span class="line">                                dialog.dismiss();</span><br><span class="line">                            &#125;</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;)</span><br><span class="line">            .setCancelButton(R.string.cancel,</span><br><span class="line">                    R.style.CancelButtonStyle, R.drawable.btn_done_bg,</span><br><span class="line">                    new DialogInterface.OnClickListener() &#123;</span><br><span class="line"></span><br><span class="line">                        @Override</span><br><span class="line">                        public void onClick(DialogInterface dialog,</span><br><span class="line">                                            int which) &#123;</span><br><span class="line">                            result.cancel();</span><br><span class="line">                            dialog.dismiss();</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;).setCancelable(false).create().show();</span><br><span class="line">    //以上代码注意，必须设置setCancelable(false)，禁止点击返回键弹框消失，防止js阻塞</span><br><span class="line">    return true;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2015/05/26/Android/android WebView中实现js调用alert操作点按返回键后阻塞js的解决方法/" data-id="cip0q4126001brb165oumt6bv" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2015/05/26/Android/技术分享收集/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          技术分享收集
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2015/05/26/Android/ImageView的scaleType详解/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">ImageView的scaleType详解</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Gradle/">Gradle</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac/">Mac</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Other/">Other</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/android/">android</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">十一月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">十月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">九月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">八月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">七月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">六月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">五月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2016/06/04/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2016/05/31/Mac/zsh不兼容的坑/">zsh不兼容的坑-zsh:no matches found:</a>
+          </li>
+        
+          <li>
+            <a href="/2016/05/30/Gradle/gradle(一)/">Gradle(一)</a>
+          </li>
+        
+          <li>
+            <a href="/2016/05/29/Mac/Httpie使用/">Httpie使用</a>
+          </li>
+        
+          <li>
+            <a href="/2016/05/17/Java/Java反射大发/">Java反射大发</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 GlanWang<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

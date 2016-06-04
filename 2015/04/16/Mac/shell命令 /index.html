@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>shell命令 | Glan Wang</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="###1,echo :变量的取用与配置1234//去除摸个变量[root@www ~]# echo $PATH/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin:/root/bin[root@www ~]# echo $&amp;#123;PATH&amp;#125;
+123456//修改配置变量，将 myname 这个变量名称的内容配置为 V">
+<meta property="og:type" content="article">
+<meta property="og:title" content="shell命令">
+<meta property="og:url" content="http://yoursite.com/2015/04/16/Mac/shell命令 /index.html">
+<meta property="og:site_name" content="Glan Wang">
+<meta property="og:description" content="###1,echo :变量的取用与配置1234//去除摸个变量[root@www ~]# echo $PATH/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin:/root/bin[root@www ~]# echo $&amp;#123;PATH&amp;#125;
+123456//修改配置变量，将 myname 这个变量名称的内容配置为 V">
+<meta property="og:updated_time" content="2016-06-04T06:14:53.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="shell命令">
+<meta name="twitter:description" content="###1,echo :变量的取用与配置1234//去除摸个变量[root@www ~]# echo $PATH/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin:/root/bin[root@www ~]# echo $&amp;#123;PATH&amp;#125;
+123456//修改配置变量，将 myname 这个变量名称的内容配置为 V">
+  
+    <link rel="alternate" href="/atom.xml" title="Glan Wang" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Glan Wang</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">CoderGC</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Mac/shell命令 " class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/04/16/Mac/shell命令 /" class="article-date">
+  <time datetime="2015-04-16T15:18:00.000Z" itemprop="datePublished">2015-04-16</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Mac/">Mac</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      shell命令
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>###1,echo :变量的取用与配置<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">//去除摸个变量</span><br><span class="line">[root@www ~]# echo $PATH</span><br><span class="line">/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin:/root/bin</span><br><span class="line">[root@www ~]# echo $&#123;PATH&#125;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">//修改配置变量，将 myname 这个变量名称的内容配置为 VBird</span><br><span class="line">[root@www ~]# echo $myname</span><br><span class="line">       &lt;==这里并没有任何数据～因为这个变量尚未被配置！是空的！</span><br><span class="line">[root@www ~]# myname=VBird</span><br><span class="line">[root@www ~]# echo $myname</span><br><span class="line">VBird  &lt;==出现了！因为这个变量已经被配置了！</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">扩增变量内容时，用 &quot;$变量名称&quot; 或 $&#123;变量&#125; 累加内容，如下所示：</span><br><span class="line">『PATH=&quot;$PATH&quot;:/home/bin』</span><br></pre></td></tr></table></figure>
+<p>###2，export：将变量变成环境变量，一边可以在其他子程序中使用<br><code>什么是『子程序』呢？</code>就是说，在我目前这个 shell 的情况下，去激活另一个新的 shell ，新的那个 shell 就是子程序啦！在一般的状态下，父程序的自定义变量是无法在子程序内使用的。但是透过 export 将变量变成环境变量后，就能够在子程序底下应用了<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">如何让我刚刚配置的 name=VBird 可以用在下个 shell 的程序？</span><br><span class="line">[root@www ~]# echo $&#123;name&#125;</span><br><span class="line">[root@www ~]# name=VBird</span><br><span class="line">[root@www ~]# bash        &lt;==进入到所谓的子程序</span><br><span class="line">[root@www ~]# echo $name  &lt;==子程序：再次的 echo 一下；</span><br><span class="line">       &lt;==嘿嘿！并没有刚刚配置的内容喔！</span><br><span class="line">[root@www ~]# exit        &lt;==子程序：离开这个子程序</span><br><span class="line">[root@www ~]# export name</span><br><span class="line">[root@www ~]# bash        &lt;==进入到所谓的子程序</span><br><span class="line">[root@www ~]# echo $name  &lt;==子程序：在此运行！</span><br><span class="line">VBird  &lt;==看吧！出现配置值了！</span><br><span class="line">[root@www ~]# exit        &lt;==子程序：离开这个子程序</span><br></pre></td></tr></table></figure></p>
+<p>###3, unset 取消刚刚配置的变量内容<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@www ~]# unset name</span><br></pre></td></tr></table></figure></p>
+<p>###4,特殊符号的使用</p>
+<p>####4.1 变量配置中单引号与双引号的区别<br>单引号与双引号的最大不同在于双引号仍然可以保有变量的内容，但单引号内仅能是一般字符 ，而不会有特殊符号。我们以底下的例子做说明：假设您定义了一个变量， name=VBird ，现在想以 name 这个变量的内容定义出 myname 显示 VBird its me 这个内容，要如何订定呢？<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[root@www ~]# name=VBird</span><br><span class="line">[root@www ~]# echo $name</span><br><span class="line">VBird</span><br><span class="line">[root@www ~]# myname=&quot;$name its me&quot;</span><br><span class="line">[root@www ~]# echo $myname</span><br><span class="line">VBird its me</span><br><span class="line">[root@www ~]# myname=&apos;$name its me&apos;</span><br><span class="line">[root@www ~]# echo $myname</span><br><span class="line">$name its me</span><br></pre></td></tr></table></figure></p>
+<p>发现了吗？没错！使用了单引号的时候，那么 $name 将失去原有的变量内容，仅为一般字符的显示型态而已！这里必需要特别小心在意！</p>
+<p>####4.2 反单引号( <code>)这个符号代表的意义为何
+在一串命令中，在</code> 之内的命令将会被先运行，而其运行出来的结果将做为外部的输入信息！例如 uname -r 会显示出目前的核心版本，而我们的核心版本在 /lib/modules 里面，因此，你可以先运行 uname -r 找出核心版本，然后再以『 cd 目录』到该目录下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">如何进入到您目前核心的模块目录？</span><br><span class="line">[root@www ~]# cd /lib/modules/`uname -r`/kernel</span><br><span class="line">[root@www ~]# cd /lib/modules/$(uname -r)/kernel</span><br></pre></td></tr></table></figure></p>
+<p><code>使用『 version=$(uname -r) 』来取代『 version=</code>uname -r<code>』比较好，因为反单引号大家老是容易打错或看错</code></p>
+<p>###常用案例<br><code>若你有一个常去的工作目录名称为：『/cluster/server/work/taiwan_2005/003/』，如何进行该目录的简化？</code><br>在一般的情况下，如果你想要进入上述的目录得要『cd /cluster/server/work/taiwan_2005/003/』， 以鸟哥自己的案例来说，鸟哥跑数值模式常常会配置很长的目录名称(避免忘记)，但如此一来变换目录就很麻烦。 此时，鸟哥习惯利用底下的方式来降低命令下达错误的问题：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@www ~]# work=&quot;/cluster/server/work/taiwan_2005/003/&quot;</span><br><span class="line">[root@www ~]# cd $work</span><br></pre></td></tr></table></figure></p>
+<p>未来我想要使用其他目录作为我的模式工作目录时，只要变更 work 这个变量即可！而这个变量又可以在 bash 的配置文件中直接指定，那我每次登陆只要运行『 cd $work 』就能够去到数值模式仿真的工作目录了！是否很方便呢？ ^_^</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2015/04/16/Mac/shell命令 /" data-id="cip0q4qiw0026rb16xmdhsov3" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2015/04/17/Android/Android项目Build报错Unable to execute dx(65535问题解决方案)/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Android项目Build报错Unable to execute dx(65535问题解决方案)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2015/04/16/Android/adb常用命令和logcat过滤/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">adb常用命令和logcat过滤</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Gradle/">Gradle</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac/">Mac</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Other/">Other</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/android/">android</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">十一月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">十月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">九月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">八月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">七月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">六月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">五月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2016/06/04/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2016/05/31/Mac/zsh不兼容的坑/">zsh不兼容的坑-zsh:no matches found:</a>
+          </li>
+        
+          <li>
+            <a href="/2016/05/30/Gradle/gradle(一)/">Gradle(一)</a>
+          </li>
+        
+          <li>
+            <a href="/2016/05/29/Mac/Httpie使用/">Httpie使用</a>
+          </li>
+        
+          <li>
+            <a href="/2016/05/17/Java/Java反射大发/">Java反射大发</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 GlanWang<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

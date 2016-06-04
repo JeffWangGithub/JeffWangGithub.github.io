@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>scrollTo()、scrollBy()和Scroller | Glan Wang</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="1.scrollTo()与scrollBy()使用scrollTo()和scrollBy()是View的两个方法，可以进行View的移动。但是需要注意的是这两个方法移动的是View的内容，通俗的讲就是当View为ViewGroup时，移动的是此ViewGroup的子View；当View为单独的View时，移动的是内部内容。例如：View为TextView时，移动的是内容文字。
+
+由于他是移动的内容">
+<meta property="og:type" content="article">
+<meta property="og:title" content="scrollTo()、scrollBy()和Scroller">
+<meta property="og:url" content="http://yoursite.com/2015/11/09/Android/scrollTo()、scrollBy()和Scroller/index.html">
+<meta property="og:site_name" content="Glan Wang">
+<meta property="og:description" content="1.scrollTo()与scrollBy()使用scrollTo()和scrollBy()是View的两个方法，可以进行View的移动。但是需要注意的是这两个方法移动的是View的内容，通俗的讲就是当View为ViewGroup时，移动的是此ViewGroup的子View；当View为单独的View时，移动的是内部内容。例如：View为TextView时，移动的是内容文字。
+
+由于他是移动的内容">
+<meta property="og:updated_time" content="2016-06-04T06:11:44.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="scrollTo()、scrollBy()和Scroller">
+<meta name="twitter:description" content="1.scrollTo()与scrollBy()使用scrollTo()和scrollBy()是View的两个方法，可以进行View的移动。但是需要注意的是这两个方法移动的是View的内容，通俗的讲就是当View为ViewGroup时，移动的是此ViewGroup的子View；当View为单独的View时，移动的是内部内容。例如：View为TextView时，移动的是内容文字。
+
+由于他是移动的内容">
+  
+    <link rel="alternate" href="/atom.xml" title="Glan Wang" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Glan Wang</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">CoderGC</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Android/scrollTo()、scrollBy()和Scroller" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/11/09/Android/scrollTo()、scrollBy()和Scroller/" class="article-date">
+  <time datetime="2015-11-09T07:58:00.000Z" itemprop="datePublished">2015-11-09</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Android/">Android</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      scrollTo()、scrollBy()和Scroller
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="1-scrollTo-与scrollBy-使用"><a href="#1-scrollTo-与scrollBy-使用" class="headerlink" title="1.scrollTo()与scrollBy()使用"></a>1.scrollTo()与scrollBy()使用</h3><p>scrollTo()和scrollBy()是View的两个方法，可以进行View的移动。但是需要注意的是<code>这两个方法移动的是View的内容，通俗的讲就是当View为ViewGroup时，移动的是此ViewGroup的子View；当View为单独的View时，移动的是内部内容。</code>例如：View为TextView时，移动的是内容文字。</p>
+<ol>
+<li>由于他是移动的内容，隐藏想要启动此View，需要使用<code>((View)getParent()).scrollBy(offsetX,offsetY);</code>的而不能直接使用当前的View的scrollBy方法。</li>
+<li>scrollBy()和ScollTo()方法，是content的移动，而content是再屏幕之下的，隐藏这两个方法的移动其实可以看做是屏幕的移动。因此给这两个方法设置值的时候，需要要设置-dx,-dy.<br>例如：想让View想左移动dx，想下移动dy，需要使用<code>((View)getParent()).scrollBy(-dx,-dy);</code></li>
+</ol>
+<p>###2. Scroller<br>Scoller可以实现平滑移动的效果，而不是瞬间移动的效果。</p>
+<p>####一般情况下是用Scroller的步骤：</p>
+<ol>
+<li>初始化Scroller<br><code>mScroller = new Scroller(context)</code></li>
+<li><p>重写View的computeScroll()方法，实现模拟滑动<br>此方法会再View被绘制的是后即draw()方法内被调用。<br><code>通常情况，computeScroll的代码可以利用如下模板来实现</code>：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">computeScroll</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">super</span>.computeScroll();</span><br><span class="line">    <span class="comment">//判断Scroller是否执行完毕</span></span><br><span class="line">    <span class="keyword">if</span>(mScroller.computeScrollOffset())&#123;</span><br><span class="line">        ((View) getParent()).scrollTo(mScroller.getCurrX(),mScroller.getCurrY());</span><br><span class="line">         invalidate();<span class="comment">//invalidate方法会重绘View，从而调用draw()方法，draw()放再调用computreScroll()方法</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>startScroll开启模拟过程</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">case</span> MotionEvent.ACTION_UP:</span><br><span class="line">    mScroller.startScroll(getScrollX(),getScrollY(),-getScrollX(),-getScrollY());</span><br><span class="line">    invalidate();<span class="comment">//调用draw---computeScroll</span></span><br><span class="line">    <span class="keyword">break</span>;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2015/11/09/Android/scrollTo()、scrollBy()和Scroller/" data-id="cip0q412c001grb16k771pchm" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2015/11/09/Android/ViewDragHelper的使用/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          ViewDragHelper的使用
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2015/11/09/Android/高斯模糊效果的Dialog/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">高斯模糊效果的Dialog</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Gradle/">Gradle</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac/">Mac</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Other/">Other</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/android/">android</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">十一月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">十月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">九月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">八月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">七月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">六月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">五月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2016/06/04/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2016/05/31/Mac/zsh不兼容的坑/">zsh不兼容的坑-zsh:no matches found:</a>
+          </li>
+        
+          <li>
+            <a href="/2016/05/30/Gradle/gradle(一)/">Gradle(一)</a>
+          </li>
+        
+          <li>
+            <a href="/2016/05/29/Mac/Httpie使用/">Httpie使用</a>
+          </li>
+        
+          <li>
+            <a href="/2016/05/17/Java/Java反射大发/">Java反射大发</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 GlanWang<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

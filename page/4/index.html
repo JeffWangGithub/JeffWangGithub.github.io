@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Glan Wang</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="CoderGC Glan Wang WGC">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Glan Wang">
+<meta property="og:url" content="http://yoursite.com/page/4/index.html">
+<meta property="og:site_name" content="Glan Wang">
+<meta property="og:description" content="CoderGC Glan Wang WGC">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Glan Wang">
+<meta name="twitter:description" content="CoderGC Glan Wang WGC">
+  
+    <link rel="alternate" href="/atom.xml" title="Glan Wang" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Glan Wang</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">CoderGC</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-Android/高斯模糊效果的Dialog" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/11/09/Android/高斯模糊效果的Dialog/" class="article-date">
+  <time datetime="2015-11-09T07:39:00.000Z" itemprop="datePublished">2015-11-09</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Android/">Android</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/11/09/Android/高斯模糊效果的Dialog/">高斯模糊效果的Dialog</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Android默认是没有高斯模糊效果的，Android默认是含有半透明效果的Dialog。但是iOS上的弹出曾是可以只是高斯模糊效果的。自从苹果引入了高斯模糊，这个模糊的玻璃效果就变得是分流行。但是很不幸的是Android系统本身并没有提供这种API。<br>其实原则上讲，Android是不推荐使用高斯模糊的，因为实现高斯模糊其实是比较耗资源的。但是非要实现也是有办法的。</p>
+<p>###下边实现含有高斯模糊效果的Dialog<br><img src="~/5D4CFC7D-F98B-486E-B306-10ABA4B5C052.png?r=63" alt=""></p>
+<p>整体思想：<br>    1，将Dialog设置为全屏,（把布局的根RootView可以设置为居中不全屏，达到效果上Dialog的效果）<br>    2，获取到Activity 的缓存背景图(类似于截屏的原理)。然后将这个图片进行高斯模糊的处理。<br>    3，将处理后的图片设置Dialog的背景。</p>
+<p>###将Activity 的缓存普进行高斯模糊处理，并去除图片状态栏的高度<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">setBlurBg</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="comment">//设置高斯模糊</span></span><br><span class="line">	decorView = mActivity.getWindow().getDecorView();</span><br><span class="line">	<span class="keyword">new</span> Thread(<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">		<span class="meta">@Override</span></span><br><span class="line">		<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">			<span class="keyword">try</span> &#123;</span><br><span class="line">				decorView.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_LOW);</span><br><span class="line">				decorView.setDrawingCacheEnabled(<span class="keyword">true</span>);</span><br><span class="line">				decorView.buildDrawingCache();</span><br><span class="line">				Bitmap drawingCache = decorView.getDrawingCache();</span><br><span class="line">			   <span class="comment">//将Activity	的缓存图片，去掉状态栏，状态栏的高度就是25dp					</span></span><br><span class="line">				Bitmap bitmap1 = Bitmap.createBitmap(drawingCache, <span class="number">0</span>, DisplayUtil.dipToPixels(mActivity, <span class="number">25</span>), drawingCache.getWidth(), drawingCache.getHeight() - DisplayUtil.dipToPixels(mActivity, <span class="number">25</span>));</span><br><span class="line">				<span class="keyword">final</span> Bitmap bitmap = BlurFilterUtil.boxBlurFilterBmp(bitmap1);</span><br><span class="line">				Canvas canvas = <span class="keyword">new</span> Canvas(bitmap);</span><br><span class="line">				canvas.drawARGB(<span class="number">220</span>,<span class="number">255</span>,<span class="number">255</span>,<span class="number">255</span>);<span class="comment">//让图片绘制的更加白</span></span><br><span class="line">				mActivity.runOnUiThread(<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">					<span class="meta">@Override</span></span><br><span class="line">					<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">						mRootView.setBackgroundDrawable(<span class="keyword">new</span> BitmapDrawable(bitmap));</span><br><span class="line">					&#125;</span><br><span class="line">				&#125;);</span><br><span class="line">				<span class="keyword">if</span>(!drawingCache.isRecycled() &amp;&amp; drawingCache != <span class="keyword">null</span>)&#123;</span><br><span class="line">					drawingCache.isRecycled();</span><br><span class="line">					drawingCache = <span class="keyword">null</span>;</span><br><span class="line">				&#125;</span><br><span class="line">				<span class="keyword">if</span>(!bitmap1.isRecycled() &amp;&amp; bitmap1 != <span class="keyword">null</span>)&#123;</span><br><span class="line">					bitmap1.isRecycled();</span><br><span class="line">					bitmap1 = <span class="keyword">null</span>;</span><br><span class="line">				&#125;</span><br><span class="line">				<span class="keyword">if</span>(!bitmap.isRecycled() &amp;&amp; bitmap != <span class="keyword">null</span>)&#123;</span><br><span class="line">					bitmap.isRecycled();</span><br><span class="line">					bitmap1 = <span class="keyword">null</span>;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">				e.printStackTrace();</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;).start();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>###高斯模糊的处理工具类。高斯模糊处理可以去看一下开源的库<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BlurFilterUtil</span> </span>&#123;</span><br><span class="line">	<span class="comment">// 以下代码均是高斯模糊代码</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Bitmap <span class="title">boxBlurFilterBmp</span><span class="params">(Bitmap bmp)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">if</span>(bmp == <span class="keyword">null</span> || bmp.isRecycled())&#123;</span><br><span class="line">			<span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">float</span> hRadius = <span class="number">7</span>;</span><br><span class="line">		<span class="keyword">float</span> vRadius = <span class="number">7</span>;</span><br><span class="line">		<span class="keyword">int</span> iterations = <span class="number">3</span>;</span><br><span class="line">		<span class="keyword">int</span> width = bmp.getWidth();</span><br><span class="line">		<span class="keyword">int</span> height = bmp.getHeight();</span><br><span class="line">		<span class="keyword">int</span>[] inPixels = <span class="keyword">new</span> <span class="keyword">int</span>[width * height];</span><br><span class="line">		<span class="keyword">int</span>[] outPixels = <span class="keyword">new</span> <span class="keyword">int</span>[width * height];</span><br><span class="line">		bmp.getPixels(inPixels, <span class="number">0</span>, width, <span class="number">0</span>, <span class="number">0</span>, width, height);</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; iterations; i++) &#123;</span><br><span class="line">			blur(inPixels, outPixels, width, height, hRadius);</span><br><span class="line">			blur(outPixels, inPixels, height, width, vRadius);</span><br><span class="line">		&#125;</span><br><span class="line">		blurFractional(inPixels, outPixels, width, height, hRadius);</span><br><span class="line">		blurFractional(outPixels, inPixels, height, width, vRadius);</span><br><span class="line">		Bitmap bitmap = Bitmap.createBitmap(width, height,</span><br><span class="line">				Bitmap.Config.ARGB_8888);</span><br><span class="line">		bitmap.setPixels(inPixels, <span class="number">0</span>, width, <span class="number">0</span>, <span class="number">0</span>, width, height);</span><br><span class="line">		Bitmap bitmap1 = Bitmap.createBitmap(bitmap, <span class="number">5</span>, <span class="number">5</span>,</span><br><span class="line">				bitmap.getWidth() - <span class="number">15</span>, bitmap.getHeight() - <span class="number">5</span>);</span><br><span class="line">		<span class="keyword">if</span> (!bitmap.isRecycled()) &#123;</span><br><span class="line">			bitmap.recycle();</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span> (!bmp.isRecycled()) &#123;</span><br><span class="line">			bmp.recycle();</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> bitmap1;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">blur</span><span class="params">(<span class="keyword">int</span>[] in, <span class="keyword">int</span>[] out, <span class="keyword">int</span> width, <span class="keyword">int</span> height,</span><br><span class="line">			<span class="keyword">float</span> radius)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">int</span> widthMinus1 = width - <span class="number">1</span>;</span><br><span class="line">		<span class="keyword">int</span> r = (<span class="keyword">int</span>) radius;</span><br><span class="line">		<span class="keyword">int</span> tableSize = <span class="number">2</span> * r + <span class="number">1</span>;</span><br><span class="line">		<span class="keyword">int</span> divide[] = <span class="keyword">new</span> <span class="keyword">int</span>[<span class="number">256</span> * tableSize];</span><br><span class="line"></span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">256</span> * tableSize; i++)</span><br><span class="line">			divide[i] = i / tableSize;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">int</span> inIndex = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> y = <span class="number">0</span>; y &lt; height; y++) &#123;</span><br><span class="line">			<span class="keyword">int</span> outIndex = y;</span><br><span class="line">			<span class="keyword">int</span> ta = <span class="number">0</span>, tr = <span class="number">0</span>, tg = <span class="number">0</span>, tb = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">			<span class="keyword">for</span> (<span class="keyword">int</span> i = -r; i &lt;= r; i++) &#123;</span><br><span class="line">				<span class="keyword">int</span> rgb = in[inIndex + clamp(i, <span class="number">0</span>, width - <span class="number">1</span>)];</span><br><span class="line">				ta += (rgb &gt;&gt; <span class="number">24</span>) &amp; <span class="number">0xff</span>;</span><br><span class="line">				tr += (rgb &gt;&gt; <span class="number">16</span>) &amp; <span class="number">0xff</span>;</span><br><span class="line">				tg += (rgb &gt;&gt; <span class="number">8</span>) &amp; <span class="number">0xff</span>;</span><br><span class="line">				tb += rgb &amp; <span class="number">0xff</span>;</span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">			<span class="keyword">for</span> (<span class="keyword">int</span> x = <span class="number">0</span>; x &lt; width; x++) &#123;</span><br><span class="line">				out[outIndex] = (divide[ta] &lt;&lt; <span class="number">24</span>) | (divide[tr] &lt;&lt; <span class="number">16</span>)</span><br><span class="line">						| (divide[tg] &lt;&lt; <span class="number">8</span>) | divide[tb];</span><br><span class="line">				<span class="keyword">int</span> i1 = x + r + <span class="number">1</span>;</span><br><span class="line">				<span class="keyword">if</span> (i1 &gt; widthMinus1)</span><br><span class="line">					i1 = widthMinus1;</span><br><span class="line">				<span class="keyword">int</span> i2 = x - r;</span><br><span class="line">				<span class="keyword">if</span> (i2 &lt; <span class="number">0</span>)</span><br><span class="line">					i2 = <span class="number">0</span>;</span><br><span class="line">				<span class="keyword">int</span> rgb1 = in[inIndex + i1];</span><br><span class="line">				<span class="keyword">int</span> rgb2 = in[inIndex + i2];</span><br><span class="line"></span><br><span class="line">				ta += ((rgb1 &gt;&gt; <span class="number">24</span>) &amp; <span class="number">0xff</span>) - ((rgb2 &gt;&gt; <span class="number">24</span>) &amp; <span class="number">0xff</span>);</span><br><span class="line">				tr += ((rgb1 &amp; <span class="number">0xff0000</span>) - (rgb2 &amp; <span class="number">0xff0000</span>)) &gt;&gt; <span class="number">16</span>;</span><br><span class="line">				tg += ((rgb1 &amp; <span class="number">0xff00</span>) - (rgb2 &amp; <span class="number">0xff00</span>)) &gt;&gt; <span class="number">8</span>;</span><br><span class="line">				tb += (rgb1 &amp; <span class="number">0xff</span>) - (rgb2 &amp; <span class="number">0xff</span>);</span><br><span class="line">				outIndex += height;</span><br><span class="line">			&#125;</span><br><span class="line">			inIndex += width;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">blurFractional</span><span class="params">(<span class="keyword">int</span>[] in, <span class="keyword">int</span>[] out, <span class="keyword">int</span> width,</span><br><span class="line">			<span class="keyword">int</span> height, <span class="keyword">float</span> radius)</span> </span>&#123;</span><br><span class="line">		radius -= (<span class="keyword">int</span>) radius;</span><br><span class="line">		<span class="keyword">float</span> f = <span class="number">1.0f</span> / (<span class="number">1</span> + <span class="number">2</span> * radius);</span><br><span class="line">		<span class="keyword">int</span> inIndex = <span class="number">0</span>;</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> y = <span class="number">0</span>; y &lt; height; y++) &#123;</span><br><span class="line">			<span class="keyword">int</span> outIndex = y;</span><br><span class="line">			out[outIndex] = in[<span class="number">0</span>];</span><br><span class="line">			outIndex += height;</span><br><span class="line">			<span class="keyword">for</span> (<span class="keyword">int</span> x = <span class="number">1</span>; x &lt; width - <span class="number">1</span>; x++) &#123;</span><br><span class="line">				<span class="keyword">int</span> i = inIndex + x;</span><br><span class="line">				<span class="keyword">int</span> rgb1 = in[i - <span class="number">1</span>];</span><br><span class="line">				<span class="keyword">int</span> rgb2 = in[i];</span><br><span class="line">				<span class="keyword">int</span> rgb3 = in[i + <span class="number">1</span>];</span><br><span class="line"></span><br><span class="line">				<span class="keyword">int</span> a1 = (rgb1 &gt;&gt; <span class="number">24</span>) &amp; <span class="number">0xff</span>;</span><br><span class="line">				<span class="keyword">int</span> r1 = (rgb1 &gt;&gt; <span class="number">16</span>) &amp; <span class="number">0xff</span>;</span><br><span class="line">				<span class="keyword">int</span> g1 = (rgb1 &gt;&gt; <span class="number">8</span>) &amp; <span class="number">0xff</span>;</span><br><span class="line">				<span class="keyword">int</span> b1 = rgb1 &amp; <span class="number">0xff</span>;</span><br><span class="line">				<span class="keyword">int</span> a2 = (rgb2 &gt;&gt; <span class="number">24</span>) &amp; <span class="number">0xff</span>;</span><br><span class="line">				<span class="keyword">int</span> r2 = (rgb2 &gt;&gt; <span class="number">16</span>) &amp; <span class="number">0xff</span>;</span><br><span class="line">				<span class="keyword">int</span> g2 = (rgb2 &gt;&gt; <span class="number">8</span>) &amp; <span class="number">0xff</span>;</span><br><span class="line">				<span class="keyword">int</span> b2 = rgb2 &amp; <span class="number">0xff</span>;</span><br><span class="line">				<span class="keyword">int</span> a3 = (rgb3 &gt;&gt; <span class="number">24</span>) &amp; <span class="number">0xff</span>;</span><br><span class="line">				<span class="keyword">int</span> r3 = (rgb3 &gt;&gt; <span class="number">16</span>) &amp; <span class="number">0xff</span>;</span><br><span class="line">				<span class="keyword">int</span> g3 = (rgb3 &gt;&gt; <span class="number">8</span>) &amp; <span class="number">0xff</span>;</span><br><span class="line">				<span class="keyword">int</span> b3 = rgb3 &amp; <span class="number">0xff</span>;</span><br><span class="line">				a1 = a2 + (<span class="keyword">int</span>) ((a1 + a3) * radius);</span><br><span class="line">				r1 = r2 + (<span class="keyword">int</span>) ((r1 + r3) * radius);</span><br><span class="line">				g1 = g2 + (<span class="keyword">int</span>) ((g1 + g3) * radius);</span><br><span class="line">				b1 = b2 + (<span class="keyword">int</span>) ((b1 + b3) * radius);</span><br><span class="line">				a1 *= f;</span><br><span class="line">				r1 *= f;</span><br><span class="line">				g1 *= f;</span><br><span class="line">				b1 *= f;</span><br><span class="line">				out[outIndex] = (a1 &lt;&lt; <span class="number">24</span>) | (r1 &lt;&lt; <span class="number">16</span>) | (g1 &lt;&lt; <span class="number">8</span>) | b1;</span><br><span class="line">				outIndex += height;</span><br><span class="line">			&#125;</span><br><span class="line">			out[outIndex] = in[width - <span class="number">1</span>];</span><br><span class="line">			inIndex += width;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">clamp</span><span class="params">(<span class="keyword">int</span> x, <span class="keyword">int</span> a, <span class="keyword">int</span> b)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> (x &lt; a) ? a : (x &gt; b) ? b : x;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2015/11/09/Android/高斯模糊效果的Dialog/" data-id="cip0q413b0021rb16vtdwo5ta" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Android/Android免发版修复bug(AndFix使用).comments" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/11/02/Android/Android免发版修复bug(AndFix使用).comments/" class="article-date">
+  <time datetime="2015-11-02T08:33:30.000Z" itemprop="datePublished">2015-11-02</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>date: 2015-11-02 11:14:50<br>author: benny<br>email: xyc1120@sina.com<br>site:<br>ip: 119.9.74.18</p>
+<p>你好，最近正在考虑使用AndFix,我想问下不支持新增字段so库是什么情况，能详细说下吗？</p>
+<hr>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2015/11/02/Android/Android免发版修复bug(AndFix使用).comments/" data-id="cip0q4114000drb16m3nf5x24" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Android/Android状态栏和导航栏设置颜色" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/10/29/Android/Android状态栏和导航栏设置颜色/" class="article-date">
+  <time datetime="2015-10-29T10:57:00.000Z" itemprop="datePublished">2015-10-29</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Android/">Android</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/10/29/Android/Android状态栏和导航栏设置颜色/">Android状态栏和导航栏沉浸模式(设置颜色)</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>api 19以上支持状态栏的沉浸模式,即可以自己进行设置状态栏和导航栏的颜色.<br>1，首先还要再style中设置指定属性，<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">  <span class="comment">&lt;!--导航栏是否透明，是否填充底部虚拟按键栏 api 19以上有效--&gt;</span>  </span><br><span class="line"><span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">"android:windowTranslucentNavigation"</span> <span class="attr">tools:targetApi</span>=<span class="string">"kitkat"</span>&gt;</span>false<span class="tag">&lt;/<span class="name">item</span>&gt;</span>  </span><br><span class="line"><span class="comment">&lt;!--状态栏是否有透明，是否填充状态栏区域 api 19以上有效--&gt;</span>  </span><br><span class="line"><span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">"android:windowTranslucentStatus"</span> <span class="attr">tools:targetApi</span>=<span class="string">"kitkat"</span>&gt;</span>true<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>2，再value 19文件加中简历指定的主题<br>3，然后再再TopBar上指定向下便宜的padding为25dp，因为状态栏的高度为25dp</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2015/10/29/Android/Android状态栏和导航栏设置颜色/" data-id="cip0q411f000lrb169xihlp2u" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Android/No resource found that matches the given name (at &#39;src&#39; with value " class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/10/16/Android/No resource found that matches the given name (at 'src' with value /" class="article-date">
+  <time datetime="2015-10-16T11:15:00.000Z" itemprop="datePublished">2015-10-16</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Android/">Android</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/10/16/Android/No resource found that matches the given name (at 'src' with value /">No resource found that matches the given name (at &#39;src&#39; with value </a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Android编译的到时候出现了No resource found that matches the given name (at ‘src’ with value ‘@drawable/default_banner’).这个异常，最开始的解决办法如下：<br>再Model的build.gradle中添加<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">android&#123;</span><br><span class="line">    aaptOptions.cruncherEnabled = false</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>但是这句代码只是关闭了aapt对资源的优化，不是根本原因。</p>
+<p>##根本原因查找<br>查找根本原因，发现是一个.png文件报错了。查找报错日志，发现几个关键点，sRGB和not a PNG file 。于是去查找sRGB的含义，sRGB指的是标准的RGB，因此恍然大悟，原来not a png file说明这个png文件不是真正的png文件，只是一个后缀名为.png的文件。于是打开此文件，果然发现是一个jpg文件。真是日了狗了，这个问题，打了好几个版本了，只是将aapt优化资源临时关闭临时解决的。<br><img src="~/3253A5FF-3EFE-49EF-AC51-E55D2781B73E.png" alt=""></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2015/10/16/Android/No resource found that matches the given name (at 'src' with value /" data-id="cip0q411t000zrb1689gmhnrd" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Android/Android免发版修复bug(AndFix使用)" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/10/09/Android/Android免发版修复bug(AndFix使用)/" class="article-date">
+  <time datetime="2015-10-09T03:38:00.000Z" itemprop="datePublished">2015-10-09</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Android/">Android</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/10/09/Android/Android免发版修复bug(AndFix使用)/">Android免发版修复bug(AndFix使用)</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>##目前patch不支持的状况（v0.3.1）</p>
+<ol>
+<li>不支持新增字段</li>
+<li>不支持资源文件更改</li>
+</ol>
+<p>##遇到的坑</p>
+<ol>
+<li>.so库的问题</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2015/10/09/Android/Android免发版修复bug(AndFix使用)/" data-id="cip0q4116000erb16zr7mm9qd" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Android/如何将android的library库打成.aar文件方便引入" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/09/11/Android/如何将android的library库打成.aar文件方便引入/" class="article-date">
+  <time datetime="2015-09-11T07:00:00.000Z" itemprop="datePublished">2015-09-11</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Android/">Android</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/09/11/Android/如何将android的library库打成.aar文件方便引入/">如何将android的library库打成.aar文件方便引入</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>我们知道.jar包可以在项目中很方便的进行引入，但是.jar包有一个缺点就是无法包含资源文件，只能包含代码的部分。于是我们只能通过导入类库的形式讲代码和资源文件都引入到我们的项目中。<br>Eclipse和Android Studio都可以进行Library库的引入，但是毕竟一个项目引入很多库显得还是挺臃肿复杂的。然而幸运的是Android Studio使用gradle进行构建项目，这让我们可以将Library库打成.aar文件然后再引入到我们的项目中。</p>
+<p>##将类库生成.aar文件</p>
+<ol>
+<li>新建或者导入Library。<br> 在Android studio中新建一个项目，然后New Module，选择Library，从而创建一个Library。或者直接带入你的类库作为一个Module。</li>
+<li>生成.aar文件<br> ###2.1 生成debug版的aar文件。<br> 直接Rebuild Progect,完成之后aar文件已经生成。目录位于当前Library下的/build/outputs/aar/中。具体如下图。<br> <img src="~/1EE08B6E-B94E-49EE-9025-9BAA0BF052CB.png?r=68" alt=""><br> ###2.2 生成release版的.aar文件.<br> 进入工程所在目录，执行 <strong>./gradlew assembleRelease</strong>，编译成功之后会在<strong>build/outputs/aar</strong> 文件夹里生成aar文件<br><img src="~/A268A086-9005-49C0-A8DE-203ADF382ACF.png?r=63" alt="">  <img src="~/CDC79221-845D-4A6F-A5AB-22483A56AE13.png?r=66" alt=""></li>
+</ol>
+<p>##在项目中使用.aar文件<br>官方并没有给出如何使用aar的教程，但是已经有人总结出来如何使用aar了，这里我们按照别人的指示使用就ok了。</p>
+<ol>
+<li>把aar文件放在一个文件目录内，比如就放在libs目录内</li>
+<li><p>在app的build.gradle文件添加如下内容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">//放在android&#123;&#125;中</span><br><span class="line">    repositories &#123;</span><br><span class="line">        flatDir &#123;</span><br><span class="line">            dirs &apos;aars&apos; // this way we can find the .aar file in libs folder 到libs文件夹下寻找.aar包</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在项目依赖中添加aar的依赖</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">dependencies &#123;</span><br><span class="line">    compile(name:&apos;.aar文件的名字&apos;, ext:&apos;aar&apos;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>##总结：<br>其实gradle引入库就是使用的aar的形式，只不过gradle是从mavenCentral或者jcenter服务器上下载对应的aar文件的。然而，在我们国内下载这些服务器上的文件有时候是非常困难的，因此工作中讲某些库生成aar文件导入项目，这样更方便的进行多人开发，不需要没给人都去从服务下载这些文件。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2015/09/11/Android/如何将android的library库打成.aar文件方便引入/" data-id="cip0q412i001nrb16wbk4hn4q" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Android/Android Studio原生默认快捷键" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/09/10/Android/Android Studio原生默认快捷键/" class="article-date">
+  <time datetime="2015-09-10T02:43:00.000Z" itemprop="datePublished">2015-09-10</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Android/">Android</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/09/10/Android/Android Studio原生默认快捷键/">Android Studio原生默认快捷键</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Android Studio &amp; Intellij idea常用快捷键<br>注：基于Mac OS X 10.5+键位，英语阅读能力好的同学可以直接查看preferences_keymap</p>
+<p>##奇葩技巧：</p>
+<ol>
+<li><code>cmd +y / alt+space快速查看某个方法的实现（Quick Definition Lookup）</code></li>
+<li><code>添加/移除书签：alt+f3, 显示所有的便签cmd+f3  .添加Bookmarks，方便任意跳转</code></li>
+<li><code>ctrl+v 显示CVS快捷菜单 VCS Operations Popup 再提交代码是非常方便</code></li>
+<li>shift +f6重命名快捷键</li>
+<li><code>右键断点：在断点上右键，以对一个断点加入条件，再调试中不浪费时间</code></li>
+<li><code>快速查看debug中变量的值：按住Alt点击想要查看的变量或者语句。如果想查看更多，则可以按Alt+f8调出Evaluate Expression窗口来自行输入自定义的语句。</code></li>
+<li><code>cmd + alt +f</code>局部变成改为类的成员变量</li>
+</ol>
+<p><code>1、查找类文件：cmd+o, 查找资源文件cmd + shift + o</code><br><code>2、查找引用：shift+cmd+f 类似于e系中的ctrl+h</code> 全局搜索<br>3、进入声明：cmd+b<br><code>4、任意区域换行：cmd+shift+回车</code><br><code>5、运行：ctrl+r</code><br><code>6、debug：ctrl+d</code><br>7、查看继承关系：ctrl+h<br><code>8、查找方法：cmd+f12</code><br>9、整行复制：cmd+d<br>10、根据符号选择文本：alt+up<br><code>11、删除整行：cmd+del or cmd+x</code><br><code>12、同词之间跳转：cmd+g or cmd+shift+g</code> 方便查找某个变量的引用<br><code>13、代码格式化：cmd+alt+L</code><br>14、编辑区全屏：cmd+shift+F12<br><code>15、重写方法或者setter之类的：cmd+N  类似于eclipse的cmd+alt+s</code> 即显示Generate面板<br><code>16、查看接口的实现使用：alt+cmd+b</code> 点击到某个接口名上，查看哪些类实现了这个接口<br><code>17、错误提示：Alt+回车  类似于eclipse的cmd+1</code><br>18、复写父类方法：ctrl+o<br><code>19、整行移动：cmd+shift+上下 类似于eclipse的 alt+上下</code><br><code>20、查找方法引用：alt+F7  类似于eclipse的cmd+shift+g</code> 查看哪个类掉用了这个方法<br>   <code>查看方法被调用的继承关系 ctrl+alt+h 会显示出来此方法被调用的方法间的继承关系通，比alt+F7更详细</code><br>21、错误之间跳转：shift+f2<br><code>22、查看注释：ctrl+j</code> <strong>**</strong><br><code>23、大小写转换：cmd+shift+U</code> <strong>**</strong><br><code>24、将选定区域设置成特定方法：alt+cmd+M</code><strong>*</strong><br><code>25、光标停在方法括号内时，查看参数：cmd+P</code><strong>*</strong><br>26、try-catch之类代码（Sround with）：alt+cmd+t<br>27、new关键词之后：ctrl+shift+space<br>30、查看最近改动的代码：alt+shift+c<br>31、重构重命名：shift+F6<br>32、格式化引入：ctrl+alt+o<br>33、重写方法：ctrl+o<br>34、切换tab：cmd+shift+[]<br>35、切换project窗口：cmd+～<br>36、import优化：ctrl+alt+o<br>30、进入到接口具体实现的快捷键：cmd+alt+b<br>31、布局或方法收起或展开：cmd+’-+‘</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2015/09/10/Android/Android Studio原生默认快捷键/" data-id="cip0q4112000brb162fstem7f" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Android/Android中插件开发" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/09/07/Android/Android中插件开发/" class="article-date">
+  <time datetime="2015-09-07T06:37:00.000Z" itemprop="datePublished">2015-09-07</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Android/">Android</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/09/07/Android/Android中插件开发/">Android中插件开发</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><a href="http://blog.csdn.net/jiangwei0910410003/article/details/48104581" target="_blank" rel="external">http://blog.csdn.net/jiangwei0910410003/article/details/48104581</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2015/09/07/Android/Android中插件开发/" data-id="cip0q4113000crb16kuwhjfxm" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Android/android webview ZoomButtonsController 导致android.view.WindowLeaked 问题解决" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/08/27/Android/android webview ZoomButtonsController 导致android.view.WindowLeaked 问题解决/" class="article-date">
+  <time datetime="2015-08-27T06:31:00.000Z" itemprop="datePublished">2015-08-27</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Android/">Android</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/08/27/Android/android webview ZoomButtonsController 导致android.view.WindowLeaked 问题解决/">android webview ZoomButtonsController 导致android.view.WindowLeaked 问题解决</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Activity has leaked window android.widget.ZoomButtonsController that was originally added here android.view.WindowLeaked:<br>引起这个错误的原因是：<br>发现是webview的 ZoomButton，也就是那两个放大和缩小的按钮，导致的。如果设置为让他们出现，并且可以自动隐藏，那么，由于他们的自动隐藏是一个渐变的过程，所以在逐渐消失的过程中如果调用了父容器的destroy方法，就会导致Leaked。<br>所以解决方案是，在destroy之前，先让他俩立马消失。<br>解决方案：</p>
+<p>###方案一：在onDestroy方法中将整个WebView隐藏<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onDestroy</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onDestroy();</span><br><span class="line">        mWeb.setVisibility(View.GONE); <span class="comment">//将整个WebView隐藏</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>###方案二：在finish或者onDestory中将所以View移除<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">finish</span><span class="params">()</span> </span>&#123;  </span><br><span class="line">    ViewGroup view = (ViewGroup) getWindow().getDecorView();  </span><br><span class="line">    view.removeAllViews();  </span><br><span class="line">    <span class="keyword">super</span>.finish();  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>详细报错日志：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">E/WindowManager﹕ android.view.WindowLeaked: Activity WebActivity has leaked window android.widget.ZoomButtonsController$Container&#123;24ca0f69 V.E..... ......I. 0,0-1080,146&#125; that was originally added here</span><br><span class="line">            at android.view.ViewRootImpl.&lt;init&gt;(ViewRootImpl.java:363)</span><br><span class="line">            at android.view.WindowManagerGlobal.addView(WindowManagerGlobal.java:261)</span><br><span class="line">            at android.view.WindowManagerImpl.addView(WindowManagerImpl.java:69)</span><br><span class="line">            at android.widget.ZoomButtonsController.setVisible(ZoomButtonsController.java:370)</span><br><span class="line">            at com.android.org.chromium.android_webview.AwZoomControls.invokeZoomPicker(AwZoomControls.java:29)</span><br><span class="line">            at com.android.org.chromium.content.browser.ContentViewCore.onScrollBeginEventAck(ContentViewCore.java:1270)</span><br><span class="line">            at com.android.org.chromium.base.SystemMessageHandler.nativeDoRunLoopOnce(Native Method)</span><br><span class="line">            at com.android.org.chromium.base.SystemMessageHandler.handleMessage(SystemMessageHandler.java:28)</span><br><span class="line">            at android.os.Handler.dispatchMessage(Handler.java:102)</span><br><span class="line">            at android.os.Looper.loop(Looper.java:135)</span><br><span class="line">            at android.app.ActivityThread.main(ActivityThread.java:5256)</span><br><span class="line">            at java.lang.reflect.Method.invoke(Native Method)</span><br><span class="line">            at java.lang.reflect.Method.invoke(Method.java:372)</span><br><span class="line">            at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:898)</span><br><span class="line">            at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:693)</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2015/08/27/Android/android webview ZoomButtonsController 导致android.view.WindowLeaked 问题解决/" data-id="cip0q4128001crb1603i5x2dd" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Android/从网络获取图片设置状态选择器" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/08/26/Android/从网络获取图片设置状态选择器/" class="article-date">
+  <time datetime="2015-08-26T10:18:00.000Z" itemprop="datePublished">2015-08-26</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Android/">Android</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/08/26/Android/从网络获取图片设置状态选择器/">从网络获取图片设置状态选择器</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>##状态选择的两种设置方式</p>
+<ol>
+<li>使用xml进行设置<br>如果你的状态选择的图片存在本地，那么无疑要是用xml进行设置状态选择，使用方式很简单，网上搜素一下很多资料。</li>
+<li>使用StateListDrawable类进行代码中设置<br>如果你的状态选择器使用的图片是从网络中获取，那么我们就不得不使用代码来进行设置状态选择了<br>类功能说明：该类定义了不同状态值下与之对应的图片资源，即我们可以利用该类保存多种状态值，多种图片资源。<br> 常用方法为：<pre><code>public void addState (int[] stateSet, Drawable drawable)
+功能： 给特定的状态集合设置drawable图片资源
+</code></pre>使用简介：<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//初始化一个空对象  </span></span><br><span class="line">StateListDrawable stalistDrawable = <span class="keyword">new</span> StateListDrawable();  </span><br><span class="line"><span class="comment">//获取对应的属性值 Android框架自带的属性 attr  </span></span><br><span class="line"><span class="keyword">int</span> pressed = android.R.attr.state_pressed;  </span><br><span class="line"><span class="keyword">int</span> window_focused = android.R.attr.state_window_focused;  </span><br><span class="line"><span class="keyword">int</span> focused = android.R.attr.state_focused;  </span><br><span class="line"><span class="keyword">int</span> selected = android.R.attr.state_selected;    </span><br><span class="line">stalistDrawable.addState(<span class="keyword">new</span> <span class="keyword">int</span> []&#123;pressed , window_focused&#125;, getResources().getDrawable(R.drawable.pic1));  </span><br><span class="line">stalistDrawable.addState(<span class="keyword">new</span> <span class="keyword">int</span> []&#123;pressed , -focused&#125;, getResources().getDrawable(R.drawable.pic2);  </span><br><span class="line">stalistDrawable.addState(<span class="keyword">new</span> <span class="keyword">int</span> []&#123;selected &#125;, getResources().getDrawable(R.drawable.pic3);  </span><br><span class="line">stalistDrawable.addState(<span class="keyword">new</span> <span class="keyword">int</span> []&#123;focused &#125;, getResources().getDrawable(R.drawable.pic4);  </span><br><span class="line"><span class="comment">//没有任何状态时显示的图片，我们给它设置我空集合  </span></span><br><span class="line">stalistDrawable.addState(<span class="keyword">new</span> <span class="keyword">int</span> []&#123;&#125;, getResources().getDrawable(R.drawable.pic5);</span><br></pre></td></tr></table></figure></li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2015/08/26/Android/从网络获取图片设置状态选择器/" data-id="cip0q412f001krb16soa5b88m" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+
+
+  <nav id="page-nav">
+    <a class="extend prev" rel="prev" href="/page/3/">&laquo; __('prev')</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/5/">__('next') &raquo;</a>
+  </nav>
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Gradle/">Gradle</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac/">Mac</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Other/">Other</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/android/">android</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">十一月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">十月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">九月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">八月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">七月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">六月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">五月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2016/06/04/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2016/05/31/Mac/zsh不兼容的坑/">zsh不兼容的坑-zsh:no matches found:</a>
+          </li>
+        
+          <li>
+            <a href="/2016/05/30/Gradle/gradle(一)/">Gradle(一)</a>
+          </li>
+        
+          <li>
+            <a href="/2016/05/29/Mac/Httpie使用/">Httpie使用</a>
+          </li>
+        
+          <li>
+            <a href="/2016/05/17/Java/Java反射大发/">Java反射大发</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 GlanWang<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

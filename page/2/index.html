@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Glan Wang</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="CoderGC Glan Wang WGC">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Glan Wang">
+<meta property="og:url" content="http://yoursite.com/page/2/index.html">
+<meta property="og:site_name" content="Glan Wang">
+<meta property="og:description" content="CoderGC Glan Wang WGC">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Glan Wang">
+<meta name="twitter:description" content="CoderGC Glan Wang WGC">
+  
+    <link rel="alternate" href="/atom.xml" title="Glan Wang" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Glan Wang</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">CoderGC</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-Android/adb无线调试" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/03/14/Android/adb无线调试/" class="article-date">
+  <time datetime="2016-03-14T04:54:00.000Z" itemprop="datePublished">2016-03-14</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Android/">Android</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/03/14/Android/adb无线调试/">adb无线调试</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在开发Android应用时，通常情况下是通过USB数据线连接设备和计算机，但对于一些需要使用USB设备的应用，这种方法就碰到了麻烦，手机的USB接口已经和外接的USB设备连接，无法再连数据线，此时可以通过网络TCPIP的方法来进行。也就是然ADB 通过网络来连接设备，而无需USB数据线。<br>具体方法如下：</p>
+<ol>
+<li>使用USB数据线连接设备。</li>
+<li>在命令行输入adb tcpip 5555 ( 5555为端口号，可以自由指定）。</li>
+<li>断开 USB数据，此时可以连接你需要连接的|USB设备。</li>
+<li>再计算机命令行输入 adb connect &lt;设备的IP地址&gt;:5555<br>后面就可以使用ADB ，DDMS 来调试Android应用或显示Logcat 消息。</li>
+<li>如果需要恢复到USB数据线，可以在命令行输入adb usb<br>注： Android设备的IP地址可以在Settings-&gt;About Phone-&gt;Status 查到</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/03/14/Android/adb无线调试/" data-id="cip0q4125001arb16o37fku52" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Android-Android内存泄露代码详解-转" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/02/29/Android-Android内存泄露代码详解-转/" class="article-date">
+  <time datetime="2016-02-29T08:07:00.000Z" itemprop="datePublished">2016-02-29</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Android/">Android</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/02/29/Android-Android内存泄露代码详解-转/">Android内存泄露代码详解</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>关于常见的内存泄露分析的很好的一个文章<a href="http://david-wei.github.io/2015/12/22/Android%E5%86%85%E5%AD%98%E6%B3%84%E9%9C%B2%E4%BB%A3%E7%A0%81%E8%AF%A6%E8%A7%A3/" target="_blank" rel="external">http://david-wei.github.io/2015/12/22/Android%E5%86%85%E5%AD%98%E6%B3%84%E9%9C%B2%E4%BB%A3%E7%A0%81%E8%AF%A6%E8%A7%A3/</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/02/29/Android-Android内存泄露代码详解-转/" data-id="cip0q4117000frb16qzjqcbwx" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Android/Rebound-Android的弹簧动画库(转)" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/02/29/Android/Rebound-Android的弹簧动画库(转)/" class="article-date">
+  <time datetime="2016-02-29T07:56:00.000Z" itemprop="datePublished">2016-02-29</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Android/">Android</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/02/29/Android/Rebound-Android的弹簧动画库(转)/">Rebound-Android的弹簧动画库(转)</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>直接上地址了<a href="http://hanhailong.com/2016/02/16/Rebound-Android%E7%9A%84%E5%BC%B9%E7%B0%A7%E5%8A%A8%E7%94%BB%E5%BA%93/" target="_blank" rel="external">http://hanhailong.com/2016/02/16/Rebound-Android%E7%9A%84%E5%BC%B9%E7%B0%A7%E5%8A%A8%E7%94%BB%E5%BA%93/</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/02/29/Android/Rebound-Android的弹簧动画库(转)/" data-id="cip0q411v0011rb16rel4ewz6" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Android/观察者模式和依赖注入简介（更优雅简介的撸代码）" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/02/23/Android/观察者模式和依赖注入简介（更优雅简介的撸代码）/" class="article-date">
+  <time datetime="2016-02-23T09:57:00.000Z" itemprop="datePublished">2016-02-23</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Android/">Android</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/02/23/Android/观察者模式和依赖注入简介（更优雅简介的撸代码）/">观察者模式和依赖注入（更优雅的撸代码）</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Android项目现在越来越流行的观察者模式来进行代码的解耦，更加优雅的撸码。比如现在比较火的RxJava，EventBus等等，都是基于观察这模式的。我今天分享的也是我上一个项目中，使用观察者模式对代码进行解耦。</p>
+<p>项目中遇到的问题：单个类的代码复杂多很高，甚者超过几千行的类逐步增多。电商类App，UI占据了很多的成分。UI变化时，牵一发动全身。特别是一个人写的东西，不感觉让别人去顶替修改，人员离职后交接成本很大。<br>后来终于到了我无法忍受的时候，于是就大胆的进行了重构。<br><code>重构目标</code>：将复杂的类进行拆分(去除各种复杂的回调代码)，降低耦合度，增加阅读性和维护性。并且有利于进行patch打补丁包。<br>下面大概说一下当时的思路<br><code>解决方案</code>：</p>
+<ol>
+<li>使用观察这模式，将类与类直接的关系进行尽可能的解耦，增加阅读性。<br> 引入EventBus等第三方库，进行解耦操作；自己实现一套自己的观察者模式事件库。</li>
+<li>按照依赖注入的方式，避免一些重复的代码。<br> 使用第三方依赖注入库。ButterKnift,。。。。<br>EventBus引入之后，效果不是很明显。<br>原因：1. <code>EventBus不支持注解形式的观察方法(不知到目前支不支持)</code>，而是支持已方法名的形势进行方法匹配。这就导致了很多事件，在一个类中需要在同一个方法中处理，看起来不太舒服。<br><img src="~/C496C7F0-BE55-4AAB-9A43-57F0C05B6029.png" alt=""></li>
+<li>EventBus功能是很强大，但是代码量比较大，维护比较费劲。由于原来使用Picasso和那个Glide的事遇到一些问题，例如使用Picasso在<code>vivo等某些国产机器</code>上下载图片非常慢，还经常闪退，而阅读其源码话费了很大功夫，特别是Glide库，特别大。可悲的是我们没能查出来是什么原因导致的这个问题。从那以后基本是就是能自己很快完成的就是参考别人的自己写，这样方便以后维护。<br>###实现自己的观察者模式的事件机制<br>首先做的事情：起一个比较霸气的命名？啥也不说了，想不起来。最后直接就叫M。<br>实现原：观察者模式，与EventBus基本相同。不同：结合注解，支持通过注解的方式调用方法。<br>####使用方式<br><img src="~/1B9C25E0-7905-48E8-87B5-5136EFF67FC4.png" alt=""></li>
+</ol>
+<p><img src="~/961A4488-B5E9-4AF4-914A-3A09F48F0AB1.png" alt=""></p>
+<p>###M的原理</p>
+<ol>
+<li><p>自定义合适的注解，作用在方法级别的<br>type是指的对改时间的一个描述<br><img src="~/B9041667-BA64-4C4B-B69C-F548095E5FAC.png" alt=""></p>
+</li>
+<li><p>添加观察者</p>
+<ul>
+<li>过滤出当前含有自定义注解的方法</li>
+<li>将观察者(MReciever对象，以及处理方法)按照事件类型来进行存储 </li>
+</ul>
+</li>
+</ol>
+<p><img src="~/52F0190D-D660-40CA-AC92-2E3EC2154DCE.png" alt=""></p>
+<ol>
+<li>发送消息，接受到数据之后，通知给观察者</li>
+</ol>
+<p><img src="~/7CA2B3BE-7CA2-41C5-A78F-2B0A03679B98.png" alt=""><br>通过handler统一处理发送<br><img src="~/5A727EF0-AB55-443B-B09C-0BC4651429DF.png" alt=""><br>观察者接受指定类型的事件和数据</p>
+<p><img src="~/6DF0A70A-6615-45FC-950E-B6B895AA36E8.png" alt=""></p>
+<p>整个过程仅仅只是用了五个类，就将原来耦合到一起的很复杂的代码进行了降低耦合，更加方便了代码的维护和阅读。</p>
+<p><code>这样重构带来的优点：</code>1.减小的代码的耦合度，方便维护和多人开发；2.有利于我们打patch包，就是当我们线上发现某些比较严重的bug，我们只需要对特定的接受方法进行处理，这打patch的工作量会大大减小，如果类与类之间耦合度很高，patch就需要改动很多地方，不利于热修复补丁。</p>
+<p>###简单的依赖注入<br>MInject 就是一个View的注入工具。实现原来基本跟butterknift相同，就是通过注解的方式对View进行注入。使用方式也跟butterKnift基本一样。<br>唯一的区别：支持点击事件设置点击抖动事件，有点类似于RxAndroid中的某些View框架，可以方便的设置点击抖动时间。</p>
+<p><img src="~/D642F25F-5064-4501-AE7C-E6F44F526DE6.png" alt=""><br>实现原理：对View.OnClickListener接口的一个动态代理</p>
+<p><img src="~/7BFC726B-3F80-457E-87D5-3E89FC02EE57.png" alt=""></p>
+<p><img src="~/C5BD01A4-1509-4964-80A9-344F4819A444.png" alt=""></p>
+<p>###杂项：aar上传jcenter，远程仓库统一管理<br>gradle中新建了一些Task，依赖jcenter提供的插件就可以非常轻松的实现。MInject这个我就放到了jcenter上。通过gradle调用很方便。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">compile &apos;com.glanwang.minject:MInject_core:1.0.0&apos;</span><br></pre></td></tr></table></figure></p>
+<p><a href="http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2015/0623/3097.html" target="_blank" rel="external">http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2015/0623/3097.html</a></p>
+<p><a href="http://www.cnblogs.com/qianxudetianxia/p/4322331.html" target="_blank" rel="external">http://www.cnblogs.com/qianxudetianxia/p/4322331.html</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/02/23/Android/观察者模式和依赖注入简介（更优雅简介的撸代码）/" data-id="cip0q4136001wrb161z9kgxse" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Android/使用Gradle发布aar项目到JCenter仓库" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/02/18/Android/使用Gradle发布aar项目到JCenter仓库/" class="article-date">
+  <time datetime="2016-02-18T11:09:00.000Z" itemprop="datePublished">2016-02-18</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Android/">Android</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/02/18/Android/使用Gradle发布aar项目到JCenter仓库/">使用Gradle发布aar项目到JCenter仓库</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>不废话，直接上地址<br><a href="http://www.cnblogs.com/qianxudetianxia/p/4322331.html" target="_blank" rel="external">http://www.cnblogs.com/qianxudetianxia/p/4322331.html</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/02/18/Android/使用Gradle发布aar项目到JCenter仓库/" data-id="cip0q412h001lrb16v4jlzcgj" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Java/Java动态代理" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/02/01/Java/Java动态代理/" class="article-date">
+  <time datetime="2016-02-01T10:39:00.000Z" itemprop="datePublished">2016-02-01</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/02/01/Java/Java动态代理/">Java动态代理</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>###代理：设计模式<br>代理是一种常用的设计模式，其目的就是为其他对象提供一个代理以控制对某个对象的访问。代理类负责为委托类预处理消息，过滤消息并转发消息，以及进行消息被委托类执行后的后续处理。<br>如何理解？通俗的将就是方法增强。</p>
+<p>###Java的动态代理<br>Java 动态代理机制以巧妙的方式近乎完美地实践了代理模式的设计理念。<br>Java动态代理是指的对Interface接口的代理，仅支持interface代理。这也是Java动态代理的缺点。</p>
+<p>###Java代理机制相关的类和接口<br>学习Java动态代理，首先需要了解以下相关的接口</p>
+<ul>
+<li><p>java.lang.reflect.Proxy：这是 Java 动态代理机制的主类，它提供了一组静态方法来为一组接口动态地生成代理类及其对象。<br>Proxy类的相关法发：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">// 方法 1: 该方法用于获取指定代理对象所关联的调用处理器</span><br><span class="line">static InvocationHandler getInvocationHandler(Object proxy)  </span><br><span class="line">// 方法 2：该方法用于获取关联于指定类装载器和一组接口的动态代理类的类对象</span><br><span class="line">static Class getProxyClass(ClassLoader loader, Class[] interfaces)  </span><br><span class="line">// 方法 3：该方法用于判断指定类对象是否是一个动态代理类</span><br><span class="line">static boolean isProxyClass(Class cl)  </span><br><span class="line">// 方法 4：该方法用于为指定类装载器、一组接口及调用处理器生成动态代理类实例</span><br><span class="line">static Object newProxyInstance(ClassLoader loader, Class[] interfaces, </span><br><span class="line">    InvocationHandler h)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>java.lang.reflect.InvocationHandler：这是调用处理器接口，它自定义了一个 invoke 方法，用于集中处理在动态代理类对象上的方法调用，通常在该方法中实现对委托类的代理访问。<br>InvocationHandler调用处理器接口的方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">// 该方法负责集中处理动态代理类上的所有方法调用。第一个参数既是代理类实例，第二个参数是被调用的方法对象</span><br><span class="line">// 第三个方法是调用参数。调用处理器根据这三个参数进行预处理或分派到委托类实例上发射执行</span><br><span class="line">Object invoke(Object proxy, Method method, Object[] args)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>java.lang.ClassLoader：这是类装载器类，负责将类的字节码装载到 Java 虚拟机（JVM）中并为其定义类对象，然后该类才能被使用。Proxy 静态方法生成动态代理类同样需要通过类装载器来进行装载才能使用，它与普通类的唯一区别就是其字节码是由 JVM 在运行时动态生成的而非预存在于任何一个 .class 文件中。每次生成动态代理类对象时都需要指定一个类装载器对象.<br>###Java动态代理的使用</p>
+</li>
+</ul>
+<ol>
+<li>通过实现 InvocationHandler 接口创建自己的调用处理器</li>
+<li>使用Proxy 的静态方法 newProxyInstance创建代理<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">public class InvocationHandlerImpl implements java.lang.reflect.InvocationHandler &#123;</span><br><span class="line">    @Override</span><br><span class="line">    public Object invoke(Object proxy, Method method, Object[] args) throws Throwable &#123;</span><br><span class="line"></span><br><span class="line">        //处理自己的逻辑</span><br><span class="line">        return null;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">// InvocationHandlerImpl 实现了 InvocationHandler 接口，并能实现方法调用从代理类到委托类的分派转发</span><br><span class="line">InvocationHandler handler = new InvocationHandlerImpl(..);  </span><br><span class="line">// 通过 Proxy 直接创建动态代理类实例</span><br><span class="line">Interface proxy = (Interface)Proxy.newProxyInstance( classLoader, </span><br><span class="line">     new Class[] &#123; Interface.class &#125;, </span><br><span class="line">     handler );</span><br></pre></td></tr></table></figure>
+<p> ###通过代码来理解<br> Main类中实现一个Button，Button有两个方法，一个setOnClickListener和onClick，当调用Button的onClick时，触发的事件是Main类中的click方法<br> Button 类<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">public class Button</span><br><span class="line">&#123;</span><br><span class="line">	private OnClickListener listener;</span><br><span class="line">	public void setOnClickLisntener(OnClickListener listener)</span><br><span class="line">	&#123;</span><br><span class="line"></span><br><span class="line">		this.listener = listener;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public void click()</span><br><span class="line">	&#123;</span><br><span class="line">		if (listener != null)</span><br><span class="line">		&#123;</span><br><span class="line">			listener.onClick();</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>OnClickListener接口<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">public interface OnClickListener</span><br><span class="line">&#123;</span><br><span class="line">	void onClick();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>OnClickListenerHandler实现 InvocationHandler接口<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">import java.lang.reflect.InvocationHandler;</span><br><span class="line">import java.lang.reflect.Method;</span><br><span class="line">import java.util.HashMap;</span><br><span class="line">import java.util.Map; </span><br><span class="line">public class OnClickListenerHandler implements InvocationHandler</span><br><span class="line">&#123;</span><br><span class="line">	private Object targetObject; </span><br><span class="line">	public OnClickListenerHandler(Object object)</span><br><span class="line">	&#123;</span><br><span class="line">		this.targetObject = object;</span><br><span class="line">	&#125; </span><br><span class="line">	private Map&lt;String, Method&gt; methods = new HashMap&lt;String, Method&gt;(); </span><br><span class="line">	public void addMethod(String methodName, Method method)</span><br><span class="line">	&#123;</span><br><span class="line">		methods.put(methodName, method);</span><br><span class="line">	&#125; </span><br><span class="line">	@Override</span><br><span class="line">	public Object invoke(Object proxy, Method method, Object[] args)</span><br><span class="line">			throws Throwable</span><br><span class="line">	&#123; </span><br><span class="line">		String methodName = method.getName();</span><br><span class="line">		Method realMethod = methods.get(methodName);</span><br><span class="line">		return realMethod.invoke(targetObject, args);</span><br><span class="line">	&#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>在Main中调用<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">import java.lang.reflect.InvocationTargetException;</span><br><span class="line">import java.lang.reflect.Method;</span><br><span class="line">import java.lang.reflect.Proxy;</span><br><span class="line"> </span><br><span class="line">public class Main</span><br><span class="line">&#123;</span><br><span class="line">	private Button button = new Button();	</span><br><span class="line">	public Main() throws SecurityException, IllegalArgumentException, NoSuchMethodException, IllegalAccessException, InvocationTargetException</span><br><span class="line">	&#123;</span><br><span class="line">		init();</span><br><span class="line">	&#125; </span><br><span class="line">	public void click()</span><br><span class="line">	&#123;</span><br><span class="line">		System.out.println(&quot;Button clicked!&quot;);</span><br><span class="line">	&#125; </span><br><span class="line">	public void init() throws SecurityException,</span><br><span class="line">			NoSuchMethodException, IllegalArgumentException,</span><br><span class="line">			IllegalAccessException, InvocationTargetException</span><br><span class="line">	&#123;</span><br><span class="line">		OnClickListenerHandler h = new OnClickListenerHandler(this);</span><br><span class="line">		Method method = Main.class.getMethod(&quot;click&quot;, null);</span><br><span class="line">		h.addMethod(&quot;onClick&quot;, method);</span><br><span class="line">		Object clickProxy = Proxy.newProxyInstance(</span><br><span class="line">				OnClickListener.class.getClassLoader(),</span><br><span class="line">				new Class&lt;?&gt;[] &#123; OnClickListener.class &#125;, h);</span><br><span class="line">		Method clickMethod = button.getClass().getMethod(&quot;setOnClickLisntener&quot;,</span><br><span class="line">				OnClickListener.class);</span><br><span class="line">		clickMethod.invoke(button, clickProxy);		</span><br><span class="line">	&#125;</span><br><span class="line"> </span><br><span class="line">	public static void main(String[] args) throws SecurityException,</span><br><span class="line">			IllegalArgumentException, NoSuchMethodException,</span><br><span class="line">			IllegalAccessException, InvocationTargetException</span><br><span class="line">	&#123; </span><br><span class="line">		Main main = new Main();		</span><br><span class="line">		main.button.click();</span><br><span class="line">	&#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>我们模拟按钮点击：调用main.button.click()，实际执行的却是Main的click方法<br>看init中，我们首先初始化了一个OnClickListenerHandler，把Main的当前实例传入，然后拿到Main的click方法，添加到OnClickListenerHandler中的Map中。<br>然后通过Proxy.newProxyInstance拿到OnClickListener这个接口的一个代理，这样执行这个接口的所有的方法，都会去调用OnClickListenerHandler的invoke方法。<br>但是呢？OnClickListener毕竟是个接口，也没有方法体~~那咋办呢？这时候就到我们OnClickListenerHandler中的Map中大展伸手了<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">public Object invoke(Object proxy, Method method, Object[] args)</span><br><span class="line">throws Throwable</span><br><span class="line">&#123; </span><br><span class="line">String methodName = method.getName();</span><br><span class="line">Method realMethod = methods.get(methodName);</span><br><span class="line">return realMethod.invoke(targetObject, args);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>我们显示的把要执行的方法，通过键值对存到Map里面了，等调用到invoke的时候，其实是通过传入的方法名，得到Map中存储的方法，然后调用我们预设的方法~。</p>
+<p>###Proxy原理分析<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">public static Object newProxyInstance(ClassLoader loader, </span><br><span class="line">            Class&lt;?&gt;[] interfaces, </span><br><span class="line">            InvocationHandler h) </span><br><span class="line">            throws IllegalArgumentException &#123; </span><br><span class="line"> </span><br><span class="line">    // 检查 h 不为空，否则抛异常</span><br><span class="line">    if (h == null) &#123; </span><br><span class="line">        throw new NullPointerException(); </span><br><span class="line">    &#125; </span><br><span class="line"> </span><br><span class="line">    // 获得与制定类装载器和一组接口相关的代理类类型对象</span><br><span class="line">    Class cl = getProxyClass(loader, interfaces); </span><br><span class="line"> </span><br><span class="line">    // 通过反射获取构造函数对象并生成代理类实例</span><br><span class="line">    try &#123; </span><br><span class="line">        Constructor cons = cl.getConstructor(constructorParams); </span><br><span class="line">        return (Object) cons.newInstance(new Object[] &#123; h &#125;); </span><br><span class="line">    &#125; catch (NoSuchMethodException e) &#123; throw new InternalError(e.toString()); </span><br><span class="line">    &#125; catch (IllegalAccessException e) &#123; throw new InternalError(e.toString()); </span><br><span class="line">    &#125; catch (InstantiationException e) &#123; throw new InternalError(e.toString()); </span><br><span class="line">    &#125; catch (InvocationTargetException e) &#123; throw new InternalError(e.toString()); </span><br><span class="line">    &#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>动态代理真正的关键是在 getProxyClass 方法，该方法负责为一组接口动态地生成代理类类型对象,动态的生一个实现了一组接口的类。该方法总共可以分为四个步骤：</p>
+<ol>
+<li><p>对这组接口进行一定程度的安全检查，包括检查接口类对象是否对类装载器可见并且与类装载器所能识别的接口类对象是完全相同的，还会检查确保是 interface 类型而不是 class 类型。这个步骤通过一个循环来完成，检查通过后将会得到一个包含所有接口名称的字符串数组，记为 String[] interfaceNames。总体上这部分实现比较直观，所以略去大部分代码，仅保留留如何判断某类或接口是否对特定类装载器可见的相关代码。<br>通过 Class.forName 方法判接口的可见性</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">try &#123; </span><br><span class="line">    // 指定接口名字、类装载器对象，同时制定 initializeBoolean 为 false 表示无须初始化类</span><br><span class="line">    // 如果方法返回正常这表示可见，否则会抛出 ClassNotFoundException 异常表示不可见</span><br><span class="line">    interfaceClass = Class.forName(interfaceName, false, loader); </span><br><span class="line">&#125; catch (ClassNotFoundException e) &#123; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>从 loaderToCache 映射表中获取以类装载器对象为关键字所对应的缓存表，如果不存在就创建一个新的缓存表并更新到 loaderToCache。缓存表是一个 HashMap 实例，正常情况下它将存放键值对（接口名字列表，动态生成的代理类的类对象引用）。当代理类正在被创建时它会临时保存（接口名字列表，pendingGenerationMarker）。标记 pendingGenerationMarke 的作用是通知后续的同类请求（接口数组相同且组内接口排列顺序也相同）代理类正在被创建，请保持等待直至创建完成。</p>
+</li>
+<li>动态创建代理类的类对象。首先是确定代理类所在的包，其原则如前所述，如果都为 public 接口，则包名为空字符串表示顶层包；如果所有非 public 接口都在同一个包，则包名与这些接口的包名相同；如果有多个非 public 接口且不同包，则抛异常终止代理类的生成。确定了包后，就开始生成代理类的类名，同样如前所述按格式“$ProxyN”生成。类名也确定了，接下来就是见证奇迹的发生 —— 动态生成代理类：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">// 动态地生成代理类的字节码数组</span><br><span class="line">byte[] proxyClassFile = ProxyGenerator.generateProxyClass( proxyName, interfaces); </span><br><span class="line">try &#123; </span><br><span class="line">    // 动态地定义新生成的代理类</span><br><span class="line">    proxyClass = defineClass0(loader, proxyName, proxyClassFile, 0, </span><br><span class="line">        proxyClassFile.length); </span><br><span class="line">&#125; catch (ClassFormatError e) &#123; </span><br><span class="line">    throw new IllegalArgumentException(e.toString()); </span><br><span class="line">&#125;  </span><br><span class="line">// 把生成的代理类的类对象记录进 proxyClasses 表</span><br><span class="line">proxyClasses.put(proxyClass, null);</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>所有的代码生成的工作都由神秘的 ProxyGenerator 所完成了,而此类并没有公开。</p>
+<ol>
+<li>代码生成过程进入结尾部分，根据结果更新缓存表，如果成功则将代理类的类对象引用更新进缓存表，否则清楚缓存表中对应关键值，最后唤醒所有可能的正在等待的线程。</li>
+</ol>
+<p>###代理类实现的原理：代码解释</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">// 假设需代理接口 Simulator </span><br><span class="line">public interface Simulator &#123; </span><br><span class="line">    short simulate(int arg1, long arg2, String arg3) throws ExceptionA, ExceptionB;</span><br><span class="line">&#125;  </span><br><span class="line">// 假设代理类为 SimulatorProxy, 其类声明将如下</span><br><span class="line">final public class SimulatorProxy implements Simulator &#123;  </span><br><span class="line">    // 调用处理器对象的引用</span><br><span class="line">    protected InvocationHandler handler;  </span><br><span class="line">    // 以调用处理器为参数的构造函数</span><br><span class="line">    public SimulatorProxy(InvocationHandler handler)&#123; </span><br><span class="line">        this.handler = handler; </span><br><span class="line">    &#125;  </span><br><span class="line">    // 实现接口方法 simulate </span><br><span class="line">    public short simulate(int arg1, long arg2, String arg3) </span><br><span class="line">        throws ExceptionA, ExceptionB &#123; </span><br><span class="line">        // 第一步是获取 simulate 方法的 Method 对象</span><br><span class="line">        java.lang.reflect.Method method = null; </span><br><span class="line">        try&#123; </span><br><span class="line">            method = Simulator.class.getMethod( </span><br><span class="line">                &quot;simulate&quot;, </span><br><span class="line">                new Class[] &#123;int.class, long.class, String.class&#125; );</span><br><span class="line">        &#125; catch(Exception e) &#123; </span><br><span class="line">            // 异常处理 1（略）</span><br><span class="line">        &#125; </span><br><span class="line"> </span><br><span class="line">        // 第二步是调用 handler 的 invoke 方法分派转发方法调用</span><br><span class="line">        Object r = null; </span><br><span class="line">        try &#123; </span><br><span class="line">            r = handler.invoke(this, </span><br><span class="line">                method, </span><br><span class="line">                // 对于原始类型参数需要进行装箱操作</span><br><span class="line">                new Object[] &#123;new Integer(arg1), new Long(arg2), arg3&#125;);</span><br><span class="line">        &#125;catch(Throwable e) &#123; </span><br><span class="line">            // 异常处理 2（略）</span><br><span class="line">        &#125; </span><br><span class="line">        // 第三步是返回结果（返回类型是原始类型则需要进行拆箱操作）</span><br><span class="line">        return ((Short)r).shortValue();</span><br><span class="line">    &#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>###扩展：Android使用动态代理和注解可以很轻松的实现对按钮的点击和设置</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/02/01/Java/Java动态代理/" data-id="cip0q3q2w0005rb16o4172oer" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Android/物料设计之Android Design Support Library 兼容库简介" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/01/29/Android/物料设计之Android Design Support Library 兼容库简介/" class="article-date">
+  <time datetime="2016-01-29T08:23:00.000Z" itemprop="datePublished">2016-01-29</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Android/">Android</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/01/29/Android/物料设计之Android Design Support Library 兼容库简介/">物料设计之Android Design Support Library 兼容库简介</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <ol>
+<li><p>添加 Design Support Library 依赖<br>在 Android Studio 中，通过在build.gradle(Module: app)中的dependencies中添加：<br>compile ‘com.android.support:design:23.1.0’（其中23.1.0为当前库版本号）</p>
+</li>
+<li><p>常规控件<br>2.1 FloatingActionButton - 浮动的圆形按钮<br>布局文件：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">android.support.design.widget.FloatingActionButton</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>常用属性：<br>注意：使用以下属性时，需要在Layout中添加命名空间：xmlns:app=”<a href="http://schemas.android.com/apk/res-auto" target="_blank" rel="external">http://schemas.android.com/apk/res-auto</a>“</p>
+<table>
+<thead>
+<tr>
+<th>属性名</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>app:backgroundTint=””</td>
+<td>背景色</td>
+</tr>
+<tr>
+<td>app:fabSize=””</td>
+<td>包裹图片类型</td>
+</tr>
+<tr>
+<td>app:elevation=””</td>
+<td>Z轴，用来控制控件阴影效果</td>
+</tr>
+<tr>
+<td>app:rippleColor=””</td>
+<td>按钮点击时颜色效果</td>
+</tr>
+</tbody>
+</table>
+<p>2.2 TextInputLayout - 让 EditText 提示更加人性化<br>布局文件：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">android.support.design.widget.TextInputLayout</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">EditText</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">android.support.design.widget.TextInputLayout</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>2.3 Snackbar - 可交互的提示框<br>使用代码：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Snackbar snackbar = Snackbar.make(view, <span class="string">"提示文本"</span>, Snackbar.LENGTH_LONG | Snackbar.LENGTH_SHORT);</span><br><span class="line">snackbar.show();</span><br><span class="line">snackbar.setAction(<span class="string">"按钮title"</span>, <span class="keyword">new</span> View.OnClickListener()&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View v)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// do something</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+<ol>
+<li>菜单控件<br>3.1 TabLayout - 便捷实现标签<br>布局文件：<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">android.support.design.widget.TabLayout</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>常用属性：</p>
+<table>
+<thead>
+<tr>
+<th>属性名</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>app:tabTextColor=””</td>
+<td>标签颜色</td>
+</tr>
+<tr>
+<td>app:tabSelectedTextColor=””</td>
+<td>标签选中时颜色</td>
+</tr>
+<tr>
+<td>app:tabIndicatorColor=””</td>
+<td>标签下标指示器颜色</td>
+</tr>
+<tr>
+<td>app:tabIndicatorHeight=””</td>
+<td>标签下标指示器高度</td>
+</tr>
+<tr>
+<td>app:tabMode=””</td>
+<td>标签能否进行横向滑动</td>
+</tr>
+</tbody>
+</table>
+<p>使用代码：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">TabLayout tabs = (TabLayout) findViewById(R.id.tab_layout);</span><br><span class="line">tabs.addTab(tabs.newTab().setText(<span class="string">"Tab1"</span>));</span><br><span class="line">tabs.addTab(tabs.newTab().setText(<span class="string">"Tab2"</span>));</span><br><span class="line">tabs.addTab(tabs.newTab().setText(<span class="string">"Tab3"</span>));</span><br><span class="line">tabs.addTab(tabs.newTab().setText(<span class="string">"Tab4"</span>));</span><br></pre></td></tr></table></figure></p>
+<p>3.2 Navigation View - 美观的侧滑视图<br>布局文件：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">android.support.v4.widget.DrawerLayout</span></span><br><span class="line">    <span class="attr">xmlns:app</span>=<span class="string">"http://schemas.android.com/apk/res-auto"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">include</span> <span class="attr">layout</span>=<span class="string">"@layout/activity_main"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">android.support.design.widget.NavigationView</span>&gt;</span></span><br><span class="line">    ...</span><br><span class="line">    <span class="tag">&lt;/<span class="name">android.support.design.widget.NavigationView</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">android.support.v4.widget.DrawerLayout</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>常用属性：</p>
+<table>
+<thead>
+<tr>
+<th>属性名</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>app:headerLayout=””</td>
+<td>头布局</td>
+</tr>
+<tr>
+<td>app:menu=””</td>
+<td>菜单布局</td>
+</tr>
+<tr>
+<td>android:layout_gravity=”left”</td>
+<td>在父视图中的布局</td>
+</tr>
+<tr>
+<td>android:fitSystemWindows=”true”</td>
+<td>适应系统</td>
+</tr>
+</tbody>
+</table>
+<ol>
+<li>具有过渡动画效果的布局 Layout<br>4.1 CoordinatorLayout - 完美协调子 View 工作的核心部件<br>布局文件：<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">android.support.design.widget.CoordinatorLayout</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">android.support.design.widget.CoordinatorLayout</span>&gt;</span></span><br></pre></td></tr></table></figure></li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/01/29/Android/物料设计之Android Design Support Library 兼容库简介/" data-id="cip0q4131001trb16vyc2qvhr" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Android/物料设计之Snackbar" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/01/29/Android/物料设计之Snackbar/" class="article-date">
+  <time datetime="2016-01-29T07:57:00.000Z" itemprop="datePublished">2016-01-29</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Android/">Android</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/01/29/Android/物料设计之Snackbar/">物料设计之Snackbar</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>今天小有兴致的研究了一下物料设计的东西。本来想自己写点东西，但是发现大神已经写好了，所以不在重复，直接引用大神的神作吧。<br>Snackbar使用以及源码分析：<br><a href="http://www.cnblogs.com/punkisnotdead/p/4663885.html" target="_blank" rel="external">http://www.cnblogs.com/punkisnotdead/p/4663885.html</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/01/29/Android/物料设计之Snackbar/" data-id="cip0q4133001urb160mzy5y6f" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Android/Android布局动画(LayoutTransition)--下" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/01/27/Android/Android布局动画(LayoutTransition)--下/" class="article-date">
+  <time datetime="2016-01-27T03:50:00.000Z" itemprop="datePublished">2016-01-27</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Android/">Android</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/01/27/Android/Android布局动画(LayoutTransition)--下/">Android布局动画(LayoutTransition容器转换动画)--下</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Android出现属性动画之后，提供了一套对ViewGroup中View的显示隐藏添加删除等操作的转换动画。<br>我们可以通过LayoutTransition对ViewGroup中的view改变进行动画处理。</p>
+<p>###ViewGroup转换动画类型</p>
+<ul>
+<li>触发条件：<code>当你添加或者移除ViewGroup中的View时，或者你调用View的setVisibility()方法来控制其显示或消失时，就处于一个转换状态。这种事件就有可能会激发动画。</code>当前被增加或者移除的View可以经历一个出现的动画或者一个消失的动画。而且不止是当前要控制的View，ViewGroup中的其他View也可以随之进行变动，比如经历一个动画移动到新的位置。</li>
+<li>动画类型（四种）<ol>
+<li>View本身出现的动画；APPEARING</li>
+<li>View消失的动画；DISAPPEARING    </li>
+<li>由于新增了其他View而需要改变位置的View的动画；CHANGE_APPEARING    </li>
+<li>由于移除了其他View而需要改变位置的动画；CHANGE_DISPPEARING（如果增加或移除了其他View之后，当前View的位置不需要改变，则无动画）</li>
+</ol>
+</li>
+<li>API    <ol>
+<li>ViewGroup.setLayoutTransition(LayoutTransition transition) : 给容器设置转换动画控制器LayoutTransition对象。</li>
+<li>LayoutTransition.setAnimator(int transitionType, Animator animator):给LayoutTransition    设置动画，并指定动画类型。transitionType有四中类型，即上边所说的四中类型。</li>
+<li>LayoutTransition.setStartDelay(int transitionType, long delay):给指定的动画类型设置启动延迟。</li>
+<li>LayoutTransition.setDuration(int transitionType, long duration):给指定的动画类型设置时间。<br>– 属性动画相关API    </li>
+<li>ObjectAnimator.ofPropertyValuesHolder(Object target,PropertyValuesHolder… values)：根据PropertyValuesHolder讲多个属性合并成一个动画。</li>
+<li>PropertyValuesHolder.ofFloat()/ofInt()/ofKeyframe():一系列获取PropertyValuesHolder的方法。<br>PropertyValuesHolder可以代表某种需要执行的属性动画，ObjectAnimator.ofPropertyValuesHolder（）可以将多个属性都有的动画进行合并成一个。</li>
+<li>Keyframe.ofFloat（）/ofInt()等获取Keyframe的方法。Keyframe标识再某个指定的帧上做动作，即是关键帧的意思。</li>
+</ol>
+</li>
+</ul>
+<p>###实例</p>
+<p><img src="~/animation.gif" alt=""></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestLayoutTransitionActivity</span> <span class="keyword">extends</span> <span class="title">Activity</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> LinearLayout mContainer;</span><br><span class="line">    <span class="keyword">private</span> Button mAddViewBtn;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_test_layout_transition);</span><br><span class="line"></span><br><span class="line">        mContainer = (LinearLayout) findViewById(R.id.container);</span><br><span class="line">        mAddViewBtn = (Button) findViewById(R.id.add_view_btn);</span><br><span class="line">        <span class="comment">//1.创建LayoutTransition对象</span></span><br><span class="line">        LayoutTransition layoutTransition = <span class="keyword">new</span> LayoutTransition();</span><br><span class="line">        <span class="comment">//2.把LayoutTransition对象transitioner设置给这个外层容器</span></span><br><span class="line">        mContainer.setLayoutTransition(layoutTransition);</span><br><span class="line"></span><br><span class="line">        setCustomAnimations(layoutTransition);</span><br><span class="line">        mAddViewBtn.setOnClickListener(<span class="keyword">new</span> View.OnClickListener() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View v)</span> </span>&#123;</span><br><span class="line">                ImageView img = <span class="keyword">new</span> ImageView(TestLayoutTransitionActivity.<span class="keyword">this</span>);</span><br><span class="line">                img.setImageResource(R.mipmap.ic_launcher);</span><br><span class="line">                mContainer.addView(img, <span class="keyword">new</span> LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));</span><br><span class="line">                img.setOnClickListener(<span class="keyword">new</span> View.OnClickListener() &#123;</span><br><span class="line">                    <span class="meta">@Override</span></span><br><span class="line">                    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View v)</span> </span>&#123;</span><br><span class="line">                        mContainer.removeView(v);</span><br><span class="line"><span class="comment">//                        v.setVisibility(View.GONE);</span></span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">setCustomAnimations</span><span class="params">(LayoutTransition layoutTransition)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        PropertyValuesHolder pvhScaleX = PropertyValuesHolder.ofFloat(<span class="string">"scaleX"</span>,</span><br><span class="line">                <span class="number">0f</span>, <span class="number">1f</span>);</span><br><span class="line">        PropertyValuesHolder pvhScaleY = PropertyValuesHolder.ofFloat(<span class="string">"scaleY"</span>,</span><br><span class="line">                <span class="number">0f</span>, <span class="number">1f</span>);</span><br><span class="line">        PropertyValuesHolder pvhScaleR = PropertyValuesHolder.ofFloat(<span class="string">"rotation"</span>, <span class="number">0</span>, <span class="number">360</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//Keyframe标识再某个指定的帧上做动作，即是关键帧的意思</span></span><br><span class="line">        Keyframe kf1 = Keyframe.ofFloat(<span class="number">0</span>,<span class="number">0f</span>);</span><br><span class="line">        Keyframe kf2 = Keyframe.ofFloat(<span class="number">0.99f</span>,<span class="number">2f</span>);</span><br><span class="line">        Keyframe kf3 = Keyframe.ofFloat(<span class="number">1f</span>,<span class="number">1f</span>);</span><br><span class="line">        PropertyValuesHolder pvhKF = PropertyValuesHolder.ofKeyframe(<span class="string">"scaleY"</span>,kf1,kf2,kf3);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">long</span> changeAppearingTime = layoutTransition.getDuration(LayoutTransition.CHANGE_APPEARING);<span class="comment">//获取默认时间</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">//属性动画</span></span><br><span class="line">        ObjectAnimator customChangingAppearingAnim = ObjectAnimator.ofPropertyValuesHolder(</span><br><span class="line">                <span class="keyword">this</span>, pvhScaleX, pvhScaleY, pvhScaleR,pvhKF).setDuration(changeAppearingTime);</span><br><span class="line"><span class="comment">//        customChangingAppearingAnim.setInterpolator(new OvershootInterpolator(0.8f));//设置插值器</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">//3.设置动画给LayoutTransition对象，病指定动画的类型</span></span><br><span class="line">        <span class="comment">//设置APPEARING时的动画</span></span><br><span class="line">        layoutTransition.setAnimator(LayoutTransition.APPEARING, customChangingAppearingAnim);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//设置DISAPPEARING时的动画</span></span><br><span class="line">        layoutTransition.setAnimator(LayoutTransition.DISAPPEARING, customChangingAppearingAnim);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/01/27/Android/Android布局动画(LayoutTransition)--下/" data-id="cip0q411g000mrb16bx9y3w3i" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Android/Android布局动画(LayoutAnimation)" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/01/26/Android/Android布局动画(LayoutAnimation)/" class="article-date">
+  <time datetime="2016-01-26T03:28:00.000Z" itemprop="datePublished">2016-01-26</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Android/">Android</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/01/26/Android/Android布局动画(LayoutAnimation)/">Android布局动画(LayoutAnimation)--上</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>###布局动画<br>给ViewGroup设置childView改变时的动画，即ViewGroup布局改变时的动画。</p>
+<ol>
+<li><code>ViewGroup.setLayoutAnimation()</code>方法与<code>android:layoutAnimation=&quot;&quot;</code>属性。<br>这两种方式是用来给当前ViewGroup设置属性动画的，但是这个属性动画只是在ViewGroup初次创建的时候生效。<br>看ViewGroup.setLayoutAnimation的源码注视，明确指定了first layout。但是我们可以通过ViewGroup的scheduleLayoutAnimation()或者startLayoutAnimation()在需要的时候再次执行该布局动画。<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span><br><span class="line"> * Sets the layout animation controller used to animate the group's</span><br><span class="line"> * children after the first layout.     *</span><br><span class="line"> * <span class="doctag">@param</span> controller the animation controller</span><br><span class="line"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setLayoutAnimation</span><span class="params">(LayoutAnimationController controller)</span> </span>&#123;</span><br><span class="line">    mLayoutAnimationController = controller;</span><br><span class="line">    <span class="keyword">if</span> (mLayoutAnimationController != <span class="keyword">null</span>) &#123;</span><br><span class="line">        mGroupFlags |= FLAG_RUN_ANIMATION;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>常用API介绍：</p>
+<ul>
+<li>ViewGroup.setLayoutAnimation(LayoutAnimationController controller) :给ViewGroup设置布局动画，</li>
+<li>ViewGroup.scheduleLayoutAnimation():此方法再次播放该属性动画</li>
+<li>ViewGroup.startLayoutAnimation():此方法再次播放该属性动画,与scheduleLayoutAnimation（）不同的是会强制进行一次布局</li>
+<li>LayoutAnimationController：对xml中layoutAnimation动画标签的封装，功能和layoutAnimation标签相同。<br>  使用过程中可以通过构造方法获取，或者通过AnimationUtils.loadLayoutAnimation()方法加载xml中的              layoutAnimation动画。</li>
+<li>LayoutAnimationController.setOrder(LayoutAnimationController.ORDER_NORMAL);</li>
+<li>LayoutAnimationController.setDelay();<br>1.1 具体实例：</li>
+</ul>
+<p><img src="~/animation.gif" alt=""></p>
+<ul>
+<li>方式一：使用xml的方式：使用ViewGroup的layoutAnimation属性，给此属性指定一个layoutAnimation<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">//layoutAnimation使用xml创建要已layoutAnimation标签开始</span><br><span class="line">//animationOrder表示出现子View的顺序，有normal(正常顺序)，reverse(逆序)，random（随机顺序）</span><br><span class="line">//android:animation：需要指定一个你想要让childView执行的动画</span><br><span class="line">//delay：表示延迟执行</span><br><span class="line">//interpolator:动画插值器，可以给layoutAnimation指定动画插值器</span><br><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span><br><span class="line">&lt;layoutAnimation xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;</span><br><span class="line">    android:animationOrder=&quot;normal&quot;</span><br><span class="line">    android:animation=&quot;@anim/translate&quot;</span><br><span class="line">    android:delay=&quot;0.5&quot;</span><br><span class="line">    android:interpolator=&quot;@android:anim/accelerate_interpolator&quot;&gt;</span><br><span class="line">&lt;/layoutAnimation&gt;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span><br><span class="line">&lt;translate xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;</span><br><span class="line">    android:fromXDelta=&quot;0&quot; android:toXDelta=&quot;0&quot;</span><br><span class="line">    android:fromYDelta=&quot;100%p&quot; android:toYDelta=&quot;0&quot;</span><br><span class="line">    android:duration = &quot;700&quot;</span><br><span class="line">    android:interpolator=&quot;@android:anim/overshoot_interpolator&quot;&gt;</span><br><span class="line">&lt;/translate&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;GridView</span><br><span class="line">    android:id=&quot;@+id/grid_view&quot;</span><br><span class="line">    android:layout_width=&quot;match_parent&quot;</span><br><span class="line">    android:layout_height=&quot;match_parent&quot;</span><br><span class="line">    android:columnWidth=&quot;60dp&quot;</span><br><span class="line">    android:gravity=&quot;center&quot;</span><br><span class="line">    android:numColumns=&quot;auto_fit&quot;</span><br><span class="line">    android:stretchMode=&quot;columnWidth&quot;</span><br><span class="line">    android:verticalSpacing=&quot;10dp&quot;</span><br><span class="line">    android:animateLayoutChanges=&quot;false&quot;</span><br><span class="line">    android:layoutAnimation=&quot;@anim/layout_animation_translate&quot;&gt;&lt;/GridView&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>方式二：代码中使用LayoutAnimationController设置<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">setLayoutAnimation</span><span class="params">(ViewGroup viewGroup)</span> </span>&#123;</span><br><span class="line">        LayoutAnimationController layoutAnimationController = AnimationUtils.loadLayoutAnimation(<span class="keyword">this</span>, R.anim.layout_animation_translate);</span><br><span class="line">        layoutAnimationController.setOrder(LayoutAnimationController.ORDER_NORMAL);</span><br><span class="line"><span class="comment">//        layoutAnimationController.setDelay();</span></span><br><span class="line">        viewGroup.setLayoutAnimation(layoutAnimationController);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>###扩展 自定义布局动画执行的顺序</p>
+<p>想自定义布局动画的顺序，只需要继承LayoutAnimationController，并复写getTransformedIndex(AnimationParameters params)方法即可。<br>具体实例：参考<a href="http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2015/0619/3090.html" target="_blank" rel="external">http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2015/0619/3090.html</a><br><img src="~/1442313422121422.gif" alt=""></p>
+<p>仔细观察，很明显就是一个LayoutAnimation，但是LayoutAnimation默认只有三种顺序，即顺序逆序和随机，不能满足需求。去翻翻源码看它是怎么实现的，有没有提供方法自定义顺序？结果翻到了一个LayoutAnimationController#getTransformedIndex(AnimationParameters params)方法，返回值就是播放动画的顺序。并且这个方法是protected的，明显就是可由子类来扩展。既然找到了方法，那么就去实现它：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span><br><span class="line">     * custom LayoutAnimationController for playing child animation</span><br><span class="line">     * in any order.</span><br><span class="line">     *</span><br><span class="line">     */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CustomLayoutAnimationController</span> <span class="keyword">extends</span> <span class="title">LayoutAnimationController</span> </span>&#123;</span><br><span class="line"> </span><br><span class="line">    <span class="comment">// 7 just lucky number</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> ORDER_CUSTOM  = <span class="number">7</span>;</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">private</span> Callback onIndexListener;</span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setOnIndexListener</span><span class="params">(OnIndexListener onIndexListener)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.onIndexListener = onIndexListener;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">CustomLayoutAnimationController</span><span class="params">(Animation anim)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(anim);</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">CustomLayoutAnimationController</span><span class="params">(Animation anim, <span class="keyword">float</span> delay)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(anim, delay);</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">CustomLayoutAnimationController</span><span class="params">(Context context, AttributeSet attrs)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(context, attrs);</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     * override method for custom play child view animation order</span><br><span class="line">    */</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">int</span> <span class="title">getTransformedIndex</span><span class="params">(AnimationParameters params)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(getOrder() == ORDER_CUSTOM &amp;amp;&amp;amp; onIndexListener != <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> onIndexListener.onIndex(<span class="keyword">this</span>, params.count, params.index);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">super</span>.getTransformedIndex(params);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     * callback for get play animation order</span><br><span class="line">     *</span><br><span class="line">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">interface</span> <span class="title">Callback</span></span>&#123;</span><br><span class="line"> </span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">onIndex</span><span class="params">(CustomLayoutAnimationController controller, <span class="keyword">int</span> count, <span class="keyword">int</span> index)</span></span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>通过复写getTransformedIndex方法，添加自定义顺序ORDER_CUSTOM，让callback自定义控件播放动画的顺序，即可以达到任何想要的效果。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/01/26/Android/Android布局动画(LayoutAnimation)/" data-id="cip0q411c000jrb16nw971iv0" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+
+
+  <nav id="page-nav">
+    <a class="extend prev" rel="prev" href="/">&laquo; __('prev')</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/3/">__('next') &raquo;</a>
+  </nav>
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Gradle/">Gradle</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac/">Mac</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Other/">Other</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/android/">android</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">十一月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">十月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">九月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">八月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">七月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">六月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">五月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2016/06/04/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2016/05/31/Mac/zsh不兼容的坑/">zsh不兼容的坑-zsh:no matches found:</a>
+          </li>
+        
+          <li>
+            <a href="/2016/05/30/Gradle/gradle(一)/">Gradle(一)</a>
+          </li>
+        
+          <li>
+            <a href="/2016/05/29/Mac/Httpie使用/">Httpie使用</a>
+          </li>
+        
+          <li>
+            <a href="/2016/05/17/Java/Java反射大发/">Java反射大发</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 GlanWang<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

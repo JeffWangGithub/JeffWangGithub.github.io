@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>ViewStub的使用 | Glan Wang</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="在开发应用程序的时候，经常会遇到这样的情况，会在运行时动态根据条件来决定显示哪个View或某个布局。那么最通常的想法就是把可能用到的View都写在上面，先把它们的可见性都设为View.GONE，然后在代码中动态的更改它的可见性。这样的做法的优点是逻辑简单而且控制起来比较灵活。但是它的缺点就是，耗费资源。虽然把View的初始可见View.GONE但是在Inflate布局的时候View仍然会被Infl">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ViewStub的使用">
+<meta property="og:url" content="http://yoursite.com/2015/06/02/Android/ViewStub的使用/index.html">
+<meta property="og:site_name" content="Glan Wang">
+<meta property="og:description" content="在开发应用程序的时候，经常会遇到这样的情况，会在运行时动态根据条件来决定显示哪个View或某个布局。那么最通常的想法就是把可能用到的View都写在上面，先把它们的可见性都设为View.GONE，然后在代码中动态的更改它的可见性。这样的做法的优点是逻辑简单而且控制起来比较灵活。但是它的缺点就是，耗费资源。虽然把View的初始可见View.GONE但是在Inflate布局的时候View仍然会被Infl">
+<meta property="og:image" content="http://yoursite.com/~/11-47-13.jpg">
+<meta property="og:image" content="http://yoursite.com/~/11-47-31.jpg">
+<meta property="og:updated_time" content="2016-06-04T06:11:30.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ViewStub的使用">
+<meta name="twitter:description" content="在开发应用程序的时候，经常会遇到这样的情况，会在运行时动态根据条件来决定显示哪个View或某个布局。那么最通常的想法就是把可能用到的View都写在上面，先把它们的可见性都设为View.GONE，然后在代码中动态的更改它的可见性。这样的做法的优点是逻辑简单而且控制起来比较灵活。但是它的缺点就是，耗费资源。虽然把View的初始可见View.GONE但是在Inflate布局的时候View仍然会被Infl">
+<meta name="twitter:image" content="http://yoursite.com/~/11-47-13.jpg">
+  
+    <link rel="alternate" href="/atom.xml" title="Glan Wang" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Glan Wang</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">CoderGC</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Android/ViewStub的使用" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/06/02/Android/ViewStub的使用/" class="article-date">
+  <time datetime="2015-06-02T03:45:00.000Z" itemprop="datePublished">2015-06-02</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Android/">Android</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      ViewStub的使用
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在开发应用程序的时候，经常会遇到这样的情况，会在运行时动态根据条件来决定显示哪个View或某个布局。那么最通常的想法就是把可能用到的View都写在上面，先把它们的可见性都设为View.GONE，然后在代码中动态的更改它的可见性。这样的做法的优点是逻辑简单而且控制起来比较灵活。但是它的缺点就是，耗费资源。虽然把View的初始可见View.GONE但是在Inflate布局的时候View仍然会被Inflate，也就是说仍然会创建对象，会被实例化，会被设置属性。也就是说，会耗费内存等资源。<br>      推荐的做法是使用android.view.ViewStub，ViewStub是一个轻量级的View，它一个看不见的，不占布局位置，占用资源非常小的控件。可以为ViewStub指定一个布局，在Inflate布局的时候，只有ViewStub会被初始化，然后当ViewStub被设置为可见的时候，或是调用了ViewStub.inflate()的时候，ViewStub所向的布局就会被Inflate和实例化，然后ViewStub的布局属性都会传给它所指向的布局。这样，就可以使用ViewStub来方便的在运行时，要还是不要显示某个布局。</p>
+<pre><code> 但ViewStub也不是万能的，下面总结下ViewStub能做的事儿和什么时候该用ViewStub，什么时候该用可见性的控制。
+
+首先来说说ViewStub的一些特点：
+
+    1. ViewStub只能Inflate一次，之后ViewStub对象会被置为空。按句话说，某个被ViewStub指定的布局被Inflate后，就不会够再通过ViewStub来控制它了。
+
+    2. ViewStub只能用来Inflate一个布局文件，而不是某个具体的View，当然也可以把View写在某个布局文件中。
+
+基于以上的特点，那么可以考虑使用ViewStub的情况有：
+
+    1. 在程序的运行期间，某个布局在Inflate后，就不会有变化，除非重新启动。
+
+         因为ViewStub只能Inflate一次，之后会被置空，所以无法指望后面接着使用ViewStub来控制布局。所以当需要在运行时不止一次的显示和隐藏某个布局，那么ViewStub是做不到的。这时就只能使用View的可见性来控制了。
+
+    2. 想要控制显示与隐藏的是一个布局文件，而非某个View。
+
+         因为设置给ViewStub的只能是某个布局文件的Id，所以无法让它来控制某个View。
+
+所以，如果想要控制某个View(如Button或TextView)的显示与隐藏，或者想要在运行时不断的显示与隐藏某个布局或View，只能使用View的可见性来控制。
+</code></pre><p>下面来看一个实例<br>在这个例子中，要显示二种不同的布局，一个是用TextView显示一段文字，另一个则是用ImageView显示一个图片。这二个是在onCreate()时决定是显示哪一个，这里就是应用ViewStub的最佳地点。<br>先来看看布局，一个是主布局，里面只定义二个ViewStub，一个用来控制TextView一个用来控制ImageView，另外就是一个是为显示文字的做的TextView布局，一个是为ImageView而做的布局：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version="1.0" encoding="utf-8"?&gt;  </span><br><span class="line"><span class="tag">&lt;<span class="name">LinearLayout</span>  </span><br><span class="line">  <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span>  </span><br><span class="line">  <span class="attr">android:orientation</span>=<span class="string">"vertical"</span>  </span><br><span class="line">  <span class="attr">android:layout_width</span>=<span class="string">"fill_parent"</span>  </span><br><span class="line">  <span class="attr">android:layout_height</span>=<span class="string">"fill_parent"</span>  </span><br><span class="line">  <span class="attr">android:gravity</span>=<span class="string">"center_horizontal"</span>&gt;</span>  </span><br><span class="line">  <span class="tag">&lt;<span class="name">ViewStub</span>   </span><br><span class="line">    <span class="attr">android:id</span>=<span class="string">"@+id/viewstub_demo_text"</span>  </span><br><span class="line">    <span class="attr">android:layout_width</span>=<span class="string">"wrap_content"</span>  </span><br><span class="line">    <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span>  </span><br><span class="line">    <span class="attr">android:layout_marginLeft</span>=<span class="string">"5dip"</span>  </span><br><span class="line">    <span class="attr">android:layout_marginRight</span>=<span class="string">"5dip"</span>  </span><br><span class="line">    <span class="attr">android:layout_marginTop</span>=<span class="string">"10dip"</span>  </span><br><span class="line">    <span class="attr">android:layout</span>=<span class="string">"@layout/viewstub_demo_text_layout"</span>/&gt;</span>  </span><br><span class="line">  <span class="tag">&lt;<span class="name">ViewStub</span>   </span><br><span class="line">    <span class="attr">android:id</span>=<span class="string">"@+id/viewstub_demo_image"</span>  </span><br><span class="line">    <span class="attr">android:layout_width</span>=<span class="string">"wrap_content"</span>  </span><br><span class="line">    <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span>  </span><br><span class="line">    <span class="attr">android:layout_marginLeft</span>=<span class="string">"5dip"</span>  </span><br><span class="line">    <span class="attr">android:layout_marginRight</span>=<span class="string">"5dip"</span>  </span><br><span class="line">    <span class="attr">android:layout</span>=<span class="string">"@layout/viewstub_demo_image_layout"</span>/&gt;</span>  </span><br><span class="line"><span class="tag">&lt;/<span class="name">LinearLayout</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>为TextView的布局：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version="1.0" encoding="utf-8"?&gt;  </span><br><span class="line"><span class="tag">&lt;<span class="name">LinearLayout</span>  </span><br><span class="line">  <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span>  </span><br><span class="line">  <span class="attr">android:orientation</span>=<span class="string">"vertical"</span>  </span><br><span class="line">  <span class="attr">android:layout_width</span>=<span class="string">"wrap_content"</span>  </span><br><span class="line">  <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span>&gt;</span>  </span><br><span class="line">    <span class="tag">&lt;<span class="name">TextView</span>  </span><br><span class="line">        <span class="attr">android:id</span>=<span class="string">"@+id/viewstub_demo_textview"</span>  </span><br><span class="line">        <span class="attr">android:layout_width</span>=<span class="string">"fill_parent"</span>  </span><br><span class="line">        <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span>  </span><br><span class="line">        <span class="attr">android:background</span>=<span class="string">"#aa664411"</span>  </span><br><span class="line">        <span class="attr">android:textSize</span>=<span class="string">"16sp"</span>/&gt;</span>  </span><br><span class="line"><span class="tag">&lt;/<span class="name">LinearLayout</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>为ImageView的布局：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version="1.0" encoding="utf-8"?&gt;  </span><br><span class="line"><span class="tag">&lt;<span class="name">LinearLayout</span>  </span><br><span class="line">  <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span>  </span><br><span class="line">  <span class="attr">android:orientation</span>=<span class="string">"vertical"</span>  </span><br><span class="line">  <span class="attr">android:layout_width</span>=<span class="string">"wrap_content"</span>  </span><br><span class="line">  <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span>&gt;</span>  </span><br><span class="line">    <span class="tag">&lt;<span class="name">ImageView</span>  </span><br><span class="line">        <span class="attr">android:id</span>=<span class="string">"@+id/viewstub_demo_imageview"</span>  </span><br><span class="line">        <span class="attr">android:layout_width</span>=<span class="string">"wrap_content"</span>  </span><br><span class="line">        <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span>/&gt;</span>  </span><br><span class="line"><span class="tag">&lt;/<span class="name">LinearLayout</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>下面来看代码，决定来显示哪一个，只需要找到相应的ViewStub然后调用其infalte()就可以获得相应想要的布局：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.effective;  </span><br><span class="line">  </span><br><span class="line"><span class="keyword">import</span> android.app.Activity;  </span><br><span class="line"><span class="keyword">import</span> android.os.Bundle;  </span><br><span class="line"><span class="keyword">import</span> android.view.ViewStub;  </span><br><span class="line"><span class="keyword">import</span> android.widget.ImageView;  </span><br><span class="line"><span class="keyword">import</span> android.widget.TextView;  </span><br><span class="line">  </span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ViewStubDemoActivity</span> <span class="keyword">extends</span> <span class="title">Activity</span> </span>&#123;  </span><br><span class="line">    <span class="meta">@Override</span>  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;  </span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);  </span><br><span class="line">        setContentView(R.layout.viewstub_demo_activity);  </span><br><span class="line">        <span class="keyword">if</span> ((((<span class="keyword">int</span>) (Math.random() * <span class="number">100</span>)) &amp; <span class="number">0x01</span>) == <span class="number">0</span>) &#123;  </span><br><span class="line">            <span class="comment">// to show text  </span></span><br><span class="line">            <span class="comment">// all you have to do is inflate the ViewStub for textview  </span></span><br><span class="line">            ViewStub stub = (ViewStub) findViewById(R.id.viewstub_demo_text);  </span><br><span class="line">            stub.inflate();  </span><br><span class="line">            TextView text = (TextView) findViewById(R.id.viewstub_demo_textview);  </span><br><span class="line">            text.setText(<span class="string">"The tree of liberty must be refreshed from time to time"</span> +  </span><br><span class="line">                    <span class="string">" with the blood of patroits and tyrants! Freedom is nothing but "</span> +  </span><br><span class="line">                    <span class="string">"a chance to be better!"</span>);  </span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;  </span><br><span class="line">            <span class="comment">// to show image  </span></span><br><span class="line">            <span class="comment">// all you have to do is inflate the ViewStub for imageview  </span></span><br><span class="line">            ViewStub stub = (ViewStub) findViewById(R.id.viewstub_demo_image);  </span><br><span class="line">            stub.inflate();  </span><br><span class="line">            ImageView image = (ImageView) findViewById(R.id.viewstub_demo_imageview);  </span><br><span class="line">            image.setImageResource(R.drawable.happy_running_dog);  </span><br><span class="line">        &#125;  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>运行结果：<br><img src="~/11-47-13.jpg" alt=""><img src="~/11-47-31.jpg" alt=""><br>使用的时候的注意事项：</p>
+<ol>
+<li>某些布局属性要加在ViewStub而不是实际的布局上面，才会起作用，比如上面用的android:layout_margin*系列属性，如果加在TextView上面，则不会起作用，需要放在它的ViewStub上面才会起作用。而ViewStub的属性在inflate()后会都传给相应的布局。</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2015/06/02/Android/ViewStub的使用/" data-id="cip0q41210016rb16xujb8dy6" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2015/06/03/Android/zxing生成二维码修改默认的白色边框/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          zxing生成二维码修改默认的白色边框
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2015/05/29/Android/IntellJ IDEA导入v7兼容包(第三方库)/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">IntellJ IDEA非gradle架构下导入v7兼容包(第三方库)</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Gradle/">Gradle</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac/">Mac</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Other/">Other</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/android/">android</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">十一月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">十月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">九月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">八月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">七月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">六月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">五月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2016/06/04/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2016/05/31/Mac/zsh不兼容的坑/">zsh不兼容的坑-zsh:no matches found:</a>
+          </li>
+        
+          <li>
+            <a href="/2016/05/30/Gradle/gradle(一)/">Gradle(一)</a>
+          </li>
+        
+          <li>
+            <a href="/2016/05/29/Mac/Httpie使用/">Httpie使用</a>
+          </li>
+        
+          <li>
+            <a href="/2016/05/17/Java/Java反射大发/">Java反射大发</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 GlanWang<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

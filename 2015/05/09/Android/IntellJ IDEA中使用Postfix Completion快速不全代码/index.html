@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>IntellJ IDEA中使用Postfix Completion快速补全代码 | Glan Wang</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="##Postfix Completion这是IDEA 13.1 新增的功能。详细演示和说明看这里 http://blog.jetbrains.com/idea/2014/03/postfix-completion/ 。简单来说就是你可以先输入语句的主体（例如要赋值的表达式，或者要循环的集合变量），然后输入用小数点分隔的模板名称后缀，IDE自动帮你智能展开。
+
+比如说，你想写for (User us">
+<meta property="og:type" content="article">
+<meta property="og:title" content="IntellJ IDEA中使用Postfix Completion快速补全代码">
+<meta property="og:url" content="http://yoursite.com/2015/05/09/Android/IntellJ IDEA中使用Postfix Completion快速不全代码/index.html">
+<meta property="og:site_name" content="Glan Wang">
+<meta property="og:description" content="##Postfix Completion这是IDEA 13.1 新增的功能。详细演示和说明看这里 http://blog.jetbrains.com/idea/2014/03/postfix-completion/ 。简单来说就是你可以先输入语句的主体（例如要赋值的表达式，或者要循环的集合变量），然后输入用小数点分隔的模板名称后缀，IDE自动帮你智能展开。
+
+比如说，你想写for (User us">
+<meta property="og:image" content="http://yoursite.com/~/postfix模板.png">
+<meta property="og:updated_time" content="2016-06-04T06:12:03.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="IntellJ IDEA中使用Postfix Completion快速补全代码">
+<meta name="twitter:description" content="##Postfix Completion这是IDEA 13.1 新增的功能。详细演示和说明看这里 http://blog.jetbrains.com/idea/2014/03/postfix-completion/ 。简单来说就是你可以先输入语句的主体（例如要赋值的表达式，或者要循环的集合变量），然后输入用小数点分隔的模板名称后缀，IDE自动帮你智能展开。
+
+比如说，你想写for (User us">
+<meta name="twitter:image" content="http://yoursite.com/~/postfix模板.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Glan Wang" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Glan Wang</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">CoderGC</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Android/IntellJ IDEA中使用Postfix Completion快速不全代码" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/05/09/Android/IntellJ IDEA中使用Postfix Completion快速不全代码/" class="article-date">
+  <time datetime="2015-05-09T15:51:00.000Z" itemprop="datePublished">2015-05-09</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Android/">Android</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      IntellJ IDEA中使用Postfix Completion快速补全代码
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>##Postfix Completion<br>这是IDEA 13.1 新增的功能。详细演示和说明看这里 <a href="http://blog.jetbrains.com/idea/2014/03/postfix-completion/" target="_blank" rel="external">http://blog.jetbrains.com/idea/2014/03/postfix-completion/</a> 。简单来说就是你可以先输入语句的主体（例如要赋值的表达式，或者要循环的集合变量），然后输入用小数点分隔的模板名称后缀，IDE自动帮你智能展开。</p>
+<hr>
+<p>比如说，你想写<br>for (User user:users) { … }<br>只需要输入 users.for 再按tab或者回车就行了。<br>你想写<br>Date birthday = user.getBirthday()<br>只需要输入 user.getBirthday().var 再按tab或者回车就行了。IDEA会自动推断赋值类型和生成默认的变量名称。</p>
+<p>##目前支持的模板<br><img src="~/postfix模板.png" alt=""></p>
+<p>##常用的模板<br><code>for,fori,notnull,var,while,toast,log等等。</code></p>
+<ul>
+<li>for，fori，while用于书写循环</li>
+<li>notnull, null用于非空和为空的判断</li>
+<li><code>var 用户生成一个对应类型的变量，即生成对应返回值类型的变量(经常使用)</code></li>
+</ul>
+<p>###<code>使用时注意事项</code><br>想要调出这些语法，需要通过任意一个变量加点来调出来。例如，你的类中有一个变量叫做<code>Object o</code> ，那么你想要调出这些语法需要使用<code>o.notnull</code></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2015/05/09/Android/IntellJ IDEA中使用Postfix Completion快速不全代码/" data-id="cip0q411n000vrb16vmy64r38" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2015/05/11/Mac/切换Mac，快速完成开发环境配置/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          切换Mac，快速完成开发环境配置
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2015/05/09/Android/导出AndroidStudio(Intellij IDEA)快捷键和设置信息/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">导出AndroidStudio(IntelliJ IDEA)快捷键和设置信息</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Gradle/">Gradle</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac/">Mac</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Other/">Other</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/android/">android</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">十一月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">十月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">九月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">八月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">七月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">六月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">五月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2016/06/04/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2016/05/31/Mac/zsh不兼容的坑/">zsh不兼容的坑-zsh:no matches found:</a>
+          </li>
+        
+          <li>
+            <a href="/2016/05/30/Gradle/gradle(一)/">Gradle(一)</a>
+          </li>
+        
+          <li>
+            <a href="/2016/05/29/Mac/Httpie使用/">Httpie使用</a>
+          </li>
+        
+          <li>
+            <a href="/2016/05/17/Java/Java反射大发/">Java反射大发</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 GlanWang<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

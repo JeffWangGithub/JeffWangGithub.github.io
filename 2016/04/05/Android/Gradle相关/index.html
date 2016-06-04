@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Gradle相关 | Glan Wang</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="基础Java项目有一组有限的task用于互相处理生成一个输出。 classes是一个编译Java源代码的task。可以在build.gradle文件中通过脚本很容易使用classes。这是project.tasks.classes的缩写。在Android项目中，相比之下这就有点复杂。因为Android项目中会有大量相同的task，并且它们的名字基于Build Types和Product Flav">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Gradle相关">
+<meta property="og:url" content="http://yoursite.com/2016/04/05/Android/Gradle相关/index.html">
+<meta property="og:site_name" content="Glan Wang">
+<meta property="og:description" content="基础Java项目有一组有限的task用于互相处理生成一个输出。 classes是一个编译Java源代码的task。可以在build.gradle文件中通过脚本很容易使用classes。这是project.tasks.classes的缩写。在Android项目中，相比之下这就有点复杂。因为Android项目中会有大量相同的task，并且它们的名字基于Build Types和Product Flav">
+<meta property="og:updated_time" content="2016-06-04T06:12:12.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Gradle相关">
+<meta name="twitter:description" content="基础Java项目有一组有限的task用于互相处理生成一个输出。 classes是一个编译Java源代码的task。可以在build.gradle文件中通过脚本很容易使用classes。这是project.tasks.classes的缩写。在Android项目中，相比之下这就有点复杂。因为Android项目中会有大量相同的task，并且它们的名字基于Build Types和Product Flav">
+  
+    <link rel="alternate" href="/atom.xml" title="Glan Wang" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Glan Wang</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">CoderGC</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Android/Gradle相关" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/04/05/Android/Gradle相关/" class="article-date">
+  <time datetime="2016-04-05T03:34:00.000Z" itemprop="datePublished">2016-04-05</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Android/">Android</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Gradle相关
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <ol>
+<li>基础Java项目有一组有限的task用于互相处理生成一个输出。 classes是一个编译Java源代码的task。可以在build.gradle文件中通过脚本很容易使用classes。这是project.tasks.classes的缩写。<br>在Android项目中，相比之下这就有点复杂。因为Android项目中会有大量相同的task，并且它们的名字基于Build Types和Product Flavor生成。<br>为了解决这个问题，android对象有两个属性：</li>
+</ol>
+<ul>
+<li>applicationVariants（只适用于app plugin）</li>
+<li>libraryVariants（只适用于library plugin）</li>
+<li>testVariants（两个plugin都适用）<br>这三个都会分别返回一个ApplicationVariant、LibraryVariant和TestVariant对象的DomainObjectCollection（<code>域名对象集合</code>）。<br>DomainObjectCollection可以直接访问所有对象，或者通过过滤器进行筛选。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">android.applicationVariants.each &#123; variant -&gt;</span><br><span class="line">    ....</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>这三个variant类都共享下面的属性：</p>
+<table>
+<thead>
+<tr>
+<th>属性名</th>
+<th>属性类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>name</td>
+<td>String</td>
+<td>Variant的名字，必须是唯一的。</td>
+</tr>
+<tr>
+<td>description</td>
+<td>String</td>
+<td>Variant的描述说明。</td>
+</tr>
+<tr>
+<td>dirName</td>
+<td>String</td>
+<td>Variant的子文件夹名，必须也是唯一的。可能也会有不止一个子文件夹，例如“debug/flavor1”</td>
+</tr>
+<tr>
+<td>baseName</td>
+<td>String</td>
+<td>Variant输出的基础名字，必须唯一。</td>
+</tr>
+<tr>
+<td>outputFile</td>
+<td>File</td>
+<td>Variant的输出，这是一个可读可写的属性。</td>
+</tr>
+<tr>
+<td>processManifest</td>
+<td>ProcessManifest</td>
+<td>处理Manifest的task。</td>
+</tr>
+<tr>
+<td>aidlCompile</td>
+<td>AidlCompile</td>
+<td>编译AIDL文件的task。</td>
+</tr>
+<tr>
+<td>renderscriptCompile</td>
+<td>RenderscriptCompile</td>
+<td>编译Renderscript文件的task。</td>
+</tr>
+<tr>
+<td>mergeResources</td>
+<td>MergeResources</td>
+<td>混合资源文件的task。</td>
+</tr>
+<tr>
+<td>mergeAssets</td>
+<td>MergeAssets</td>
+<td>混合asset的task。</td>
+</tr>
+<tr>
+<td>processResources</td>
+<td>ProcessAndroidResources</td>
+<td>处理并编译资源文件的task。</td>
+</tr>
+<tr>
+<td>generateBuildConfig</td>
+<td>GenerateBuildConfig</td>
+<td>生成BuildConfig类的task。</td>
+</tr>
+<tr>
+<td>javaCompile</td>
+<td>JavaCompile</td>
+<td>编译Java源代码的task。</td>
+</tr>
+<tr>
+<td>processJavaResources</td>
+<td>Copy</td>
+<td>处理Java资源的task。</td>
+</tr>
+<tr>
+<td>assemble</td>
+<td>DefaultTask</td>
+<td>Variant的标志性assemble task。</td>
+</tr>
+</tbody>
+</table>
+<p>ApplicationVariant类还有以下附加属性：</p>
+<table>
+<thead>
+<tr>
+<th>属性名</th>
+<th>属性类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>buildType</td>
+<td>BuildType</td>
+<td>Variant的BuildType。</td>
+</tr>
+<tr>
+<td>productFlavors</td>
+<td>List</td>
+<td>Variant的ProductFlavor。一般不为空但也允许空值。</td>
+</tr>
+<tr>
+<td>mergedFlavor</td>
+<td>ProductFlavor</td>
+<td>android.defaultConfig和variant.productFlavors的合并。</td>
+</tr>
+<tr>
+<td>signingConfig</td>
+<td>SigningConfig</td>
+<td>Variant使用的SigningConfig对象。</td>
+</tr>
+<tr>
+<td>isSigningReady</td>
+<td>boolean</td>
+<td>如果是true则表明这个Variant已经具备了所有需要签名的信息。</td>
+</tr>
+<tr>
+<td>testVariant</td>
+<td>BuildVariant</td>
+<td>将会测试这个Variant的TestVariant。</td>
+</tr>
+<tr>
+<td>dex</td>
+<td>Dex</td>
+<td>将代码打包成dex的task。如果这个Variant是个库，这个值可以为空。</td>
+</tr>
+<tr>
+<td>packageApplication</td>
+<td>PackageApplication</td>
+<td>打包最终APK的task。如果这个Variant是个库，这个值可以为空。</td>
+</tr>
+<tr>
+<td>zipAlign</td>
+<td>ZipAlign</td>
+<td>zip压缩APK的task。如果这个Variant是个库或者APK不能被签名，这个值可以为空。</td>
+</tr>
+<tr>
+<td>install</td>
+<td>DefaultTask</td>
+<td>负责安装的task，不能为空。</td>
+</tr>
+<tr>
+<td>uninstall</td>
+<td>DefaultTask</td>
+<td>负责卸载的task。</td>
+</tr>
+</tbody>
+</table>
+<p>LibraryVariant类还有以下附加属性：</p>
+<table>
+<thead>
+<tr>
+<th>属性名</th>
+<th>属性类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>buildType</td>
+<td>BuildType</td>
+<td>Variant的BuildType.</td>
+</tr>
+<tr>
+<td>mergedFlavor</td>
+<td>ProductFlavor</td>
+<td>The defaultConfig values</td>
+</tr>
+<tr>
+<td>testVariant</td>
+<td>BuildVariant</td>
+<td>用于测试这个Variant。</td>
+</tr>
+<tr>
+<td>packageLibrary</td>
+<td>Zip</td>
+<td>用于打包库项目的AAR文件。如果是个库项目，这个值不能为空。</td>
+</tr>
+</tbody>
+</table>
+<ol>
+<li>BuildType是gradle中的一个类型和String等类型一样<br>BuildType类型的属性和方法<a href="http://google.github.io/android-gradle-dsl/1.3/com.android.build.gradle.internal.dsl.BuildType.html" target="_blank" rel="external">http://google.github.io/android-gradle-dsl/1.3/com.android.build.gradle.internal.dsl.BuildType.html</a><figure class="highlight plain"><figcaption><span>buildType = project.android.applicationVariants.buildType```</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">### 修改debug版的包名达到可以relase和debug包同时存在</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>buildTypes {<br>        release {<br>            debuggable false<br>            minifyEnabled false<br>            proguardFiles getDefaultProguardFile(‘proguard-android.txt’), ‘proguard-rules.pro’<br>            signingConfig signingConfigs.release<br>        }<br>        debug {<br>            applicationIdSuffix “.testdebug” //给debug版applicationId增加.testdebug后缀，以便可以同时存在多个版本<br>            minifyEnabled false<br>            proguardFiles getDefaultProguardFile(‘proguard-android.txt’), ‘proguard-rules.pro’</p>
+<pre><code>    }
+}
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">```</span><br><span class="line">final def variants = project.android.applicationVariants</span><br><span class="line"></span><br><span class="line">//使用variant代替了it参数</span><br><span class="line">variants.all&#123; variant -&gt;</span><br><span class="line">    def buildType = variant.buildType</span><br><span class="line">    def defaultCharset = java.nio.charset.Charset.defaultCharset().toString()</span><br><span class="line">    def appName = &quot;GTapp&quot;</span><br><span class="line">    //更改debug包的包名</span><br><span class="line">    if(buildType.applicationIdSuffix)&#123;//applicationIdSuffix属性有值</span><br><span class="line">        variant.mergeResources.doLast&#123;</span><br><span class="line">            def f = file(&quot;$&#123;buildDir&#125;/intermediates/res/merged/$&#123;buildType.getName()&#125;/values/values.xml&quot;)</span><br><span class="line">            String content = f.getText(defaultCharset)</span><br><span class="line">            content = content.replaceAll(appName,appName+buildType.applicationIdSuffix)</span><br><span class="line">            f.write(content, defaultCharset)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/04/05/Android/Gradle相关/" data-id="cip0q411m000trb16fnyd030q" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/05/07/Android/Android流行框架(盗图一张)/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Android流行框架(盗图一张)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/03/30/Android/android手机修改hosts/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">android手机修改hosts</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Gradle/">Gradle</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac/">Mac</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Other/">Other</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/android/">android</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">十一月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">十月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">九月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">八月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">七月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">六月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">五月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2016/06/04/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2016/05/31/Mac/zsh不兼容的坑/">zsh不兼容的坑-zsh:no matches found:</a>
+          </li>
+        
+          <li>
+            <a href="/2016/05/30/Gradle/gradle(一)/">Gradle(一)</a>
+          </li>
+        
+          <li>
+            <a href="/2016/05/29/Mac/Httpie使用/">Httpie使用</a>
+          </li>
+        
+          <li>
+            <a href="/2016/05/17/Java/Java反射大发/">Java反射大发</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 GlanWang<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

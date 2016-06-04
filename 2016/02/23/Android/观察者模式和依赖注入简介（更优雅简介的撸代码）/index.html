@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>观察者模式和依赖注入（更优雅的撸代码） | Glan Wang</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Android项目现在越来越流行的观察者模式来进行代码的解耦，更加优雅的撸码。比如现在比较火的RxJava，EventBus等等，都是基于观察这模式的。我今天分享的也是我上一个项目中，使用观察者模式对代码进行解耦。
+项目中遇到的问题：单个类的代码复杂多很高，甚者超过几千行的类逐步增多。电商类App，UI占据了很多的成分。UI变化时，牵一发动全身。特别是一个人写的东西，不感觉让别人去顶替修改，人员离">
+<meta property="og:type" content="article">
+<meta property="og:title" content="观察者模式和依赖注入（更优雅的撸代码）">
+<meta property="og:url" content="http://yoursite.com/2016/02/23/Android/观察者模式和依赖注入简介（更优雅简介的撸代码）/index.html">
+<meta property="og:site_name" content="Glan Wang">
+<meta property="og:description" content="Android项目现在越来越流行的观察者模式来进行代码的解耦，更加优雅的撸码。比如现在比较火的RxJava，EventBus等等，都是基于观察这模式的。我今天分享的也是我上一个项目中，使用观察者模式对代码进行解耦。
+项目中遇到的问题：单个类的代码复杂多很高，甚者超过几千行的类逐步增多。电商类App，UI占据了很多的成分。UI变化时，牵一发动全身。特别是一个人写的东西，不感觉让别人去顶替修改，人员离">
+<meta property="og:image" content="http://yoursite.com/~/C496C7F0-BE55-4AAB-9A43-57F0C05B6029.png">
+<meta property="og:image" content="http://yoursite.com/~/1B9C25E0-7905-48E8-87B5-5136EFF67FC4.png">
+<meta property="og:image" content="http://yoursite.com/~/961A4488-B5E9-4AF4-914A-3A09F48F0AB1.png">
+<meta property="og:image" content="http://yoursite.com/~/B9041667-BA64-4C4B-B69C-F548095E5FAC.png">
+<meta property="og:image" content="http://yoursite.com/~/52F0190D-D660-40CA-AC92-2E3EC2154DCE.png">
+<meta property="og:image" content="http://yoursite.com/~/7CA2B3BE-7CA2-41C5-A78F-2B0A03679B98.png">
+<meta property="og:image" content="http://yoursite.com/~/5A727EF0-AB55-443B-B09C-0BC4651429DF.png">
+<meta property="og:image" content="http://yoursite.com/~/6DF0A70A-6615-45FC-950E-B6B895AA36E8.png">
+<meta property="og:image" content="http://yoursite.com/~/D642F25F-5064-4501-AE7C-E6F44F526DE6.png">
+<meta property="og:image" content="http://yoursite.com/~/7BFC726B-3F80-457E-87D5-3E89FC02EE57.png">
+<meta property="og:image" content="http://yoursite.com/~/C5BD01A4-1509-4964-80A9-344F4819A444.png">
+<meta property="og:updated_time" content="2016-06-04T06:14:06.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="观察者模式和依赖注入（更优雅的撸代码）">
+<meta name="twitter:description" content="Android项目现在越来越流行的观察者模式来进行代码的解耦，更加优雅的撸码。比如现在比较火的RxJava，EventBus等等，都是基于观察这模式的。我今天分享的也是我上一个项目中，使用观察者模式对代码进行解耦。
+项目中遇到的问题：单个类的代码复杂多很高，甚者超过几千行的类逐步增多。电商类App，UI占据了很多的成分。UI变化时，牵一发动全身。特别是一个人写的东西，不感觉让别人去顶替修改，人员离">
+<meta name="twitter:image" content="http://yoursite.com/~/C496C7F0-BE55-4AAB-9A43-57F0C05B6029.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Glan Wang" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Glan Wang</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">CoderGC</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Android/观察者模式和依赖注入简介（更优雅简介的撸代码）" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/02/23/Android/观察者模式和依赖注入简介（更优雅简介的撸代码）/" class="article-date">
+  <time datetime="2016-02-23T09:57:00.000Z" itemprop="datePublished">2016-02-23</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Android/">Android</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      观察者模式和依赖注入（更优雅的撸代码）
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Android项目现在越来越流行的观察者模式来进行代码的解耦，更加优雅的撸码。比如现在比较火的RxJava，EventBus等等，都是基于观察这模式的。我今天分享的也是我上一个项目中，使用观察者模式对代码进行解耦。</p>
+<p>项目中遇到的问题：单个类的代码复杂多很高，甚者超过几千行的类逐步增多。电商类App，UI占据了很多的成分。UI变化时，牵一发动全身。特别是一个人写的东西，不感觉让别人去顶替修改，人员离职后交接成本很大。<br>后来终于到了我无法忍受的时候，于是就大胆的进行了重构。<br><code>重构目标</code>：将复杂的类进行拆分(去除各种复杂的回调代码)，降低耦合度，增加阅读性和维护性。并且有利于进行patch打补丁包。<br>下面大概说一下当时的思路<br><code>解决方案</code>：</p>
+<ol>
+<li>使用观察这模式，将类与类直接的关系进行尽可能的解耦，增加阅读性。<br> 引入EventBus等第三方库，进行解耦操作；自己实现一套自己的观察者模式事件库。</li>
+<li>按照依赖注入的方式，避免一些重复的代码。<br> 使用第三方依赖注入库。ButterKnift,。。。。<br>EventBus引入之后，效果不是很明显。<br>原因：1. <code>EventBus不支持注解形式的观察方法(不知到目前支不支持)</code>，而是支持已方法名的形势进行方法匹配。这就导致了很多事件，在一个类中需要在同一个方法中处理，看起来不太舒服。<br><img src="~/C496C7F0-BE55-4AAB-9A43-57F0C05B6029.png" alt=""></li>
+<li>EventBus功能是很强大，但是代码量比较大，维护比较费劲。由于原来使用Picasso和那个Glide的事遇到一些问题，例如使用Picasso在<code>vivo等某些国产机器</code>上下载图片非常慢，还经常闪退，而阅读其源码话费了很大功夫，特别是Glide库，特别大。可悲的是我们没能查出来是什么原因导致的这个问题。从那以后基本是就是能自己很快完成的就是参考别人的自己写，这样方便以后维护。<br>###实现自己的观察者模式的事件机制<br>首先做的事情：起一个比较霸气的命名？啥也不说了，想不起来。最后直接就叫M。<br>实现原：观察者模式，与EventBus基本相同。不同：结合注解，支持通过注解的方式调用方法。<br>####使用方式<br><img src="~/1B9C25E0-7905-48E8-87B5-5136EFF67FC4.png" alt=""></li>
+</ol>
+<p><img src="~/961A4488-B5E9-4AF4-914A-3A09F48F0AB1.png" alt=""></p>
+<p>###M的原理</p>
+<ol>
+<li><p>自定义合适的注解，作用在方法级别的<br>type是指的对改时间的一个描述<br><img src="~/B9041667-BA64-4C4B-B69C-F548095E5FAC.png" alt=""></p>
+</li>
+<li><p>添加观察者</p>
+<ul>
+<li>过滤出当前含有自定义注解的方法</li>
+<li>将观察者(MReciever对象，以及处理方法)按照事件类型来进行存储 </li>
+</ul>
+</li>
+</ol>
+<p><img src="~/52F0190D-D660-40CA-AC92-2E3EC2154DCE.png" alt=""></p>
+<ol>
+<li>发送消息，接受到数据之后，通知给观察者</li>
+</ol>
+<p><img src="~/7CA2B3BE-7CA2-41C5-A78F-2B0A03679B98.png" alt=""><br>通过handler统一处理发送<br><img src="~/5A727EF0-AB55-443B-B09C-0BC4651429DF.png" alt=""><br>观察者接受指定类型的事件和数据</p>
+<p><img src="~/6DF0A70A-6615-45FC-950E-B6B895AA36E8.png" alt=""></p>
+<p>整个过程仅仅只是用了五个类，就将原来耦合到一起的很复杂的代码进行了降低耦合，更加方便了代码的维护和阅读。</p>
+<p><code>这样重构带来的优点：</code>1.减小的代码的耦合度，方便维护和多人开发；2.有利于我们打patch包，就是当我们线上发现某些比较严重的bug，我们只需要对特定的接受方法进行处理，这打patch的工作量会大大减小，如果类与类之间耦合度很高，patch就需要改动很多地方，不利于热修复补丁。</p>
+<p>###简单的依赖注入<br>MInject 就是一个View的注入工具。实现原来基本跟butterknift相同，就是通过注解的方式对View进行注入。使用方式也跟butterKnift基本一样。<br>唯一的区别：支持点击事件设置点击抖动事件，有点类似于RxAndroid中的某些View框架，可以方便的设置点击抖动时间。</p>
+<p><img src="~/D642F25F-5064-4501-AE7C-E6F44F526DE6.png" alt=""><br>实现原理：对View.OnClickListener接口的一个动态代理</p>
+<p><img src="~/7BFC726B-3F80-457E-87D5-3E89FC02EE57.png" alt=""></p>
+<p><img src="~/C5BD01A4-1509-4964-80A9-344F4819A444.png" alt=""></p>
+<p>###杂项：aar上传jcenter，远程仓库统一管理<br>gradle中新建了一些Task，依赖jcenter提供的插件就可以非常轻松的实现。MInject这个我就放到了jcenter上。通过gradle调用很方便。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">compile &apos;com.glanwang.minject:MInject_core:1.0.0&apos;</span><br></pre></td></tr></table></figure></p>
+<p><a href="http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2015/0623/3097.html" target="_blank" rel="external">http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2015/0623/3097.html</a></p>
+<p><a href="http://www.cnblogs.com/qianxudetianxia/p/4322331.html" target="_blank" rel="external">http://www.cnblogs.com/qianxudetianxia/p/4322331.html</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/02/23/Android/观察者模式和依赖注入简介（更优雅简介的撸代码）/" data-id="cip0q4136001wrb161z9kgxse" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/02/29/Android/Rebound-Android的弹簧动画库(转)/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Rebound-Android的弹簧动画库(转)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/02/18/Android/使用Gradle发布aar项目到JCenter仓库/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">使用Gradle发布aar项目到JCenter仓库</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Gradle/">Gradle</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac/">Mac</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Other/">Other</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/android/">android</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">十一月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">十月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">九月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">八月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">七月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">六月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">五月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2016/06/04/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2016/05/31/Mac/zsh不兼容的坑/">zsh不兼容的坑-zsh:no matches found:</a>
+          </li>
+        
+          <li>
+            <a href="/2016/05/30/Gradle/gradle(一)/">Gradle(一)</a>
+          </li>
+        
+          <li>
+            <a href="/2016/05/29/Mac/Httpie使用/">Httpie使用</a>
+          </li>
+        
+          <li>
+            <a href="/2016/05/17/Java/Java反射大发/">Java反射大发</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 GlanWang<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

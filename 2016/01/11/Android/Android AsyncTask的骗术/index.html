@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Android AsyncTask的骗术 | Glan Wang</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="###Why首先，说一下标题为什么说是骗术? Google提供的AsyncTask，我一直认为是一个使用线程池来处理任务的并发的高性能类，淡然这句话猛一看没有什么问题。但是问题出现的我的使用上，如果你使用它时默认也是调用的execute(Params… params)这个方法，那我感觉我应该善意的提醒你“哥们你被骗了”，其实这个方法内部的执行不是并发处理的，而是串行处理的。下面我们来看一下源码。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android AsyncTask的骗术">
+<meta property="og:url" content="http://yoursite.com/2016/01/11/Android/Android AsyncTask的骗术/index.html">
+<meta property="og:site_name" content="Glan Wang">
+<meta property="og:description" content="###Why首先，说一下标题为什么说是骗术? Google提供的AsyncTask，我一直认为是一个使用线程池来处理任务的并发的高性能类，淡然这句话猛一看没有什么问题。但是问题出现的我的使用上，如果你使用它时默认也是调用的execute(Params… params)这个方法，那我感觉我应该善意的提醒你“哥们你被骗了”，其实这个方法内部的执行不是并发处理的，而是串行处理的。下面我们来看一下源码。">
+<meta property="og:updated_time" content="2016-06-04T06:13:13.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android AsyncTask的骗术">
+<meta name="twitter:description" content="###Why首先，说一下标题为什么说是骗术? Google提供的AsyncTask，我一直认为是一个使用线程池来处理任务的并发的高性能类，淡然这句话猛一看没有什么问题。但是问题出现的我的使用上，如果你使用它时默认也是调用的execute(Params… params)这个方法，那我感觉我应该善意的提醒你“哥们你被骗了”，其实这个方法内部的执行不是并发处理的，而是串行处理的。下面我们来看一下源码。">
+  
+    <link rel="alternate" href="/atom.xml" title="Glan Wang" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Glan Wang</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">CoderGC</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Android/Android AsyncTask的骗术" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/01/11/Android/Android AsyncTask的骗术/" class="article-date">
+  <time datetime="2016-01-11T04:27:00.000Z" itemprop="datePublished">2016-01-11</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Android/">Android</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Android AsyncTask的骗术
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>###Why<br>首先，说一下标题为什么说是<code>骗术</code>? Google提供的AsyncTask，我一直认为是一个使用线程池来处理任务的并发的高性能类，淡然这句话猛一看没有什么问题。但是问题出现的我的使用上，如果你使用它时默认也是调用的execute(Params… params)这个方法，那我感觉我应该善意的提醒你“哥们你被骗了”，其实这个方法内部的执行不是并发处理的，而是串行处理的。下面我们来看一下源码。</p>
+<p>###源码分析<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@MainThread</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> AsyncTask&lt;Params, Progress, Result&gt; <span class="title">execute</span><span class="params">(Params... params)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> executeOnExecutor(sDefaultExecutor, params);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>该方法直接支行了executeOnExecutor方法，猛一看是没有什么问题。然而仔细看我们就需要研究一下<code>sDefaultExecutor</code>这个东西。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span><br><span class="line"> * An &#123;<span class="doctag">@link</span> Executor&#125; that executes tasks one at a time in serial</span><br><span class="line"> * order.  This serialization is global to a particular process.</span><br><span class="line"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> Executor SERIAL_EXECUTOR = <span class="keyword">new</span> SerialExecutor();</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">volatile</span> Executor sDefaultExecutor = SERIAL_EXECUTOR;</span><br></pre></td></tr></table></figure></p>
+<p>细心的朋友们已经看到了，从<code>SERIAL_EXECUTOR</code>的注视上看到了<code>executes tasks one at a time in serial order（按照序列执行任务）</code>。好了，如果还不死心，就只能去看<code>SerialExecutor</code>源码了。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">SerialExecutor</span> <span class="keyword">implements</span> <span class="title">Executor</span> </span>&#123;</span><br><span class="line">    <span class="keyword">final</span> ArrayDeque&lt;Runnable&gt; mTasks = <span class="keyword">new</span> ArrayDeque&lt;Runnable&gt;();</span><br><span class="line">    Runnable mActive;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">execute</span><span class="params">(<span class="keyword">final</span> Runnable r)</span> </span>&#123;</span><br><span class="line">        mTasks.offer(<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    r.run();</span><br><span class="line">                &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">                    scheduleNext();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">        <span class="keyword">if</span> (mActive == <span class="keyword">null</span>) &#123;</span><br><span class="line">            scheduleNext();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">scheduleNext</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> ((mActive = mTasks.poll()) != <span class="keyword">null</span>) &#123;</span><br><span class="line">            THREAD_POOL_EXECUTOR.execute(mActive);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>其实这个SerialExecutor是AsyncTask的内部类，从上边源码会发现sDefaultExecutor实际上是一个串行的线程池。先把任务插入到mTasks的队列中，没有活动的再去调用下一个。从这一点可以看出，再默认情况下AsyncTask是串行执行的。</p>
+<p>####验证：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View v)</span> </span>&#123;</span><br><span class="line">       <span class="keyword">switch</span> (v.getId())&#123;</span><br><span class="line">           <span class="keyword">case</span> R.id.execute:</span><br><span class="line">               Log.d(<span class="string">"AsyncTaskActivity"</span>,<span class="string">"**********execute串行执行方法**********"</span>);</span><br><span class="line">               <span class="keyword">new</span> MyAsyncTask(<span class="string">"execute1"</span>).execute(<span class="string">""</span>);</span><br><span class="line">               <span class="keyword">new</span> MyAsyncTask(<span class="string">"execute2"</span>).execute(<span class="string">""</span>);</span><br><span class="line">               <span class="keyword">new</span> MyAsyncTask(<span class="string">"execute3"</span>).execute(<span class="string">""</span>);</span><br><span class="line">               <span class="keyword">new</span> MyAsyncTask(<span class="string">"execute4"</span>).execute(<span class="string">""</span>);</span><br><span class="line">               <span class="keyword">new</span> MyAsyncTask(<span class="string">"execute5"</span>).execute(<span class="string">""</span>);</span><br><span class="line">               <span class="keyword">break</span>;</span><br><span class="line">           <span class="keyword">case</span> R.id.executeOnExecutor:</span><br><span class="line">               Log.d(<span class="string">"AsyncTaskActivity"</span>,<span class="string">"**********executeOnExcutor并发执行方法**********"</span>);</span><br><span class="line">               <span class="keyword">new</span> MyAsyncTask(<span class="string">"executeOnExcutor1"</span>).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,<span class="string">""</span>);</span><br><span class="line">               <span class="keyword">new</span> MyAsyncTask(<span class="string">"executeOnExcutor2"</span>).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,<span class="string">""</span>);</span><br><span class="line">               <span class="keyword">new</span> MyAsyncTask(<span class="string">"executeOnExcutor3"</span>).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,<span class="string">""</span>);</span><br><span class="line">               <span class="keyword">new</span> MyAsyncTask(<span class="string">"executeOnExcutor4"</span>).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,<span class="string">""</span>);</span><br><span class="line">               <span class="keyword">new</span> MyAsyncTask(<span class="string">"executeOnExcutor5"</span>).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,<span class="string">""</span>);</span><br><span class="line">               <span class="keyword">break</span>;</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="class"><span class="keyword">class</span> <span class="title">MyAsyncTask</span> <span class="keyword">extends</span> <span class="title">AsyncTask</span>&lt;<span class="title">String</span>,<span class="title">Integer</span>,<span class="title">String</span>&gt;</span>&#123;</span><br><span class="line">       <span class="keyword">private</span> String mName;</span><br><span class="line">       <span class="function"><span class="keyword">public</span> <span class="title">MyAsyncTask</span><span class="params">(String name )</span></span>&#123;</span><br><span class="line">           <span class="keyword">this</span>.mName = name;</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="meta">@Override</span></span><br><span class="line">       <span class="function"><span class="keyword">protected</span> String <span class="title">doInBackground</span><span class="params">(String... params)</span> </span>&#123;</span><br><span class="line">           <span class="keyword">try</span> &#123;</span><br><span class="line">               Thread.sleep(<span class="number">1000</span>);</span><br><span class="line">           &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">               e.printStackTrace();</span><br><span class="line">           &#125;</span><br><span class="line">           <span class="keyword">return</span> mName;</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="meta">@Override</span></span><br><span class="line">       <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onPostExecute</span><span class="params">(String s)</span> </span>&#123;</span><br><span class="line">           <span class="keyword">super</span>.onPostExecute(s);</span><br><span class="line">           SimpleDateFormat simpleDateFormat = <span class="keyword">new</span> SimpleDateFormat(<span class="string">"yyyy-MM-dd HH:mm:ss"</span>);</span><br><span class="line">           Log.d(TAG,<span class="string">"finish at "</span>+ simpleDateFormat.format(<span class="keyword">new</span> Date()));</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure></p>
+<p>看一下代码打印的log<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">01-07 17:06:54.628  D/AsyncTaskActivity: **********execute串行执行方法**********</span><br><span class="line">01-07 17:06:55.630  D/AsyncTaskActivity: finish at 2016-01-07 17:06:55</span><br><span class="line">01-07 17:06:56.635  D/AsyncTaskActivity: finish at 2016-01-07 17:06:56</span><br><span class="line">01-07 17:06:57.636  D/AsyncTaskActivity: finish at 2016-01-07 17:06:57</span><br><span class="line">01-07 17:06:58.638  D/AsyncTaskActivity: finish at 2016-01-07 17:06:58</span><br><span class="line">01-07 17:06:59.638  D/AsyncTaskActivity: finish at 2016-01-07 17:06:59</span><br><span class="line">01-07 17:07:01.980  D/AsyncTaskActivity: **********executeOnExcutor并发执行方法**********</span><br><span class="line">01-07 17:07:02.982  D/AsyncTaskActivity: finish at 2016-01-07 17:07:02</span><br><span class="line">01-07 17:07:02.982  D/AsyncTaskActivity: finish at 2016-01-07 17:07:02</span><br><span class="line">01-07 17:07:02.982  D/AsyncTaskActivity: finish at 2016-01-07 17:07:02</span><br><span class="line">01-07 17:07:02.982  D/AsyncTaskActivity: finish at 2016-01-07 17:07:02</span><br><span class="line">01-07 17:07:02.982  D/AsyncTaskActivity: finish at 2016-01-07 17:07:02</span><br></pre></td></tr></table></figure></p>
+<p>从Log日志上可以看到execute方法是串行执行的，executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,””)是并行执行的。</p>
+<p>###How should we do ?<br>既然AsyncTask默认是串行执行的，那么我如果想要使用并行执行任务，应该怎么办呢？其实也很简单，AsyncTask已经给我们提供了，只需要简单调用就OK了。<code>executeOnExecutor(Executor exec, Params.. params)</code>该方法也是public的，因此我么直接调用它，给他传递一个Executor就OK了，这里AsyncTask默认也给我们设定了一个并行的Executor叫做<code>THREAD_POOL_EXECUTOR</code>。因此，我们只需要 <figure class="highlight java"><figcaption><span>new MyAsyncTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,params);```就OK了.</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">`注意：executeOnExecutor这个方法是API <span class="number">11</span>以上才有的`</span><br><span class="line">```java</span><br><span class="line">    <span class="comment">/** An &#123;<span class="doctag">@link</span> Executor&#125; that can be used to execute tasks in parallel. */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> Executor THREAD_POOL_EXECUTOR</span><br><span class="line">            = <span class="keyword">new</span> ThreadPoolExecutor(CORE_POOL_SIZE, MAXIMUM_POOL_SIZE, KEEP_ALIVE,</span><br><span class="line">                    TimeUnit.SECONDS, sPoolWorkQueue, sThreadFactory);</span><br><span class="line">                        <span class="meta">@MainThread</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">final</span> AsyncTask&lt;Params, Progress, Result&gt; <span class="title">executeOnExecutor</span><span class="params">(Executor exec,</span><br><span class="line">            Params... params)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (mStatus != Status.PENDING) &#123;</span><br><span class="line">            <span class="keyword">switch</span> (mStatus) &#123;</span><br><span class="line">                <span class="keyword">case</span> RUNNING:</span><br><span class="line">                    <span class="keyword">throw</span> <span class="keyword">new</span> IllegalStateException(<span class="string">"Cannot execute task:"</span></span><br><span class="line">                            + <span class="string">" the task is already running."</span>);</span><br><span class="line">                <span class="keyword">case</span> FINISHED:</span><br><span class="line">                    <span class="keyword">throw</span> <span class="keyword">new</span> IllegalStateException(<span class="string">"Cannot execute task:"</span></span><br><span class="line">                            + <span class="string">" the task has already been executed "</span></span><br><span class="line">                            + <span class="string">"(a task can be executed only once)"</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        mStatus = Status.RUNNING;</span><br><span class="line">        onPreExecute();</span><br><span class="line">        mWorker.mParams = params;</span><br><span class="line">        exec.execute(mFuture);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/01/11/Android/Android AsyncTask的骗术/" data-id="cip0q410z0009rb16ute5w230" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/01/12/Android/Android的Window和Window Manger/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Android的Window和Window Manger
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2015/12/29/Android/Android动画插值器(Interpolator)/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Android动画插值器(Interpolator)</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Gradle/">Gradle</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac/">Mac</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Other/">Other</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/android/">android</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">十一月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">十月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">九月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">八月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">七月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">六月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">五月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2016/06/04/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2016/05/31/Mac/zsh不兼容的坑/">zsh不兼容的坑-zsh:no matches found:</a>
+          </li>
+        
+          <li>
+            <a href="/2016/05/30/Gradle/gradle(一)/">Gradle(一)</a>
+          </li>
+        
+          <li>
+            <a href="/2016/05/29/Mac/Httpie使用/">Httpie使用</a>
+          </li>
+        
+          <li>
+            <a href="/2016/05/17/Java/Java反射大发/">Java反射大发</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 GlanWang<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

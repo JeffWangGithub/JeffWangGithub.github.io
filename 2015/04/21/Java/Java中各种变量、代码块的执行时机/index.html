@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Java中各种变量、代码块的执行时机 | Glan Wang</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="###类变量（静态变量）、实例变量（非静态变量）、静态代码块、非静态代码块 的初始化时机    1,由 static 关键字修饰的（如：类变量[静态变量]、静态代码块）    将在类被初始化创建实例对象之前被初始化，而且是按顺序从上到下依次被执行；    2,没有 static 关键字修饰的（如：实例变量[非静态变量]、非静态代码块）初    始化实际上是会被提取到类的构造器中被执行的，但是会比类">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java中各种变量、代码块的执行时机">
+<meta property="og:url" content="http://yoursite.com/2015/04/21/Java/Java中各种变量、代码块的执行时机/index.html">
+<meta property="og:site_name" content="Glan Wang">
+<meta property="og:description" content="###类变量（静态变量）、实例变量（非静态变量）、静态代码块、非静态代码块 的初始化时机    1,由 static 关键字修饰的（如：类变量[静态变量]、静态代码块）    将在类被初始化创建实例对象之前被初始化，而且是按顺序从上到下依次被执行；    2,没有 static 关键字修饰的（如：实例变量[非静态变量]、非静态代码块）初    始化实际上是会被提取到类的构造器中被执行的，但是会比类">
+<meta property="og:updated_time" content="2016-06-04T06:10:27.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java中各种变量、代码块的执行时机">
+<meta name="twitter:description" content="###类变量（静态变量）、实例变量（非静态变量）、静态代码块、非静态代码块 的初始化时机    1,由 static 关键字修饰的（如：类变量[静态变量]、静态代码块）    将在类被初始化创建实例对象之前被初始化，而且是按顺序从上到下依次被执行；    2,没有 static 关键字修饰的（如：实例变量[非静态变量]、非静态代码块）初    始化实际上是会被提取到类的构造器中被执行的，但是会比类">
+  
+    <link rel="alternate" href="/atom.xml" title="Glan Wang" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Glan Wang</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">CoderGC</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Java/Java中各种变量、代码块的执行时机" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/04/21/Java/Java中各种变量、代码块的执行时机/" class="article-date">
+  <time datetime="2015-04-21T06:52:00.000Z" itemprop="datePublished">2015-04-21</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Java/">Java</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Java中各种变量、代码块的执行时机
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>###类变量（静态变量）、实例变量（非静态变量）、静态代码块、非静态代码块 的初始化时机<br>    1,由 static 关键字修饰的（如：类变量[静态变量]、静态代码块）<br>    将在类被初始化创建实例对象之前被初始化，而且是按顺序从上到下依次被执行；<br>    2,没有 static 关键字修饰的（如：实例变量[非静态变量]、非静态代码块）初<br>    始化实际上是会被提取到类的构造器中被执行的，但是会比类构造器中的代码块优先<br>    执行到，其也是按顺序从上到下依次被执行。</p>
+<p>###类变量 （静态变量）</p>
+<pre><code>1. 可以向前引用
+2. 变量属于类本身
+3. 类变量不依赖类的实例，类变量只在初始化时候在栈内存中被分配一次空间，无论类的实例被创建几次，都不再为类变量分配空间
+4. 通过类的任意一个实例来访问类变量，底层都将将其转为通过类本身来访问类变量，它们的效果是一样的
+5. 一旦类变量的值被改变，通过类或类的任意一个实例来访问类变量，得到的都将是被改变后的值
+6. 将在类的初始化之前初始化
+</code></pre><p>实例变量（非静态变量）</p>
+<pre><code>1. 不能向前引用，如果向前引用，则称为非法向前引用，这是不允许的
+2. 变量属于类的实例对象
+3. 随着类的实例被创建而分配内存空间
+</code></pre><p>###非静态代码块<br>    直接由 { } 包起来的代码，称为非静态代码块</p>
+<p>###静态代码块<br>    直接由 static { } 包起来的代码，称为静态代码块</p>
+<p>原文：<a href="http://www.blogjava.net/kermart/archive/2012/07/10/382700.html" target="_blank" rel="external">http://www.blogjava.net/kermart/archive/2012/07/10/382700.html</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2015/04/21/Java/Java中各种变量、代码块的执行时机/" data-id="cip0q3q2q0002rb165pnhz3k1" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2015/04/22/Android/zxing的使用/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          zxing的使用
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2015/04/20/Android/android物料设计细节/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">android物料设计细节</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Gradle/">Gradle</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac/">Mac</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Other/">Other</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/android/">android</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">十一月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">十月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">九月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">八月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">七月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">六月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">五月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2016/06/04/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2016/05/31/Mac/zsh不兼容的坑/">zsh不兼容的坑-zsh:no matches found:</a>
+          </li>
+        
+          <li>
+            <a href="/2016/05/30/Gradle/gradle(一)/">Gradle(一)</a>
+          </li>
+        
+          <li>
+            <a href="/2016/05/29/Mac/Httpie使用/">Httpie使用</a>
+          </li>
+        
+          <li>
+            <a href="/2016/05/17/Java/Java反射大发/">Java反射大发</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 GlanWang<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

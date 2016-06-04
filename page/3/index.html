@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Glan Wang</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="CoderGC Glan Wang WGC">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Glan Wang">
+<meta property="og:url" content="http://yoursite.com/page/3/index.html">
+<meta property="og:site_name" content="Glan Wang">
+<meta property="og:description" content="CoderGC Glan Wang WGC">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Glan Wang">
+<meta name="twitter:description" content="CoderGC Glan Wang WGC">
+  
+    <link rel="alternate" href="/atom.xml" title="Glan Wang" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Glan Wang</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">CoderGC</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-Android/Android DexClassLoader使用" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/01/21/Android/Android DexClassLoader使用/" class="article-date">
+  <time datetime="2016-01-21T03:41:00.000Z" itemprop="datePublished">2016-01-21</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Android/">Android</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/01/21/Android/Android DexClassLoader使用/">Android DexClassLoader使用</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><code>类加载器</code> 是一个java的概念：作用就是动态的装载Class文件。java中有ClassLoader类，借助这个类可以装载想要的Class文件，每个ClassLoader对象在初始化时必须制定Class文件的路径。<br>Android的机制稍微有点不一样，Android会将.class文件编译优化成.dex文件，因此使用java的ClassLoader就不行了，由于.dex文件的产生，想要加载.dex就需要一个可以加载.dex文件的ClassLoader，这个类在android里边就是DexClassLoader。</p>
+<p>这个类加载器用来从.jar和.apk类型的文件内部加载classes.dex文件。通过这种方式可以用来执行非安装的程序代码，作为程序的一部分进行运行。这个装载类需要一个程序私有的，可写的文件目录去存放优化后的classes文件。通过Contexct.getDir(String, int)来创建这个目录：<br>     File dexOutputDir = context.getDir(“dex”, 0);<br>不要把优化优化后的classes文件存放到外部存储设备上，防代码注入攻击。</p>
+<p>###类装载器DexClassLoader的具体使用</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">exePluginMethd</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">//外部插件apk,zip,dex的路径</span></span><br><span class="line">            String pluginPath = Environment.getExternalStorageDirectory() + File.separator+ <span class="string">"plugin.apk"</span>;</span><br><span class="line">            File pluginFile = <span class="keyword">new</span> File(pluginPath);</span><br><span class="line">            Log.d(Tag, <span class="string">"pluginPath exists = "</span> + pluginFile.exists());</span><br><span class="line"></span><br><span class="line">            <span class="comment">//dexOutPath</span></span><br><span class="line">            File optimizedDirectoryFile = getDir(<span class="string">"dex"</span>, <span class="number">0</span>) ;</span><br><span class="line">            String dexOutPath = optimizedDirectoryFile.getAbsolutePath();</span><br><span class="line"></span><br><span class="line">            <span class="comment">//加载外部插件，pluginPath：外部插件apk,zip,dex的路径；dexOutPath:dexOutPath; 第三个参数：native代码的路径；</span></span><br><span class="line">            DexClassLoader dexClassLoader = <span class="keyword">new</span> DexClassLoader(pluginPath, dexOutPath, <span class="keyword">null</span>, getClassLoader());</span><br><span class="line"></span><br><span class="line">            <span class="comment">//通过反射调用插件中的类</span></span><br><span class="line">            Class&lt;?&gt; pluginClazz = dexClassLoader.loadClass(<span class="string">"com.meilishuo.testmodel.classloader.PluginActivity"</span>);</span><br><span class="line">            Object pluginObj = pluginClazz.newInstance();</span><br><span class="line"></span><br><span class="line">            Method startPluginMethod = pluginClazz.getMethod(<span class="string">"startThis"</span>);</span><br><span class="line">            <span class="keyword">if</span> (startPluginMethod != <span class="keyword">null</span>) &#123;</span><br><span class="line">                startPluginMethod.invoke(pluginObj);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/01/21/Android/Android DexClassLoader使用/" data-id="cip0q4111000arb16q7qplr4x" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Java/Java类加载器" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/01/19/Java/Java类加载器/" class="article-date">
+  <time datetime="2016-01-19T09:57:00.000Z" itemprop="datePublished">2016-01-19</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Java/">Java</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/01/19/Java/Java类加载器/">Java类加载器</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>原文出处：<a href="http://blog.csdn.net/gjanyanlig/article/details/6818655" target="_blank" rel="external">Java类加载器总结</a><br>相关资源：<a href="http://www.blogjava.net/zhuxing/archive/2008/08/08/220841.html" target="_blank" rel="external">http://www.blogjava.net/zhuxing/archive/2008/08/08/220841.html</a><br>1.类的加载过程<br>JVM将类加载过程分为三个步骤：装载（Load），链接（Link）和初始化(Initialize)链接又分为三个步骤，如下图所示：</p>
+<p><img src="~/18-00-16.jpg" alt=""></p>
+<p>1) 装载：查找并加载类的二进制数据；<br>2)链接：<br>验证：确保被加载类的正确性；<br>准备：为类的静态变量分配内存，并将其初始化为默认值；<br>解析：把类中的符号引用转换为直接引用；<br>3)初始化：为类的静态变量赋予正确的初始值；<br>          那为什么我要有验证这一步骤呢？首先如果由编译器生成的class文件，它肯定是符合JVM字节码格式的，但是万一有高手自己写一个class文件，让JVM加载并运行，用于恶意用途，就不妙了，因此这个class文件要先过验证这一关，不符合的话不会让它继续执行的，也是为了安全考虑吧。<br>        准备阶段和初始化阶段看似有点牟盾，其实是不牟盾的，如果类中有语句：private static int a = 10，它的执行过程是这样的，首先字节码文件被加载到内存后，先进行链接的验证这一步骤，验证通过后准备阶段，给a分配内存，因为变量a是static的，所以此时a等于int类型的默认初始值0，即a=0,然后到解析（后面在说），到初始化这一步骤时，才把a的真正的值10赋给a,此时a=10。</p>
+<ol>
+<li>类的初始化<br> 类什么时候才被初始化：<br>1）创建类的实例，也就是new一个对象<br>2）访问某个类或接口的静态变量，或者对该静态变量赋值<br>3）调用类的静态方法<br>4）反射（Class.forName(“com.lyj.load”)）<br>5）初始化一个类的子类（会首先初始化子类的父类）<br>6）JVM启动时标明的启动类，即文件名和类名相同的那个类<pre><code>只有这6中情况才会导致类的类的初始化。
+</code></pre>  类的初始化步骤：<pre><code>1）如果这个类还没有被加载和链接，那先进行加载和链接
+2）假如这个类存在直接父类，并且这个类还没有被初始化（注意：在一个类加载器中，类只能初始化一次），那就初始化直接的父类（不适用于接口）
+ 3)加入类中存在初始化语句（如static变量和static块），那就依次执行这些初始化语句。
+</code></pre></li>
+</ol>
+<p>3.类的加载<br>       类的加载指的是将类的.class文件中的二进制数据读入到内存中，将其放在运行时数据区的方法区内，然后在堆区创建一个这个类的java.lang.Class对象，用来封装类在方法区类的对象。看下面2图</p>
+<p><img src="~/18-00-32.jpg" alt=""></p>
+<p><img src="~/18-00-38.jpg" alt=""></p>
+<pre><code> 类的加载的最终产品是位于堆区中的Class对象
+Class对象封装了类在方法区内的数据结构，并且向Java程序员提供了访问方法区内的数据结构的接口
+</code></pre><p>加载类的方式有以下几种：<br> 1）从本地系统直接加载<br>2）通过网络下载.class文件<br>3）从zip，jar等归档文件中加载.class文件<br>4）从专有数据库中提取.class文件<br>5）将Java源文件动态编译为.class文件（服务器）</p>
+<p>4.加载器<br>来自<a href="http://blog.csdn.net/cutesource/article/details/5904501" target="_blank" rel="external">http://blog.csdn.net/cutesource/article/details/5904501</a><br>JVM的类加载是通过ClassLoader及其子类来完成的，类的层次关系和加载顺序可以由下图来描述：</p>
+<p><img src="~/18-00-49.jpg" alt=""></p>
+<p>1）Bootstrap ClassLoader<br>负责加载$JAVA_HOME中jre/lib/rt.jar里所有的class，由C++实现，不是ClassLoader子类<br>2）Extension ClassLoader<br>负责加载java平台中扩展功能的一些jar包，包括$JAVA_HOME中jre/lib/*.jar或-Djava.ext.dirs指定目录下的jar包<br>3）App ClassLoader<br>负责记载classpath中指定的jar包及目录中class<br>4）Custom ClassLoader<br>属于应用程序根据自身需要自定义的ClassLoader，如tomcat、jboss都会根据j2ee规范自行实现ClassLoader<br>加载过程中会先检查类是否被已加载，检查顺序是自底向上，从Custom ClassLoader到BootStrap ClassLoader逐层检查，只要某个classloader已加载就视为已加载此类，保证此类只所有ClassLoader加载一次。而加载的顺序是自顶向下，也就是由上层来逐层尝试加载此类。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/01/19/Java/Java类加载器/" data-id="cip0q3q2u0004rb168d7shjyg" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Java/ConcurrentModificationException异常以及产生的原因" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/01/18/Java/ConcurrentModificationException异常以及产生的原因/" class="article-date">
+  <time datetime="2016-01-18T08:47:00.000Z" itemprop="datePublished">2016-01-18</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Java/">Java</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/01/18/Java/ConcurrentModificationException异常以及产生的原因/">ConcurrentModificationException异常以及产生的原因</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>java.util.ConcurrentModificationException 这个异常是JAVA开发者刚刚接触java时经常产生的。但是什么情况下会产生这种异常呢？为什么会产生这种异常呢，如何避免呢？</p>
+<p>###产生原因<br>先来看看一下集中情况：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">    public static void testArrary()&#123;</span><br><span class="line">        ArrayList&lt;Integer&gt; aList = new ArrayList&lt;Integer&gt;();</span><br><span class="line">        for (int i = 0; i &lt; 5; i++) &#123;</span><br><span class="line">            aList.add(i*i);</span><br><span class="line">        &#125;</span><br><span class="line">        for (Integer a : aList) &#123;</span><br><span class="line">            if(a == 4)&#123;</span><br><span class="line">                aList.add(100);//包异常</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        Iterator&lt;Integer&gt; iterator = aList.iterator();</span><br><span class="line">        while (iterator.hasNext())&#123;</span><br><span class="line">            Integer next = iterator.next();</span><br><span class="line">            if(next == 4)&#123;</span><br><span class="line">//                aList.remove(next);//报异常</span><br><span class="line">                iterator.remove();//不报异常</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        for (int i = 0; i &lt; aList.size(); i++) &#123;</span><br><span class="line">            Integer integer = aList.get(i);</span><br><span class="line">            if(integer == 4)&#123;</span><br><span class="line">                aList.remove(integer);//不报异常</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.println(aList.size());</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<p><code>foreach 循环的原理</code>:编译器编译的时候会将foreach 循环编译成Iteger 的形式进行遍历。<br>从上边的几个异常案例我们可以发现合适会发生呢？<code>当使用了iterator，并且再遍历的时候直接对集合进行了修改(包括添加和删除)</code>。我们去看看iterator的源码，这里已ArraryList的Iterator为例来看：</p>
+<p><img src="~/4B164369-B0AE-434B-87D5-4148EE03368D.png" alt=""><br>从源码中我们找到了包异常的位置。仔细观察会发现<code>modCount</code>这个变了其实就是记录了当前List被修改（添加或者删除元素）的次数，expectedModCount是生成Iterator的时候当前List被修改的次数。一旦调用Iterator之后又再次修改了modCount，这两个值就不相等了，这个时候就直接报这个异常了。<br>从List的增加和删除方法都会改变这个变量的值。</p>
+<p><img src="~/44598E0E-CA6F-45E7-9E35-B62BB7114BCA.png" alt=""></p>
+<p>###转载内容<br>以下内容转载：<br>原因： jdk5.0以上的for-each也是利用内部的iterator来遍历集合的（跟以前的iterator一样）获得的Iterator是一个内部类产生的迭代器，这个迭代器在调用next方法时，会检查列表是否被修改过，如果被修改过，就会抛出ConcurrentModificationException异常。进一步说，当使用 fail-fast iterator 对 Collection 或 Map 进行迭代操作过程中尝试直接修改 Collection / Map 的内容时，即使是在单线程下运xi,java.util.ConcurrentModificationException 异常也将被抛出。Iterator 是工作在一个独立的线程中，并且拥有一个 mutex 锁。 Iterator 被创建之后会建立一个指向原来对象的单链索引表，当原来的对象数量发生变化时，这个索引表的内容不会同步改变，所以当索引指针往后移动的时候就找不到要迭代的对象，所以按照 fail-fast 原则 Iterator 会马上抛出 java.util.ConcurrentModificationException 异常。　　所以 Iterator 在工作的时候是不允许被迭代的对象被改变的。但你可以使用 Iterator 本身的方法 remove() 来删除对象，Iterator.remove() 方法会在删除当前迭代对象的同时维护索引的一致性。<br>有意思的是如果你的 Collection / Map 对象实际只有一个元素的时候， ConcurrentModificationException 异常并不会被抛出。这也就是为什么在 javadoc 里面指出： it would be wrong to write a program that depended on this exception for its correctness: ConcurrentModificationException should be used only to detect bugs.<br>解决方法：在Map或者Collection的时候，不要用它们的API直接修改集合的内容，如果要修改可以用Iterator的remove()方法<br>由于for-each的写法，使我们无法获得iterator对象，所以这种遍历方式不能进行删除操作。</p>
+<p>###How<br>方法一： 直接使用fori循环<br>方法二： 使用Iterator，并且使用Iterator进行remove操作。<br>    <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">            Iterator&lt;Integer&gt; iterator = aList.iterator();</span><br><span class="line">        while (iterator.hasNext())&#123;</span><br><span class="line">            Integer next = iterator.next();</span><br><span class="line">            if(next == 4)&#123;</span><br><span class="line">//                aList.remove(next);//报异常</span><br><span class="line">                iterator.remove();//不报异常</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure></p>
+<pre><code>添加可以使用ListIterator.
+</code></pre><p>###ListIterator与Iterator的主要区别：</p>
+<ol>
+<li>ListIterator比Iterator的功能强大，但是使用范围没有Iterator广。</li>
+<li>ListIterator只能用于List，而Iterator可以用于List也可以用于Map等。</li>
+<li>ListIterator可以进行逆向获取等更多功能。   </li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/01/18/Java/ConcurrentModificationException异常以及产生的原因/" data-id="cip0q3q2l0000rb169cm402y4" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Android/Android的Window和Window Manger" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/01/12/Android/Android的Window和Window Manger/" class="article-date">
+  <time datetime="2016-01-12T08:28:00.000Z" itemprop="datePublished">2016-01-12</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Android/">Android</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/01/12/Android/Android的Window和Window Manger/">Android的Window和Window Manger</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>WindowManger是外界访问Window的入口，Window的具体实现再WindowmanagerService中，Window Manger和WindowManagerService的交互是一个IPC过程。</p>
+<p>###Window Manager的功能<br>WindowManger提供的功能其实很简单：开发者用到的基本就三个功能，即添加View，更新View和删除View。<br>Window Manger实现了ViewManager的接口，addView(), updateViewLayout()和removeView()这三个方法都是定义的ViewManager中的。</p>
+<p>###Window的内部机制（Window和View的关系）<br>每一个Window都对应这一个View和一个ViewRootImpl，Window和View是通过ViewRootImpl来建立联系的，因此Window并不是实际存在的，它是以View的形式存在的。View是Android中试图的成仙方式。</p>
+<p>###Activity 与View显示</p>
+<pre><code>1. Activity的setContentView(View view) 方法将需要显示的View设置给Window。
+2. Window内部的实现，其实是PhoneWindow 的实现：a.先检测是否有DecoreView,如果没有创建DecoreView;b.将View    添加到DecoreView的mContentParent中；c. ActivityThread的handleResumeActivity()方法现调用activity的onResume()方法，然后调用WindowManager.addView()方法将DecoreView添加到WindowManager中。
+通过上边三个过程就解释了为什么声明周期中Resume调用的时候代表View界面显示。
+</code></pre><p>具体android的源码可以自行查看。     </p>
+<p>###Dialog和Toast的显示过程基本也是这一个过程，可以查看具体源码。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/01/12/Android/Android的Window和Window Manger/" data-id="cip0q411h000nrb160gdmtq72" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Android/Android AsyncTask的骗术" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/01/11/Android/Android AsyncTask的骗术/" class="article-date">
+  <time datetime="2016-01-11T04:27:00.000Z" itemprop="datePublished">2016-01-11</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Android/">Android</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/01/11/Android/Android AsyncTask的骗术/">Android AsyncTask的骗术</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>###Why<br>首先，说一下标题为什么说是<code>骗术</code>? Google提供的AsyncTask，我一直认为是一个使用线程池来处理任务的并发的高性能类，淡然这句话猛一看没有什么问题。但是问题出现的我的使用上，如果你使用它时默认也是调用的execute(Params… params)这个方法，那我感觉我应该善意的提醒你“哥们你被骗了”，其实这个方法内部的执行不是并发处理的，而是串行处理的。下面我们来看一下源码。</p>
+<p>###源码分析<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@MainThread</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> AsyncTask&lt;Params, Progress, Result&gt; <span class="title">execute</span><span class="params">(Params... params)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> executeOnExecutor(sDefaultExecutor, params);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>该方法直接支行了executeOnExecutor方法，猛一看是没有什么问题。然而仔细看我们就需要研究一下<code>sDefaultExecutor</code>这个东西。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span><br><span class="line"> * An &#123;<span class="doctag">@link</span> Executor&#125; that executes tasks one at a time in serial</span><br><span class="line"> * order.  This serialization is global to a particular process.</span><br><span class="line"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> Executor SERIAL_EXECUTOR = <span class="keyword">new</span> SerialExecutor();</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">volatile</span> Executor sDefaultExecutor = SERIAL_EXECUTOR;</span><br></pre></td></tr></table></figure></p>
+<p>细心的朋友们已经看到了，从<code>SERIAL_EXECUTOR</code>的注视上看到了<code>executes tasks one at a time in serial order（按照序列执行任务）</code>。好了，如果还不死心，就只能去看<code>SerialExecutor</code>源码了。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">SerialExecutor</span> <span class="keyword">implements</span> <span class="title">Executor</span> </span>&#123;</span><br><span class="line">    <span class="keyword">final</span> ArrayDeque&lt;Runnable&gt; mTasks = <span class="keyword">new</span> ArrayDeque&lt;Runnable&gt;();</span><br><span class="line">    Runnable mActive;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">execute</span><span class="params">(<span class="keyword">final</span> Runnable r)</span> </span>&#123;</span><br><span class="line">        mTasks.offer(<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    r.run();</span><br><span class="line">                &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">                    scheduleNext();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">        <span class="keyword">if</span> (mActive == <span class="keyword">null</span>) &#123;</span><br><span class="line">            scheduleNext();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">scheduleNext</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> ((mActive = mTasks.poll()) != <span class="keyword">null</span>) &#123;</span><br><span class="line">            THREAD_POOL_EXECUTOR.execute(mActive);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>其实这个SerialExecutor是AsyncTask的内部类，从上边源码会发现sDefaultExecutor实际上是一个串行的线程池。先把任务插入到mTasks的队列中，没有活动的再去调用下一个。从这一点可以看出，再默认情况下AsyncTask是串行执行的。</p>
+<p>####验证：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View v)</span> </span>&#123;</span><br><span class="line">       <span class="keyword">switch</span> (v.getId())&#123;</span><br><span class="line">           <span class="keyword">case</span> R.id.execute:</span><br><span class="line">               Log.d(<span class="string">"AsyncTaskActivity"</span>,<span class="string">"**********execute串行执行方法**********"</span>);</span><br><span class="line">               <span class="keyword">new</span> MyAsyncTask(<span class="string">"execute1"</span>).execute(<span class="string">""</span>);</span><br><span class="line">               <span class="keyword">new</span> MyAsyncTask(<span class="string">"execute2"</span>).execute(<span class="string">""</span>);</span><br><span class="line">               <span class="keyword">new</span> MyAsyncTask(<span class="string">"execute3"</span>).execute(<span class="string">""</span>);</span><br><span class="line">               <span class="keyword">new</span> MyAsyncTask(<span class="string">"execute4"</span>).execute(<span class="string">""</span>);</span><br><span class="line">               <span class="keyword">new</span> MyAsyncTask(<span class="string">"execute5"</span>).execute(<span class="string">""</span>);</span><br><span class="line">               <span class="keyword">break</span>;</span><br><span class="line">           <span class="keyword">case</span> R.id.executeOnExecutor:</span><br><span class="line">               Log.d(<span class="string">"AsyncTaskActivity"</span>,<span class="string">"**********executeOnExcutor并发执行方法**********"</span>);</span><br><span class="line">               <span class="keyword">new</span> MyAsyncTask(<span class="string">"executeOnExcutor1"</span>).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,<span class="string">""</span>);</span><br><span class="line">               <span class="keyword">new</span> MyAsyncTask(<span class="string">"executeOnExcutor2"</span>).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,<span class="string">""</span>);</span><br><span class="line">               <span class="keyword">new</span> MyAsyncTask(<span class="string">"executeOnExcutor3"</span>).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,<span class="string">""</span>);</span><br><span class="line">               <span class="keyword">new</span> MyAsyncTask(<span class="string">"executeOnExcutor4"</span>).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,<span class="string">""</span>);</span><br><span class="line">               <span class="keyword">new</span> MyAsyncTask(<span class="string">"executeOnExcutor5"</span>).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,<span class="string">""</span>);</span><br><span class="line">               <span class="keyword">break</span>;</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="class"><span class="keyword">class</span> <span class="title">MyAsyncTask</span> <span class="keyword">extends</span> <span class="title">AsyncTask</span>&lt;<span class="title">String</span>,<span class="title">Integer</span>,<span class="title">String</span>&gt;</span>&#123;</span><br><span class="line">       <span class="keyword">private</span> String mName;</span><br><span class="line">       <span class="function"><span class="keyword">public</span> <span class="title">MyAsyncTask</span><span class="params">(String name )</span></span>&#123;</span><br><span class="line">           <span class="keyword">this</span>.mName = name;</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="meta">@Override</span></span><br><span class="line">       <span class="function"><span class="keyword">protected</span> String <span class="title">doInBackground</span><span class="params">(String... params)</span> </span>&#123;</span><br><span class="line">           <span class="keyword">try</span> &#123;</span><br><span class="line">               Thread.sleep(<span class="number">1000</span>);</span><br><span class="line">           &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">               e.printStackTrace();</span><br><span class="line">           &#125;</span><br><span class="line">           <span class="keyword">return</span> mName;</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="meta">@Override</span></span><br><span class="line">       <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onPostExecute</span><span class="params">(String s)</span> </span>&#123;</span><br><span class="line">           <span class="keyword">super</span>.onPostExecute(s);</span><br><span class="line">           SimpleDateFormat simpleDateFormat = <span class="keyword">new</span> SimpleDateFormat(<span class="string">"yyyy-MM-dd HH:mm:ss"</span>);</span><br><span class="line">           Log.d(TAG,<span class="string">"finish at "</span>+ simpleDateFormat.format(<span class="keyword">new</span> Date()));</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure></p>
+<p>看一下代码打印的log<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">01-07 17:06:54.628  D/AsyncTaskActivity: **********execute串行执行方法**********</span><br><span class="line">01-07 17:06:55.630  D/AsyncTaskActivity: finish at 2016-01-07 17:06:55</span><br><span class="line">01-07 17:06:56.635  D/AsyncTaskActivity: finish at 2016-01-07 17:06:56</span><br><span class="line">01-07 17:06:57.636  D/AsyncTaskActivity: finish at 2016-01-07 17:06:57</span><br><span class="line">01-07 17:06:58.638  D/AsyncTaskActivity: finish at 2016-01-07 17:06:58</span><br><span class="line">01-07 17:06:59.638  D/AsyncTaskActivity: finish at 2016-01-07 17:06:59</span><br><span class="line">01-07 17:07:01.980  D/AsyncTaskActivity: **********executeOnExcutor并发执行方法**********</span><br><span class="line">01-07 17:07:02.982  D/AsyncTaskActivity: finish at 2016-01-07 17:07:02</span><br><span class="line">01-07 17:07:02.982  D/AsyncTaskActivity: finish at 2016-01-07 17:07:02</span><br><span class="line">01-07 17:07:02.982  D/AsyncTaskActivity: finish at 2016-01-07 17:07:02</span><br><span class="line">01-07 17:07:02.982  D/AsyncTaskActivity: finish at 2016-01-07 17:07:02</span><br><span class="line">01-07 17:07:02.982  D/AsyncTaskActivity: finish at 2016-01-07 17:07:02</span><br></pre></td></tr></table></figure></p>
+<p>从Log日志上可以看到execute方法是串行执行的，executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,””)是并行执行的。</p>
+<p>###How should we do ?<br>既然AsyncTask默认是串行执行的，那么我如果想要使用并行执行任务，应该怎么办呢？其实也很简单，AsyncTask已经给我们提供了，只需要简单调用就OK了。<code>executeOnExecutor(Executor exec, Params.. params)</code>该方法也是public的，因此我么直接调用它，给他传递一个Executor就OK了，这里AsyncTask默认也给我们设定了一个并行的Executor叫做<code>THREAD_POOL_EXECUTOR</code>。因此，我们只需要 <figure class="highlight java"><figcaption><span>new MyAsyncTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,params);```就OK了.</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">`注意：executeOnExecutor这个方法是API <span class="number">11</span>以上才有的`</span><br><span class="line">```java</span><br><span class="line">    <span class="comment">/** An &#123;<span class="doctag">@link</span> Executor&#125; that can be used to execute tasks in parallel. */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> Executor THREAD_POOL_EXECUTOR</span><br><span class="line">            = <span class="keyword">new</span> ThreadPoolExecutor(CORE_POOL_SIZE, MAXIMUM_POOL_SIZE, KEEP_ALIVE,</span><br><span class="line">                    TimeUnit.SECONDS, sPoolWorkQueue, sThreadFactory);</span><br><span class="line">                        <span class="meta">@MainThread</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">final</span> AsyncTask&lt;Params, Progress, Result&gt; <span class="title">executeOnExecutor</span><span class="params">(Executor exec,</span><br><span class="line">            Params... params)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (mStatus != Status.PENDING) &#123;</span><br><span class="line">            <span class="keyword">switch</span> (mStatus) &#123;</span><br><span class="line">                <span class="keyword">case</span> RUNNING:</span><br><span class="line">                    <span class="keyword">throw</span> <span class="keyword">new</span> IllegalStateException(<span class="string">"Cannot execute task:"</span></span><br><span class="line">                            + <span class="string">" the task is already running."</span>);</span><br><span class="line">                <span class="keyword">case</span> FINISHED:</span><br><span class="line">                    <span class="keyword">throw</span> <span class="keyword">new</span> IllegalStateException(<span class="string">"Cannot execute task:"</span></span><br><span class="line">                            + <span class="string">" the task has already been executed "</span></span><br><span class="line">                            + <span class="string">"(a task can be executed only once)"</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        mStatus = Status.RUNNING;</span><br><span class="line">        onPreExecute();</span><br><span class="line">        mWorker.mParams = params;</span><br><span class="line">        exec.execute(mFuture);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/01/11/Android/Android AsyncTask的骗术/" data-id="cip0q410z0009rb16ute5w230" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Android/Android动画插值器(Interpolator)" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/12/29/Android/Android动画插值器(Interpolator)/" class="article-date">
+  <time datetime="2015-12-29T10:05:00.000Z" itemprop="datePublished">2015-12-29</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Android/">Android</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/12/29/Android/Android动画插值器(Interpolator)/">Android动画插值器(Interpolator)</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>##强大的Interpolator动画插值器<br>Interpolator 被用来修饰动画效果，定义动画的变化率。<br>安卓系统默认实现了以下几种插值器：</p>
+<ul>
+<li><code>AccelerateDecelerateInterpolator</code> 在动画开始与结束的地方速率改变比较慢，在中间的时候加速</li>
+<li><code>AccelerateInterpolator</code>  在动画开始的地方速率改变比较慢，然后开始加速</li>
+<li><code>AnticipateInterpolator</code> 开始的时候向后然后向前甩</li>
+<li><code>AnticipateOvershootInterpolator</code> 开始的时候向后然后向前甩一定值后返回最后的值</li>
+<li><code>BounceInterpolator</code>   动画结束的时候弹起</li>
+<li><code>CycleInterpolator</code> 动画循环播放特定的次数，速率改变沿着正弦曲线</li>
+<li><code>DecelerateInterpolator</code> 在动画开始的地方快然后慢</li>
+<li><code>LinearInterpolator</code>   以常量速率改变</li>
+<li><code>OvershootInterpolator</code>    向前甩一定值后再回到原来位置</li>
+</ul>
+<p>简单使用可以参考android提供的APIDemo，运行效果如下：<br><img src="~/interpolator.gif" alt=""></p>
+<p>##OvershootInterpolator指定张力值使用<br><code>张力值tension</code>可以简单的理解为向外甩出去的幅度<br>首先来看OvershootInterpolator类的源码<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">float</span> mTension; <span class="comment">//张力值</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">OvershootInterpolator</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    mTension = <span class="number">2.0f</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">OvershootInterpolator</span><span class="params">(<span class="keyword">float</span> tension)</span> </span>&#123;</span><br><span class="line">    mTension = tension;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>通过构造可以发现，我们可以通过自己来指定tension的值，从而来调节向外甩出的幅度。<br>举个栗子：<br>实现如下动画效果：<br><img src="~/interpolator1.gif" alt=""><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span><br><span class="line">     * 启动动画</span><br><span class="line">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">startAnimation</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(enterAnimation1 == <span class="keyword">null</span>)&#123;</span><br><span class="line">            enterAnimation1 = <span class="keyword">new</span> TranslateAnimation(TranslateAnimation.RELATIVE_TO_PARENT, <span class="number">0</span>, TranslateAnimation.RELATIVE_TO_PARENT, <span class="number">0</span>, TranslateAnimation.RELATIVE_TO_PARENT, <span class="number">1.0f</span>, TranslateAnimation.RELATIVE_TO_PARENT, <span class="number">0</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        enterAnimation1.setDuration(<span class="number">350</span>);</span><br><span class="line">        enterAnimation1.setStartOffset(<span class="number">50</span>);</span><br><span class="line">        <span class="keyword">if</span>(enterAnimation2 == <span class="keyword">null</span>)&#123;</span><br><span class="line">            enterAnimation2 = <span class="keyword">new</span> TranslateAnimation(TranslateAnimation.RELATIVE_TO_PARENT, <span class="number">0</span>, TranslateAnimation.RELATIVE_TO_PARENT, <span class="number">0</span>, TranslateAnimation.RELATIVE_TO_PARENT, <span class="number">1.0f</span>, TranslateAnimation.RELATIVE_TO_PARENT, <span class="number">0</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        enterAnimation2.setDuration(<span class="number">350</span>);</span><br><span class="line">        enterAnimation1.setInterpolator(<span class="keyword">new</span> OvershootInterpolator(<span class="number">0.8f</span>));<span class="comment">//设置Overshoot插值器，并指定张力值为0.8f</span></span><br><span class="line">        enterAnimation2.setInterpolator(<span class="keyword">new</span> OvershootInterpolator(<span class="number">0.5f</span>));</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; mShareLayout.getChildCount(); i++) &#123;</span><br><span class="line">            View child = mShareLayout.getChildAt(i);</span><br><span class="line">            <span class="keyword">if</span>(Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.HONEYCOMB)&#123;</span><br><span class="line">                child.setLayerType(View.LAYER_TYPE_HARDWARE,<span class="keyword">null</span>);<span class="comment">//使用硬件层加速动画</span></span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>(child.getVisibility() == View.VISIBLE)&#123;</span><br><span class="line">                <span class="keyword">if</span>(i % LINE_ITEM_COUNT == <span class="number">0</span> || i % LINE_ITEM_COUNT == LINE_ITEM_COUNT - <span class="number">1</span>)&#123;</span><br><span class="line">                    child.startAnimation(enterAnimation1);</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    child.startAnimation(enterAnimation2);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span><br><span class="line">    * 移出动画</span><br><span class="line">    */</span></span><br><span class="line">   <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">exitAnimation</span><span class="params">()</span> </span>&#123;</span><br><span class="line">       Animation exitAnimation1 = <span class="keyword">new</span> TranslateAnimation(TranslateAnimation.RELATIVE_TO_PARENT, <span class="number">0</span>, TranslateAnimation.RELATIVE_TO_PARENT, <span class="number">0</span>, TranslateAnimation.RELATIVE_TO_PARENT, <span class="number">0</span>, TranslateAnimation.RELATIVE_TO_PARENT, <span class="number">1.0f</span>);</span><br><span class="line">       exitAnimation1.setDuration(<span class="number">350</span>);</span><br><span class="line">       exitAnimation1.setStartOffset(<span class="number">50</span>);</span><br><span class="line">       exitAnimation1.setInterpolator(<span class="keyword">new</span> AccelerateInterpolator());<span class="comment">//设置加速插值器</span></span><br><span class="line">       Animation exitAnimation2 = <span class="keyword">new</span> TranslateAnimation(TranslateAnimation.RELATIVE_TO_PARENT, <span class="number">0</span>, TranslateAnimation.RELATIVE_TO_PARENT, <span class="number">0</span>, TranslateAnimation.RELATIVE_TO_PARENT, <span class="number">0f</span>, TranslateAnimation.RELATIVE_TO_PARENT, <span class="number">1.0f</span>);</span><br><span class="line">       exitAnimation2.setDuration(<span class="number">350</span>);</span><br><span class="line">       exitAnimation2.setInterpolator(<span class="keyword">new</span> AccelerateInterpolator());<span class="comment">//设置加速插值器</span></span><br><span class="line"></span><br><span class="line">       <span class="keyword">int</span> childCount = mShareLayout.getChildCount();</span><br><span class="line">       <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; childCount; i++) &#123;</span><br><span class="line">           View child = mShareLayout.getChildAt(i);</span><br><span class="line">           <span class="keyword">if</span>(child.getVisibility() == View.VISIBLE)&#123;</span><br><span class="line">               <span class="keyword">if</span> (i % <span class="number">4</span> == <span class="number">0</span> || i % <span class="number">4</span> == <span class="number">3</span>) &#123;</span><br><span class="line">                   child.startAnimation(exitAnimation1);</span><br><span class="line">               &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                   child.startAnimation(exitAnimation2);</span><br><span class="line">               &#125;</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2015/12/29/Android/Android动画插值器(Interpolator)/" data-id="cip0q4118000grb16qfq6bpio" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Android/RxJava &amp; RxAndroid初体验" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/12/23/Android/RxJava & RxAndroid初体验/" class="article-date">
+  <time datetime="2015-12-23T10:14:00.000Z" itemprop="datePublished">2015-12-23</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Android/">Android</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/12/23/Android/RxJava & RxAndroid初体验/">RxJava &amp; RxAndroid初体验</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>参考大神<code>抛物线</code>的文章 <a href="http://gank.io/post/560e15be2dca930e00da1083" target="_blank" rel="external">给Android开发这的RxJava详解</a></p>
+<h1 id="1-实现原理"><a href="#1-实现原理" class="headerlink" title="1. 实现原理"></a>1. 实现原理</h1><p>扩展的观察者模式。观察者模式的原理不在多说，不懂的(有个网站名字叫百度/Google)。<br>使用RxJava要弄清楚几个单词的具体含义：<br><code>Observable</code>:被观察者、事件源<br><code>Observer</code>:订阅者、观察者（RxJava中可以理解为和Subscriber相同）<br><code>Subscriber</code>:订阅者，观察者(同Observer)<br><code>subscribe</code> 订阅<br><code>Observable 和 Observer 通过 subscribe() 方法实现订阅关系，从而 Observable 可以在需要的时候发出事件来通知 Observer。</code><br>与传统观察者模式不同， RxJava 的事件回调方法除了普通事件 onNext() （相当于 onClick() / onEvent()）之外，还定义了两个特殊的事件：onCompleted() 和 onError()。</p>
+<ul>
+<li>onCompleted(): 事件队列完结。RxJava 不仅把每个事件单独处理，还会把它们看做一个队列。RxJava 规定，当不会再有新的 onNext() 发出时，需要触发 onCompleted() 方法作为标志。</li>
+<li>onError(): 事件队列异常。在事件处理过程中出异常时，onError() 会被触发，同时队列自动终止，不允许再有事件发出。</li>
+<li>在一个正确运行的事件序列中, onCompleted() 和 onError() 有且只有一个，并且是事件序列中的最后一个。需要注意的是，onCompleted() 和 onError() 二者也是互斥的，即在队列中调用了其中一个，就不应该再调用另一个。</li>
+</ul>
+<p>普通的观察者模式 <img src="~/19-01-51.jpg" alt=""><br>RxJava观察者模式<img src="~/19-02-23.jpg" alt=""></p>
+<p>#2 如何使用</p>
+<p>###1）创建Obser/Subscriber<br>Observer 即观察者，它决定事件触发的时候将有怎样的行为。<br>RxJava中<code>Observer</code>是一个接口，<code>Subscriber</code>是实现了Obser的一个抽象类，并增加了<code>onStart()</code>, <code>unsubscribe()</code>等方法。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">Observer&lt;String&gt; observer = <span class="keyword">new</span> Observer&lt;String&gt;() &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onNext</span><span class="params">(String s)</span> </span>&#123;</span><br><span class="line">        Log.d(tag, <span class="string">"Item: "</span> + s);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCompleted</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        Log.d(tag, <span class="string">"Completed!"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onError</span><span class="params">(Throwable e)</span> </span>&#123;</span><br><span class="line">        Log.d(tag, <span class="string">"Error!"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">Subscriber&lt;String&gt; subscriber = <span class="keyword">new</span> Subscriber&lt;String&gt;() &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onNext</span><span class="params">(String s)</span> </span>&#123;</span><br><span class="line">        Log.d(tag, <span class="string">"Item: "</span> + s);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCompleted</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        Log.d(tag, <span class="string">"Completed!"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onError</span><span class="params">(Throwable e)</span> </span>&#123;</span><br><span class="line">        Log.d(tag, <span class="string">"Error!"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>onStart()</code>:从字面都可以明白是什么意思</li>
+<li><code>unsubscribe()</code>: 这是 Subscriber 所实现的另一个接口 Subscription 的方法，用于取消订阅。在这个方法被调用后，Subscriber 将不再接收事件。一般在这个方法调用前，可以使用 isUnsubscribed() 先判断一下状态。 unsubscribe() 这个方法很重要，因为在 subscribe() 之后， Observable 会持有 Subscriber 的引用，这个引用如果不能及时被释放，将有内存泄露的风险。所以最好保持一个原则：要在不再使用的时候尽快在合适的地方（例如 onPause() onStop() 等方法中）调用 unsubscribe() 来解除引用关系，以避免内存泄露的发生。</li>
+</ul>
+<p>###2）创建 Observable<br>Observable 即被观察者，它决定什么时候触发事件以及触发怎样的事件。<br>RxJava 使用 <code>create()</code>、<code>just(T ...)</code>、<code>from(T[])/from(Iterable&lt;? extends T&gt;)</code> 方法来创建一个 Observable </p>
+<ul>
+<li><p><code>create()</code>方法：自己来指定调用规则。</p>
+  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Observable observable = Observable.create(<span class="keyword">new</span> Observable.OnSubscribe&lt;String&gt;() &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">call</span><span class="params">(Subscriber&lt;? <span class="keyword">super</span> String&gt; subscriber)</span> </span>&#123;</span><br><span class="line">        subscriber.onNext(<span class="string">"Hello"</span>);</span><br><span class="line">        subscriber.onNext(<span class="string">"Hi"</span>);</span><br><span class="line">        subscriber.onNext(<span class="string">"Aloha"</span>);</span><br><span class="line">        subscriber.onCompleted();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>just(T...)</code>: 将传入的参数依次发送出来。</p>
+  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Observable observable = Observable.just(<span class="string">"Hello"</span>, <span class="string">"Hi"</span>, <span class="string">"Aloha"</span>);</span><br><span class="line"><span class="comment">// 将会依次调用：</span></span><br><span class="line"><span class="comment">// onNext("Hello");</span></span><br><span class="line"><span class="comment">// onNext("Hi");</span></span><br><span class="line"><span class="comment">// onNext("Aloha");</span></span><br><span class="line"><span class="comment">// onCompleted();</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>from(T[])/from(Iterable&lt;? extends T&gt;)</code>:将传入的数组或 Iterable 拆分成具体对象后，依次发送出来</p>
+  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">String[] words = &#123;<span class="string">"Hello"</span>, <span class="string">"Hi"</span>, <span class="string">"Aloha"</span>&#125;;</span><br><span class="line">Observable observable = Observable.from(words);</span><br><span class="line"><span class="comment">// 将会依次调用：</span></span><br><span class="line"><span class="comment">// onNext("Hello");</span></span><br><span class="line"><span class="comment">// onNext("Hi");</span></span><br><span class="line"><span class="comment">// onNext("Aloha");</span></span><br><span class="line"><span class="comment">// onCompleted();</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>###3) Subscribe (订阅)<br>创建了 Observable 和 Observer 之后，再用 subscribe() 方法将它们联结起来，整条链子就可以工作了。代码形式很简单：<br>    <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">observable.subscribe(observer);</span><br><span class="line"><span class="comment">// 或者：</span></span><br><span class="line">observable.subscribe(subscriber);</span><br></pre></td></tr></table></figure></p>
+<pre><code>Observable.subscribe(Subscriber) 的内部实现是这样的（仅核心代码）：
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 注意：这不是 subscribe() 的源码，而是将源码中与性能、兼容性、扩展性有关的代码剔除后的核心代码。</span></span><br><span class="line"><span class="comment">// 如果需要看源码，可以去 RxJava 的 GitHub 仓库下载。</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> Subscription <span class="title">subscribe</span><span class="params">(Subscriber subscriber)</span> </span>&#123;</span><br><span class="line">    subscriber.onStart();</span><br><span class="line">    onSubscribe.call(subscriber);</span><br><span class="line">    <span class="keyword">return</span> subscriber;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</code></pre><p>可以看到，subscriber() 做了3件事：</p>
+<ol>
+<li>调用 Subscriber.onStart() 。这个方法在前面已经介绍过，是一个可选的准备方法。</li>
+<li>调用 Observable 中的 OnSubscribe.call(Subscriber) 。在这里，事件发送的逻辑开始运行。从这也可以看出，在 RxJava 中， Observable 并不是在创建的时候就立即开始发送事件，而是在它被订阅的时候，即当 subscribe() 方法执行的时候。</li>
+<li>将传入的 Subscriber 作为 Subscription 返回。这是为了方便 unsubscribe().</li>
+</ol>
+<p>#3 <code>ActionX</code>和<code>FunX</code><br>除了 <code>subscribe(Observer)</code> 和 <code>subscribe(Subscriber)</code> ，subscribe() 还支持不完整定义的回调，RxJava 会自动根据定义创建出 Subscriber 。</p>
+<p>###<code>ActionX</code>接口<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">Action1&lt;String&gt; onNextAction = <span class="keyword">new</span> Action1&lt;String&gt;() &#123;</span><br><span class="line">    <span class="comment">// onNext()</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">call</span><span class="params">(String s)</span> </span>&#123;</span><br><span class="line">        Log.d(tag, s);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line">Action1&lt;Throwable&gt; onErrorAction = <span class="keyword">new</span> Action1&lt;Throwable&gt;() &#123;</span><br><span class="line">    <span class="comment">// onError()</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">call</span><span class="params">(Throwable throwable)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// Error handling</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line">Action0 onCompletedAction = <span class="keyword">new</span> Action0() &#123;</span><br><span class="line">    <span class="comment">// onCompleted()</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">call</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        Log.d(tag, <span class="string">"completed"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 自动创建 Subscriber ，并使用 onNextAction 来定义 onNext()</span></span><br><span class="line">observable.subscribe(onNextAction);</span><br><span class="line"><span class="comment">// 自动创建 Subscriber ，并使用 onNextAction 和 onErrorAction 来定义 onNext() 和 onError()</span></span><br><span class="line">observable.subscribe(onNextAction, onErrorAction);</span><br><span class="line"><span class="comment">// 自动创建 Subscriber ，并使用 onNextAction、 onErrorAction 和 onCompletedAction 来定义 onNext()、 onError() 和 onCompleted()</span></span><br><span class="line">observable.subscribe(onNextAction, onErrorAction, onCompletedAction);</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li><p><code>Action0</code> 是 RxJava 的一个接口，它只有一个方法 call()，这个方法是无参无返回值的；由于 onCompleted() 方法也是无参无返回值的，因此 Action0 可以被当成一个包装对象，将 onCompleted() 的内容打包起来将自己作为一个参数传入 subscribe() 以实现不完整定义的回调。这样其实也可以看做将 onCompleted() 方法作为参数传进了 subscribe()，相当于其他某些语言中的『闭包』。</p>
+</li>
+<li><p><code>Action1</code> 也是一个接口，它同样只有一个方法 call(T param)，这个方法也无返回值，但有一个参数；与 Action0 同理，由于 onNext(T obj) 和 onError(Throwable error) 也是单参数无返回值的，因此 Action1 可以将 onNext(obj) 和 onError(error) 打包起来传入 subscribe() 以实现不完整定义的回调</p>
+<blockquote>
+<p>事实上，虽然 Action0 和 Action1 在 API 中使用最广泛，但 RxJava 是提供了多个 ActionX 形式的接口 (例如 Action2, Action3) 的，它们可以被用以包装不同的无返回值的方法。</p>
+</blockquote>
+</li>
+</ul>
+<p>###<code>Func1</code> 接口<br>它和 Action1 非常相似，也是 RxJava 的一个接口，用于包装含有一个参数的方法。 Func1 和 Action 的区别在于， Func1 包装的是有返回值的方法。另外，和 ActionX 一样， FuncX 也有多个，用于不同参数个数的方法。FuncX 和 ActionX 的区别在 FuncX 包装的是有返回值的方法。</p>
+<p>#4. 线程控制 —— Scheduler (一)</p>
+<p>在RxJava 中，Scheduler ——调度器，相当于线程控制器，RxJava 通过它来指定每一段代码应该运行在什么样的线程。RxJava 已经内置了几个 Scheduler ，它们已经适合大多数的使用场景：</p>
+<ul>
+<li>Schedulers.immediate(): 直接在当前线程运行，相当于不指定线程。这是默认的 Scheduler。</li>
+<li>Schedulers.newThread(): <code>总是</code>启用新线程，并在新线程执行操作。</li>
+<li>Schedulers.io(): I/O 操作（读写文件、读写数据库、网络信息交互等）所使用的 Scheduler。行为模式和 newThread() 差不多，区别在于 io() 的<code>内部实现是是用一个无数量上限的线程池</code>，可以重用空闲的线程，因此<code>多数情况下 io() 比 newThread() 更有效率</code>。不要把计算工作放在 io() 中，可以避免创建不必要的线程。</li>
+<li>Schedulers.computation(): 计算所使用的 Scheduler。这个计算指的是 CPU 密集型计算，即不会被 I/O 等操作限制性能的操作，例如图形的计算。这个 Scheduler 使用的固定的线程池，大小为 CPU 核数。不要把 I/O 操作放在 computation() 中，否则 I/O 操作的等待时间会浪费 CPU。</li>
+<li><p>另外， Android 还有一个专用的 AndroidSchedulers.mainThread()，它指定的操作将在 Android 主线程运行。</p>
+<p>  ###使用线程控制器：<br>  subscribeOn() 和 observeOn() 两个方法来对线程进行控制了</p>
+<ul>
+<li><code>subscribeOn()</code>: 指定 subscribe() 所发生的线程，即 Observable.OnSubscribe 被激活时所处的线程。或者叫做事件产生的线程。</li>
+<li><p><code>observeOn()</code>: 指定 Subscriber 所运行在的线程。或者叫做事件消费的线程。</p>
+  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Observable.just(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>)</span><br><span class="line">.subscribeOn(Schedulers.io()) <span class="comment">// 指定 subscribe() 发生在 IO 线程</span></span><br><span class="line">.observeOn(AndroidSchedulers.mainThread()) <span class="comment">// 指定 Subscriber 的回调发生在主线程</span></span><br><span class="line">.subscribe(<span class="keyword">new</span> Action1&lt;Integer&gt;() &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">call</span><span class="params">(Integer number)</span> </span>&#123;</span><br><span class="line">        Log.d(tag, <span class="string">"number:"</span> + number);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="5-变换"><a href="#5-变换" class="headerlink" title="5.变换"></a>5.变换</h1><p>RxJava 提供了对事件序列进行变换的支持，这是它的核心功能之一，也是大多数人说『RxJava 真是太好用了』的最大原因。所谓变换，就是将事件序列中的对象或整个序列进行加工处理，转换成不同的事件或事件序列。<br>1) map()<br>这里出现了一个叫做 <code>Func1</code> 的类。它和 <code>Action1</code> 非常相似，也是 RxJava 的一个接口，用于包装含有一个参数的方法。 <code>Func1</code> 和 <code>Action</code> 的区别在于， Func1 包装的是有返回值的方法。另外，和 ActionX 一样， FuncX 也有多个，用于不同参数个数的方法。FuncX 和 ActionX 的区别在 FuncX 包装的是有返回值的方法。<br>可以看到，map() 方法将参数中的 String 对象转换成一个 Bitmap 对象后返回，而在经过 map() 方法后，事件的参数类型也由 String 转为了 Bitmap。这种直接变换对象并返回的，是最常见的也最容易理解的变换。不过 RxJava 的变换远不止这样，它不仅可以针对事件对象，还可以针对整个事件队列，这使得 RxJava 变得非常灵活。我列举几个常用的变换</p>
+<ul>
+<li>map()示意图</li>
+</ul>
+<p><img src="~/18-21-26.jpg" alt=""><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">Observable.just(<span class="string">"images/logo.png"</span>) <span class="comment">// 输入类型 String</span></span><br><span class="line">    .map(<span class="keyword">new</span> Func1&lt;String, Bitmap&gt;() &#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> Bitmap <span class="title">call</span><span class="params">(String filePath)</span> </span>&#123; <span class="comment">// 参数类型 String</span></span><br><span class="line">            <span class="keyword">return</span> getBitmapFromPath(filePath); <span class="comment">// 返回类型 Bitmap</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">    .subscribe(<span class="keyword">new</span> Action1&lt;Bitmap&gt;() &#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">call</span><span class="params">(Bitmap bitmap)</span> </span>&#123; <span class="comment">// 参数类型 Bitmap</span></span><br><span class="line">            showBitmap(bitmap);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br></pre></td></tr></table></figure></p>
+<p>2) flatMap():<br>这是一个很有用但非常难理解的变换，因此我决定花多些篇幅来介绍它。 首先假设这么一种需求：假设有一个数据结构『学生』，现在需要打印出每个学生所需要修的所有课程的名称呢？（需求的区别在于，每个学生只有一个名字，但却有多个课程。)</p>
+<ul>
+<li><p>普通实现</p>
+  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">    Student[] students = ...;</span><br><span class="line">Subscriber&lt;Student&gt; subscriber = <span class="keyword">new</span> Subscriber&lt;Student&gt;() &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onNext</span><span class="params">(Student student)</span> </span>&#123;</span><br><span class="line">        List&lt;Course&gt; courses = student.getCourses();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; courses.size(); i++) &#123;</span><br><span class="line">            Course course = courses.get(i);</span><br><span class="line">            Log.d(tag, course.getName());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    ...</span><br><span class="line">&#125;;</span><br><span class="line">Observable.from(students)</span><br><span class="line">    .subscribe(subscriber);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>使用flatMap()实现</p>
+  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">Student[] students = ...;</span><br><span class="line">Observable.from(students)</span><br><span class="line">        .flatMap(<span class="keyword">new</span> Func1&lt;Student, Observable&lt;Course&gt;&gt;() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> Observable&lt;Course&gt; <span class="title">call</span><span class="params">(Student student)</span> </span>&#123;</span><br><span class="line">                <span class="keyword">return</span> Observable.from(student.getCourses());</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;)</span><br><span class="line">        .subscribe(<span class="keyword">new</span> Action1&lt;Course&gt;() &#123;</span><br><span class="line">                        <span class="meta">@Override</span></span><br><span class="line">                        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">call</span><span class="params">(Course course)</span> </span>&#123;</span><br><span class="line">                            Log.d(tag, course.getName());</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>使用map()实现</p>
+  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">Student[] students = ...;</span><br><span class="line">Observable.from(students)</span><br><span class="line">        .map(<span class="keyword">new</span> Func1&lt;Student, Observable&lt;Course&gt;&gt;() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> Observable&lt;Course&gt; <span class="title">call</span><span class="params">(Student student)</span> </span>&#123;</span><br><span class="line">                <span class="keyword">return</span> Observable.from(student.getCourses());</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;)</span><br><span class="line">        .subscribe(<span class="keyword">new</span> Action1&lt;Observable&lt;Course&gt;&gt;() &#123;</span><br><span class="line">                <span class="meta">@Override</span></span><br><span class="line">                <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">call</span><span class="params">(Observable&lt;Course&gt; course)</span> </span>&#123;</span><br><span class="line">                    course.subscribe(<span class="keyword">new</span> Action1&lt;Course&gt;() &#123;</span><br><span class="line">                        <span class="meta">@Override</span></span><br><span class="line">                        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">call</span><span class="params">(Course course)</span> </span>&#123;</span><br><span class="line">                            Log.d(<span class="string">"wgc"</span>,course.getName());</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>flatMap()示意图</p>
+</li>
+</ul>
+<p><img src="~/18-47-01.jpg" alt=""><br> <code>flatMap()</code> 和 <code>map()</code> 有一个相同点：它也是把传入的参数转化之后返回另一个对象。但需要注意，和 map() 不同的是， flatMap() 中返回的是个 Observable 对象，并且这个 Observable 对象并不是被直接发送到了 Subscriber 的回调方法中。 flatMap() 的原理是这样的：1. 使用传入的事件对象创建一个 Observable 对象；2. 并不发送这个 Observable, 而是将它激活，于是它开始发送事件；3. 每一个创建出来的 Observable 发送的事件，都被汇入同一个 Observable ，而这个 Observable 负责将这些事件统一交给 Subscriber 的回调方法。这三个步骤，把事件拆成了两级，通过一组新创建的 Observable 将初始的对象『铺平』之后通过统一路径分发了下去。而这个『铺平』就是 flatMap() 所谓的 flat。</p>
+<blockquote>
+<p><code>flatMap()</code>和<code>map()</code>如何选择？ flatMap()</p>
+</blockquote>
+<p>3)throttleFirst():在每次事件触发后的一定时间间隔内丢弃新的事件。常用作去抖动过滤，例如按钮的点击监听器：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">RxView.clickEvents(button) <span class="comment">// RxBinding 代码，后面的文章有解释</span></span><br><span class="line">    .throttleFirst(<span class="number">500</span>, TimeUnit.MILLISECONDS) <span class="comment">// 设置防抖间隔为 500ms</span></span><br><span class="line">    .subscribe(subscriber);</span><br></pre></td></tr></table></figure>
+<p>#6. other APIs</p>
+<ul>
+<li><code>concat()</code> 组合多个数据源，并依次释放。 依次将多个数据源释放到同一个地方  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">testConcat</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    Observable&lt;String&gt; first = Observable.just(<span class="string">"first Observable"</span>);</span><br><span class="line">    Observable&lt;String&gt; second = Observable.just(<span class="string">"second Observable"</span>);</span><br><span class="line">    Observable&lt;String&gt; third = Observable.just(<span class="string">"third Observable"</span>);</span><br><span class="line">    </span><br><span class="line">    Observable.concat(first,third,second).subscribe(<span class="keyword">new</span> Action1&lt;String&gt;() &#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">call</span><span class="params">(String s)</span> </span>&#123;</span><br><span class="line">            Log.d(<span class="string">"concat"</span>, s);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br><span class="line">输出结果：first Observable third Observable second Observable</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<ul>
+<li><code>first()</code>、<code>Last</code>  First操作符只会返回第一条数据，并且还可以返回满足条件的第一条数据;Last操作符只返回最后一条满足条件的数据</li>
+</ul>
+<p><img src="~/15-50-04.png" alt=""></p>
+<p><img src="~/15-50-18.png" alt=""></p>
+<ul>
+<li><code>BlockingObservable</code> 这个方法不会对Observable做任何处理，只会阻塞住，当满足条件的数据发射出来的时候才会返回一个BlockingObservable对象。可以使用Observable.toBlocking或者BlockingObservable.from方法来将一个Observable对象转化为BlockingObservable对象。BlockingObservable可以和first操作符进行配合使用</li>
+</ul>
+<p>实现三级缓存的模拟：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">boolean</span> memoryCache = <span class="keyword">false</span>;</span><br><span class="line">    <span class="keyword">boolean</span> diskCache = <span class="keyword">false</span>;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">threeLevelCache</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        Observable&lt;String&gt; fromMemory = Observable.create(<span class="keyword">new</span> Observable.OnSubscribe&lt;String&gt;() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">call</span><span class="params">(Subscriber&lt;? <span class="keyword">super</span> String&gt; subscriber)</span> </span>&#123;</span><br><span class="line">                <span class="keyword">if</span>(memoryCache)&#123;</span><br><span class="line">                    subscriber.onNext(<span class="string">"from memory"</span>);</span><br><span class="line">                    subscriber.onCompleted();</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    subscriber.onCompleted();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">        Observable&lt;String&gt; fromDisk = Observable.create(<span class="keyword">new</span> Observable.OnSubscribe&lt;String&gt;() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">call</span><span class="params">(Subscriber&lt;? <span class="keyword">super</span> String&gt; subscriber)</span> </span>&#123;</span><br><span class="line">                <span class="keyword">if</span>(diskCache)&#123;</span><br><span class="line">                    subscriber.onNext(<span class="string">"from Disk cache"</span>);</span><br><span class="line">                    subscriber.onCompleted();</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    subscriber.onCompleted();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">        Observable&lt;String&gt; fromNet = Observable.just(<span class="string">"from NetWork"</span>);</span><br><span class="line"></span><br><span class="line">        Observable.concat(fromMemory,fromDisk,fromNet)</span><br><span class="line">                .first()<span class="comment">//释放第一个满足条件的Observable</span></span><br><span class="line">                .subscribeOn(AndroidSchedulers.mainThread())<span class="comment">//观察者的行为在主线程执行</span></span><br><span class="line">                .subscribe(<span class="keyword">new</span> Action1&lt;String&gt;() &#123;</span><br><span class="line">                    <span class="meta">@Override</span></span><br><span class="line">                    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">call</span><span class="params">(String s)</span> </span>&#123;</span><br><span class="line">                        Toast.makeText(RxAndroidTestActivity.<span class="keyword">this</span>,s,Toast.LENGTH_SHORT).show();</span><br><span class="line">                        Log.d(<span class="string">"cache"</span>,s);</span><br><span class="line">                        memoryCache = <span class="keyword">true</span>;</span><br><span class="line">                        diskCache = <span class="keyword">true</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2015/12/23/Android/RxJava & RxAndroid初体验/" data-id="cip0q411w0012rb16flix15b6" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Android/小米手机使用WebView返回键调用goBack()后onReceiveTitle()方法不被调用" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/12/22/Android/小米手机使用WebView返回键调用goBack()后onReceiveTitle()方法不被调用/" class="article-date">
+  <time datetime="2015-12-22T09:55:00.000Z" itemprop="datePublished">2015-12-22</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Android/">Android</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/12/22/Android/小米手机使用WebView返回键调用goBack()后onReceiveTitle()方法不被调用/">小米手机使用WebView返回键调用goBack()后onReceiveTitle()方法不被调用</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>解决办法：<br><img src="~/ABB3BBC2-922F-4AC5-8B0A-E8E4AE9EA5EB.png" alt=""></p>
+<p><img src="~/6218F8D7-48F4-45C2-BDAD-CF9D35F558DF.png" alt=""></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2015/12/22/Android/小米手机使用WebView返回键调用goBack()后onReceiveTitle()方法不被调用/" data-id="cip0q412x001prb16rls8jofh" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Android/ViewDragHelper的使用" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/11/09/Android/ViewDragHelper的使用/" class="article-date">
+  <time datetime="2015-11-09T10:08:00.000Z" itemprop="datePublished">2015-11-09</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Android/">Android</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/11/09/Android/ViewDragHelper的使用/">ViewDragHelper的使用</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>ViewDragHelper使用的一般步骤：</p>
+<ol>
+<li>初始化DragHelper<br><code>mDragHelper = ViewDragHelper.create(this, new MyDragCallBack());</code></li>
+<li><p>拦截事件，并处理事件</p>
+<pre><code class="java"><span class="meta">@Override</span>
+<span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onInterceptTouchEvent</span><span class="params">(MotionEvent ev)</span> </span>{
+    <span class="comment">//2.1 拦截事件</span>
+    <span class="keyword">return</span> mDragHelper.shouldInterceptTouchEvent(ev);
+}
+
+<span class="meta">@Override</span>
+<span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onTouchEvent</span><span class="params">(MotionEvent event)</span> </span>{
+    <span class="comment">//2.2 分析处理事件</span>
+    mDragHelper.processTouchEvent(event);
+    <span class="keyword">return</span> <span class="keyword">true</span>;
+}
+</code></pre>
+</li>
+<li>再回掉中处理相关操作</li>
+<li>处理平滑的回滚<br>####模仿android Drawlayout效果<br>```java</li>
+</ol>
+<p>public class SlideLayout extends FrameLayout{<br>    private Context mContext;<br>    private ViewDragHelper mDragHelper;<br>    private View mSlidView;<br>    private int mSlidViewWidth;</p>
+<pre><code>public SlideLayout(Context context) {
+    this(context,null);
+}
+
+public SlideLayout(Context context, AttributeSet attrs) {
+    this(context, attrs, 0);
+}
+
+public SlideLayout(Context context, AttributeSet attrs, int defStyleAttr) {
+    super(context, attrs, defStyleAttr);
+    mContext = context;
+}
+
+@Override
+protected void onFinishInflate() {
+    super.onFinishInflate();
+    init();
+}
+
+@Override
+protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+    super.onSizeChanged(w, h, oldw, oldh);
+    //获取SlidingView的宽度
+    mSlidViewWidth = mSlidView.getMeasuredWidth();
+}
+
+private void init() {
+    if(getChildCount() &gt; 0){
+        mSlidView = getChildAt(getChildCount() - 1);
+    }
+    //1,初始化DragHelper
+    mDragHelper = ViewDragHelper.create(this, new MyDragCallBack());
+}
+
+@Override
+public boolean onInterceptTouchEvent(MotionEvent ev) {
+    //2.1 拦截事件
+    return mDragHelper.shouldInterceptTouchEvent(ev);
+}
+
+@Override
+public boolean onTouchEvent(MotionEvent event) {
+    //2.2 分析处理事件
+    mDragHelper.processTouchEvent(event);
+    return true;
+}
+
+class MyDragCallBack extends ViewDragHelper.Callback{
+    @Override
+    public boolean tryCaptureView(View child, int pointerId) {
+        Log.d(&quot;id&quot;,pointerId+&quot;&quot;);
+        //3. 判断当前捕获的view是否是需要执行拖拽的view
+        return child == mSlidView;
+    }
+
+    @Override
+    public int clampViewPositionHorizontal(View child, int left, int dx) {
+        //处理水平方向的拖动，参数含义：child：当前拖拽的view；left：水平方向移动的距离; dx与前一阵的dx
+        return left;
+    }
+
+    @Override
+    public int clampViewPositionVertical(View child, int top, int dy) {
+        //处理水平方向的拖动
+        return super.clampViewPositionVertical(child, top, dy);
+    }
+
+    @Override
+    public void onViewReleased(View releasedChild, float xvel, float yvel) {
+        //View拖拽完成后执行的回掉方法
+        super.onViewReleased(releasedChild, xvel, yvel);
+        if (releasedChild.getLeft() &lt; mSlidViewWidth*2/3) {
+            mDragHelper.smoothSlideViewTo(releasedChild,0,0);
+            ViewCompat.postInvalidateOnAnimation(SlideLayout.this);
+        } else if (releasedChild.getLeft() &gt;= mSlidViewWidth*2/3){
+            mDragHelper.smoothSlideViewTo(releasedChild,mSlidViewWidth * 2/3,0);
+            ViewCompat.postInvalidateOnAnimation(SlideLayout.this);
+        }
+     }
+
+    @Override
+    public void onViewPositionChanged(View changedView, int left, int top, int dx, int dy) {
+        super.onViewPositionChanged(changedView, left, top, dx, dy);
+</code></pre><p>//            该方法在子view位置发生改变时都会被调用，可以在这个方法中做一些拖动过程中渐变的动画等操作<br>        }<br>        @Override<br>        public void onViewDragStateChanged(int state) {<br>            //拖拽状态改变时被回掉，如idle，fling<br>            super.onViewDragStateChanged(state);<br>        }<br>    }</p>
+<pre><code>@Override
+public void computeScroll() {
+    super.computeScroll();
+    //拖拽是否需要继续
+    if(mDragHelper.continueSettling(true)){
+        //正在执行中
+        ViewCompat.postInvalidateOnAnimation(this);
+    }
+}
+</code></pre><p>}<br>```     </p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2015/11/09/Android/ViewDragHelper的使用/" data-id="cip0q411y0014rb16ewk5pq66" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Android/scrollTo()、scrollBy()和Scroller" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/11/09/Android/scrollTo()、scrollBy()和Scroller/" class="article-date">
+  <time datetime="2015-11-09T07:58:00.000Z" itemprop="datePublished">2015-11-09</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Android/">Android</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/11/09/Android/scrollTo()、scrollBy()和Scroller/">scrollTo()、scrollBy()和Scroller</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="1-scrollTo-与scrollBy-使用"><a href="#1-scrollTo-与scrollBy-使用" class="headerlink" title="1.scrollTo()与scrollBy()使用"></a>1.scrollTo()与scrollBy()使用</h3><p>scrollTo()和scrollBy()是View的两个方法，可以进行View的移动。但是需要注意的是<code>这两个方法移动的是View的内容，通俗的讲就是当View为ViewGroup时，移动的是此ViewGroup的子View；当View为单独的View时，移动的是内部内容。</code>例如：View为TextView时，移动的是内容文字。</p>
+<ol>
+<li>由于他是移动的内容，隐藏想要启动此View，需要使用<code>((View)getParent()).scrollBy(offsetX,offsetY);</code>的而不能直接使用当前的View的scrollBy方法。</li>
+<li>scrollBy()和ScollTo()方法，是content的移动，而content是再屏幕之下的，隐藏这两个方法的移动其实可以看做是屏幕的移动。因此给这两个方法设置值的时候，需要要设置-dx,-dy.<br>例如：想让View想左移动dx，想下移动dy，需要使用<code>((View)getParent()).scrollBy(-dx,-dy);</code></li>
+</ol>
+<p>###2. Scroller<br>Scoller可以实现平滑移动的效果，而不是瞬间移动的效果。</p>
+<p>####一般情况下是用Scroller的步骤：</p>
+<ol>
+<li>初始化Scroller<br><code>mScroller = new Scroller(context)</code></li>
+<li><p>重写View的computeScroll()方法，实现模拟滑动<br>此方法会再View被绘制的是后即draw()方法内被调用。<br><code>通常情况，computeScroll的代码可以利用如下模板来实现</code>：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">computeScroll</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">super</span>.computeScroll();</span><br><span class="line">    <span class="comment">//判断Scroller是否执行完毕</span></span><br><span class="line">    <span class="keyword">if</span>(mScroller.computeScrollOffset())&#123;</span><br><span class="line">        ((View) getParent()).scrollTo(mScroller.getCurrX(),mScroller.getCurrY());</span><br><span class="line">         invalidate();<span class="comment">//invalidate方法会重绘View，从而调用draw()方法，draw()放再调用computreScroll()方法</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>startScroll开启模拟过程</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">case</span> MotionEvent.ACTION_UP:</span><br><span class="line">    mScroller.startScroll(getScrollX(),getScrollY(),-getScrollX(),-getScrollY());</span><br><span class="line">    invalidate();<span class="comment">//调用draw---computeScroll</span></span><br><span class="line">    <span class="keyword">break</span>;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2015/11/09/Android/scrollTo()、scrollBy()和Scroller/" data-id="cip0q412c001grb16k771pchm" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+
+
+  <nav id="page-nav">
+    <a class="extend prev" rel="prev" href="/page/2/">&laquo; __('prev')</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/4/">__('next') &raquo;</a>
+  </nav>
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Gradle/">Gradle</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac/">Mac</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Other/">Other</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/android/">android</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">十一月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">十月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">九月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">八月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">七月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">六月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">五月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2016/06/04/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2016/05/31/Mac/zsh不兼容的坑/">zsh不兼容的坑-zsh:no matches found:</a>
+          </li>
+        
+          <li>
+            <a href="/2016/05/30/Gradle/gradle(一)/">Gradle(一)</a>
+          </li>
+        
+          <li>
+            <a href="/2016/05/29/Mac/Httpie使用/">Httpie使用</a>
+          </li>
+        
+          <li>
+            <a href="/2016/05/17/Java/Java反射大发/">Java反射大发</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 GlanWang<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

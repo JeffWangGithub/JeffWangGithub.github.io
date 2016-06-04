@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>从网络获取图片设置状态选择器 | Glan Wang</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="##状态选择的两种设置方式
+
+使用xml进行设置如果你的状态选择的图片存在本地，那么无疑要是用xml进行设置状态选择，使用方式很简单，网上搜素一下很多资料。
+使用StateListDrawable类进行代码中设置如果你的状态选择器使用的图片是从网络中获取，那么我们就不得不使用代码来进行设置状态选择了类功能说明：该类定义了不同状态值下与之对应的图片资源，即我们可以利用该类保存多种状态值，多种图片资源">
+<meta property="og:type" content="article">
+<meta property="og:title" content="从网络获取图片设置状态选择器">
+<meta property="og:url" content="http://yoursite.com/2015/08/26/Android/从网络获取图片设置状态选择器/index.html">
+<meta property="og:site_name" content="Glan Wang">
+<meta property="og:description" content="##状态选择的两种设置方式
+
+使用xml进行设置如果你的状态选择的图片存在本地，那么无疑要是用xml进行设置状态选择，使用方式很简单，网上搜素一下很多资料。
+使用StateListDrawable类进行代码中设置如果你的状态选择器使用的图片是从网络中获取，那么我们就不得不使用代码来进行设置状态选择了类功能说明：该类定义了不同状态值下与之对应的图片资源，即我们可以利用该类保存多种状态值，多种图片资源">
+<meta property="og:updated_time" content="2016-06-04T06:14:19.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="从网络获取图片设置状态选择器">
+<meta name="twitter:description" content="##状态选择的两种设置方式
+
+使用xml进行设置如果你的状态选择的图片存在本地，那么无疑要是用xml进行设置状态选择，使用方式很简单，网上搜素一下很多资料。
+使用StateListDrawable类进行代码中设置如果你的状态选择器使用的图片是从网络中获取，那么我们就不得不使用代码来进行设置状态选择了类功能说明：该类定义了不同状态值下与之对应的图片资源，即我们可以利用该类保存多种状态值，多种图片资源">
+  
+    <link rel="alternate" href="/atom.xml" title="Glan Wang" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Glan Wang</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">CoderGC</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Android/从网络获取图片设置状态选择器" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/08/26/Android/从网络获取图片设置状态选择器/" class="article-date">
+  <time datetime="2015-08-26T10:18:00.000Z" itemprop="datePublished">2015-08-26</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Android/">Android</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      从网络获取图片设置状态选择器
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>##状态选择的两种设置方式</p>
+<ol>
+<li>使用xml进行设置<br>如果你的状态选择的图片存在本地，那么无疑要是用xml进行设置状态选择，使用方式很简单，网上搜素一下很多资料。</li>
+<li>使用StateListDrawable类进行代码中设置<br>如果你的状态选择器使用的图片是从网络中获取，那么我们就不得不使用代码来进行设置状态选择了<br>类功能说明：该类定义了不同状态值下与之对应的图片资源，即我们可以利用该类保存多种状态值，多种图片资源。<br> 常用方法为：<pre><code>public void addState (int[] stateSet, Drawable drawable)
+功能： 给特定的状态集合设置drawable图片资源
+</code></pre>使用简介：<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//初始化一个空对象  </span></span><br><span class="line">StateListDrawable stalistDrawable = <span class="keyword">new</span> StateListDrawable();  </span><br><span class="line"><span class="comment">//获取对应的属性值 Android框架自带的属性 attr  </span></span><br><span class="line"><span class="keyword">int</span> pressed = android.R.attr.state_pressed;  </span><br><span class="line"><span class="keyword">int</span> window_focused = android.R.attr.state_window_focused;  </span><br><span class="line"><span class="keyword">int</span> focused = android.R.attr.state_focused;  </span><br><span class="line"><span class="keyword">int</span> selected = android.R.attr.state_selected;    </span><br><span class="line">stalistDrawable.addState(<span class="keyword">new</span> <span class="keyword">int</span> []&#123;pressed , window_focused&#125;, getResources().getDrawable(R.drawable.pic1));  </span><br><span class="line">stalistDrawable.addState(<span class="keyword">new</span> <span class="keyword">int</span> []&#123;pressed , -focused&#125;, getResources().getDrawable(R.drawable.pic2);  </span><br><span class="line">stalistDrawable.addState(<span class="keyword">new</span> <span class="keyword">int</span> []&#123;selected &#125;, getResources().getDrawable(R.drawable.pic3);  </span><br><span class="line">stalistDrawable.addState(<span class="keyword">new</span> <span class="keyword">int</span> []&#123;focused &#125;, getResources().getDrawable(R.drawable.pic4);  </span><br><span class="line"><span class="comment">//没有任何状态时显示的图片，我们给它设置我空集合  </span></span><br><span class="line">stalistDrawable.addState(<span class="keyword">new</span> <span class="keyword">int</span> []&#123;&#125;, getResources().getDrawable(R.drawable.pic5);</span><br></pre></td></tr></table></figure></li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2015/08/26/Android/从网络获取图片设置状态选择器/" data-id="cip0q412f001krb16soa5b88m" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2015/08/27/Android/android webview ZoomButtonsController 导致android.view.WindowLeaked 问题解决/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          android webview ZoomButtonsController 导致android.view.WindowLeaked 问题解决
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2015/08/25/Android/Android动画相关/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Android动画相关</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Gradle/">Gradle</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac/">Mac</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Other/">Other</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/android/">android</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">十一月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">十月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">九月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">八月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">七月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">六月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">五月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2016/06/04/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2016/05/31/Mac/zsh不兼容的坑/">zsh不兼容的坑-zsh:no matches found:</a>
+          </li>
+        
+          <li>
+            <a href="/2016/05/30/Gradle/gradle(一)/">Gradle(一)</a>
+          </li>
+        
+          <li>
+            <a href="/2016/05/29/Mac/Httpie使用/">Httpie使用</a>
+          </li>
+        
+          <li>
+            <a href="/2016/05/17/Java/Java反射大发/">Java反射大发</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 GlanWang<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>
