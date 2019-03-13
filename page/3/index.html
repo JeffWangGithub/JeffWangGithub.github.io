@@ -1,8 +1,724 @@
-<!DOCTYPE html><html lang="zh-CN"><head><meta name="generator" content="Hexo 3.8.0"><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description"><title>Glan Wang | CoderGC</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=0.0.0"><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/normalize/8.0.1/normalize.min.css"><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/pure/1.0.0/pure-min.css"><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/pure/1.0.0/grids-responsive-min.css"><link rel="stylesheet" href="//lib.baomitu.com/font-awesome/4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//lib.baomitu.com/jquery/3.3.1/jquery.min.js"></script><link rel="icon" mask sizes="any" href="/favicon.ico"><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">Glan Wang</h1><a id="logo" href="/.">Glan Wang</a><p class="description">CoderGC</p></div><div id="nav-menu"><a class="current" href="/."><i class="fa fa-home"> 首页</i></a><a href="/archives/"><i class="fa fa-archive"> 归档</i></a><a href="/about/"><i class="fa fa-user"> 关于</i></a><a href="/atom.xml"><i class="fa fa-rss"> 订阅</i></a></div></div><div class="pure-g" id="layout"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title"><a href="/2017/06/27/Other/git仓库迁移/">git仓库迁移</a></h1><div class="post-meta">2017-06-27</div><div class="post-content"><p>git仓库从一台服务器迁移到另外一台服务器:<br>1) 从原有仓库克隆一份裸版库，sample</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone --bare git://github.com/username/project.git</span><br></pre></td></tr></table></figure></div><p class="readmore"><a href="/2017/06/27/Other/git仓库迁移/">阅读全文</a></p></div><div class="post"><h1 class="post-title"><a href="/2017/06/21/Android/OKHttp设置Header的那些坑/">OKHttp设置Header的那些坑</a></h1><div class="post-meta">2017-06-21</div><div class="post-content"><p>项目中网络底层库使用的okhttp，但是上层使用的Volley和glide；于是就设计的到了通用的请求header设置。于是通过Interceptor给设置的统一的header，但是okhttp的api确实有点坑啊。上线后发现图片的请求有两个UA，而且两个UA一个是我们设置的一个是glide默认的。<br>排查发现我们调用的Request.Builder.addHeader(k, v) 这个api是添加header，不会移除调之前有的header信息，比如设置UA，glide库设置了一个默认值，而我们又调用了这个api，这就产生了两个重复的UA。<br>正确的api是调用Request.Builder.header(k, v)来设置header，这个api会覆盖之前已有的header。<br>也可以先通过Request.Builder.removeHeader(K)先移除，然后再调用addHeader(K, V)</p></div><p class="readmore"><a href="/2017/06/21/Android/OKHttp设置Header的那些坑/">阅读全文</a></p></div><div class="post"><h1 class="post-title"><a href="/2017/06/21/Java/序列化-transient修饰符/">序列化-transient修饰符</a></h1><div class="post-meta">2017-06-21</div><div class="post-content"><p>Java的serialization提供了一种持久化对象实例的机制。当持久化对象时，可能有一个特殊的对象数据成员，我们不想用serialization机制来保存它。为了在一个特定对象的一个域上关闭serialization，可以在这个域前加上关键字transient。当一个对象被序列化的时候，transient型变量的值不包括在序列化的表示中，然而非transient型的变量是被包括进去的。</p></div><p class="readmore"><a href="/2017/06/21/Java/序列化-transient修饰符/">阅读全文</a></p></div><div class="post"><h1 class="post-title"><a href="/2017/06/20/Other/常用git命令/">常用git命令</a></h1><div class="post-meta">2017-06-20</div><div class="post-content"><p>作者总结的很不错，非常适合git入门人员使用，转过来，并注明出处。来自于<code>android开发精选</code>公众号<br><a href="https://mp.weixin.qq.com/s?__biz=MzA3MDMyMjkzNg==&amp;mid=2652262404&amp;idx=1&amp;sn=d03b582b8feddad27b97ebebb07a5325&amp;chksm=84dc6f93b3abe6856dbbb49a3c8c8f3d0855a1cc2a19b4c542382328001e8186b72b377d7392&amp;scene=0&amp;key=640778b67581b4c6f60b0861b12626ca6a5ee8e5ee9a9c632fdb505c38dc7aaeee6381c4d391e246fc5ad2720221f28e2401cd11ad17863b8e3e9df1059bc909d7158815f8ed07155bd7a977dec0d7fd&amp;ascene=0&amp;uin=MzYxNTYzMzM1&amp;devicetype=iMac+MacPro3%2C1+OSX+OSX+10.11.4+build(15E65" target="_blank" rel="noopener">常用git命令</a>&amp;version=12020110&amp;nettype=WIFI&amp;fontScale=100&amp;pass_ticket=EECAVbQT98lTVrzTbXb78HOWwpX4a7eQQ7AS4ZidkNO3dzrZe6cK%2BFuOA8Jw47sk)</p></div><p class="readmore"><a href="/2017/06/20/Other/常用git命令/">阅读全文</a></p></div><div class="post"><h1 class="post-title"><a href="/2017/06/13/Android/Gradle屏蔽指定的Task/">Gradle屏蔽指定的Task</a></h1><div class="post-meta">2017-06-13</div><div class="post-content"><p>公司项目使用了Fabric 进行crash的统计，但是最近不知是何故，fabric的几个域名无法访问了，更悲催的是fabric的gradle插件中有个任务需要访问这个域名上传一些编译生成的信息，这就直接导致客户端无法打正式的release包，一直卡在<code>crashlyticsUploadDeobsRelease</code>这个task。<br>测试了各种办法:a. 公司网络有没有对fabric指定的域名做黑名单； b. 通过代理vpn访问指定fabric的域名；均没有结果。<br>好吧，活人不能被尿憋死，只能放大招了，屏蔽调这个task。原理很简单获取到这个task，然后将enable属性设置成false。<br>gradle屏蔽掉指定的task<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">allprojects &#123;</span><br><span class="line">    repositories &#123;</span><br><span class="line">        jcenter()</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //skip Test tasks</span><br><span class="line">    gradle.taskGraph.whenReady &#123;</span><br><span class="line">        tasks.each &#123; task -&gt;</span><br><span class="line">            if (task.name.contains(&quot;crashlyticsUploadDeobsRelease&quot;))</span><br><span class="line">            &#123;</span><br><span class="line">                task.enabled = false</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p></div><p class="readmore"><a href="/2017/06/13/Android/Gradle屏蔽指定的Task/">阅读全文</a></p></div><div class="post"><h1 class="post-title"><a href="/2017/03/20/Java/Java堆和栈区别简介/">Java堆和栈区别简介</a></h1><div class="post-meta">2017-03-20</div><div class="post-content"><p>Heap: 堆<br>Stack: 栈<br>Heap内存的分配也叫动态内存分配</p>
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+
+  
+  <title>Glan Wang</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Glan Wang">
+<meta property="og:url" content="http://glanwang.com/page/3/index.html">
+<meta property="og:site_name" content="Glan Wang">
+<meta property="og:locale" content="zh-CN">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Glan Wang">
+  
+    <link rel="alternate" href="/atom.xml" title="Glan Wang" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Glan Wang</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">CoderGC</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://glanwang.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-Other/git仓库迁移" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/06/27/Other/git仓库迁移/" class="article-date">
+  <time datetime="2017-06-27T01:10:41.000Z" itemprop="datePublished">2017-06-27</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Other/">Other</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/06/27/Other/git仓库迁移/">git仓库迁移</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>git仓库从一台服务器迁移到另外一台服务器:<br>1) 从原有仓库克隆一份裸版库，sample</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone --bare git://github.com/username/project.git</span><br></pre></td></tr></table></figure>
+<p>裸版意思是没有工作区，clone的是当前的整个版本库<br>2) 在新的git服务器上创建一个新的项目，比如gitPro<br>3) 以镜像的方式推送到gitPro服务器上</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd project</span><br><span class="line">git push --mirror git@gitPro.com/username/newproject.git</span><br></pre></td></tr></table></figure>
+<p>4) 本地代码修改origin url或者重新clone<br>修改origin url</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd 进入之前的本地仓库目录</span><br><span class="line">git remote set-url origin git@gitPro.com/username/newproject.git</span><br></pre></td></tr></table></figure>
+<p>或者重新clone一个工程<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone git@gitPro.com/username/newproject.git</span><br></pre></td></tr></table></figure></p>
+<p>OK，搞定，尽情的享受吧。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://glanwang.com/2017/06/27/Other/git仓库迁移/" data-id="cjt71hasj008fzg22o5nmt67u" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/git迁移/">git迁移</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Android/OKHttp设置Header的那些坑" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/06/21/Android/OKHttp设置Header的那些坑/" class="article-date">
+  <time datetime="2017-06-21T05:23:12.000Z" itemprop="datePublished">2017-06-21</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Android/">Android</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/06/21/Android/OKHttp设置Header的那些坑/">OKHttp设置Header的那些坑</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>项目中网络底层库使用的okhttp，但是上层使用的Volley和glide；于是就设计的到了通用的请求header设置。于是通过Interceptor给设置的统一的header，但是okhttp的api确实有点坑啊。上线后发现图片的请求有两个UA，而且两个UA一个是我们设置的一个是glide默认的。<br>排查发现我们调用的Request.Builder.addHeader(k, v) 这个api是添加header，不会移除调之前有的header信息，比如设置UA，glide库设置了一个默认值，而我们又调用了这个api，这就产生了两个重复的UA。<br>正确的api是调用Request.Builder.header(k, v)来设置header，这个api会覆盖之前已有的header。<br>也可以先通过Request.Builder.removeHeader(K)先移除，然后再调用addHeader(K, V)</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://glanwang.com/2017/06/21/Android/OKHttp设置Header的那些坑/" data-id="cjt71hamh002vzg22u0e9lcg0" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/okhttp-header/">okhttp, header</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Java/序列化-transient修饰符" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/06/21/Java/序列化-transient修饰符/" class="article-date">
+  <time datetime="2017-06-21T02:46:07.000Z" itemprop="datePublished">2017-06-21</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Java/">Java</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/06/21/Java/序列化-transient修饰符/">序列化-transient修饰符</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Java的serialization提供了一种持久化对象实例的机制。当持久化对象时，可能有一个特殊的对象数据成员，我们不想用serialization机制来保存它。为了在一个特定对象的一个域上关闭serialization，可以在这个域前加上关键字transient。当一个对象被序列化的时候，transient型变量的值不包括在序列化的表示中，然而非transient型的变量是被包括进去的。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://glanwang.com/2017/06/21/Java/序列化-transient修饰符/" data-id="cjt71hare006zzg22tbsofb50" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/transient/">transient</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Other/常用git命令" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/06/20/Other/常用git命令/" class="article-date">
+  <time datetime="2017-06-20T02:06:39.000Z" itemprop="datePublished">2017-06-20</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Other/">Other</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/06/20/Other/常用git命令/">常用git命令</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>作者总结的很不错，非常适合git入门人员使用，转过来，并注明出处。来自于<code>android开发精选</code>公众号<br><a href="https://mp.weixin.qq.com/s?__biz=MzA3MDMyMjkzNg==&amp;mid=2652262404&amp;idx=1&amp;sn=d03b582b8feddad27b97ebebb07a5325&amp;chksm=84dc6f93b3abe6856dbbb49a3c8c8f3d0855a1cc2a19b4c542382328001e8186b72b377d7392&amp;scene=0&amp;key=640778b67581b4c6f60b0861b12626ca6a5ee8e5ee9a9c632fdb505c38dc7aaeee6381c4d391e246fc5ad2720221f28e2401cd11ad17863b8e3e9df1059bc909d7158815f8ed07155bd7a977dec0d7fd&amp;ascene=0&amp;uin=MzYxNTYzMzM1&amp;devicetype=iMac+MacPro3%2C1+OSX+OSX+10.11.4+build(15E65" target="_blank" rel="noopener">常用git命令</a>&amp;version=12020110&amp;nettype=WIFI&amp;fontScale=100&amp;pass_ticket=EECAVbQT98lTVrzTbXb78HOWwpX4a7eQQ7AS4ZidkNO3dzrZe6cK%2BFuOA8Jw47sk)</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://glanwang.com/2017/06/20/Other/常用git命令/" data-id="cjt71hasn008rzg22p5g4vuqz" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/git/">git</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Android/Gradle屏蔽指定的Task" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/06/13/Android/Gradle屏蔽指定的Task/" class="article-date">
+  <time datetime="2017-06-13T10:32:37.000Z" itemprop="datePublished">2017-06-13</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Android/">Android</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/06/13/Android/Gradle屏蔽指定的Task/">Gradle屏蔽指定的Task</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>公司项目使用了Fabric 进行crash的统计，但是最近不知是何故，fabric的几个域名无法访问了，更悲催的是fabric的gradle插件中有个任务需要访问这个域名上传一些编译生成的信息，这就直接导致客户端无法打正式的release包，一直卡在<code>crashlyticsUploadDeobsRelease</code>这个task。<br>测试了各种办法:a. 公司网络有没有对fabric指定的域名做黑名单； b. 通过代理vpn访问指定fabric的域名；均没有结果。<br>好吧，活人不能被尿憋死，只能放大招了，屏蔽调这个task。原理很简单获取到这个task，然后将enable属性设置成false。<br>gradle屏蔽掉指定的task<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">allprojects &#123;</span><br><span class="line">    repositories &#123;</span><br><span class="line">        jcenter()</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //skip Test tasks</span><br><span class="line">    gradle.taskGraph.whenReady &#123;</span><br><span class="line">        tasks.each &#123; task -&gt;</span><br><span class="line">            if (task.name.contains(&quot;crashlyticsUploadDeobsRelease&quot;))</span><br><span class="line">            &#123;</span><br><span class="line">                task.enabled = false</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://glanwang.com/2017/06/13/Android/Gradle屏蔽指定的Task/" data-id="cjt71halr002ezg22ucyarqf6" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/gradle，屏蔽，task/">gradle，屏蔽，task</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Java/Java堆和栈区别简介" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/03/20/Java/Java堆和栈区别简介/" class="article-date">
+  <time datetime="2017-03-20T03:53:39.000Z" itemprop="datePublished">2017-03-20</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Java/">Java</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/03/20/Java/Java堆和栈区别简介/">Java堆和栈区别简介</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Heap: 堆<br>Stack: 栈<br>Heap内存的分配也叫动态内存分配</p>
 <p>Stack内存相对于线程而言，执行函数时，内部变量的存储放在栈上边创建。Stack主要保存线程中方法中短期存在的变量值和对Heap中对象的引用。</p>
 <p>区别:</p>
 <ol>
-<li>堆不需要连续内存，空间较大； 栈是连续内存的区域，大小有操作系统决定。</li></ol></div><p class="readmore"><a href="/2017/03/20/Java/Java堆和栈区别简介/">阅读全文</a></p></div><div class="post"><h1 class="post-title"><a href="/2017/03/20/Android/应用分包主dex过大那些事儿/">应用分包主dex过大那些事儿</a></h1><div class="post-meta">2017-03-20</div><div class="post-content"><p>Too many classes in –main-dex-list, main dex capacity exceeded<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">com.android.dex.DexException: Too many classes in --main-dex-list, main dex capacity exceeded</span><br><span class="line">  at com.android.dx.command.dexer.Main.processAllFiles(Main.java:494)</span><br><span class="line">  at com.android.dx.command.dexer.Main.runMultiDex(Main.java:332)</span><br><span class="line">  at com.android.dx.command.dexer.Main.run(Main.java:243)</span><br><span class="line">  at com.android.dx.command.dexer.Main.main(Main.java:214)</span><br><span class="line">  at com.android.dx.command.Main.main(Main.java:106)</span><br></pre></td></tr></table></figure></p></div><p class="readmore"><a href="/2017/03/20/Android/应用分包主dex过大那些事儿/">阅读全文</a></p></div><div class="post"><h1 class="post-title"><a href="/2017/02/27/Android/Glide使用中的问题/">Glide使用中的问题</a></h1><div class="post-meta">2017-02-27</div><div class="post-content"><p>总结一下最近使用glide的过程中出现的两个比较棘手的问题</p>
+<li>堆不需要连续内存，空间较大； 栈是连续内存的区域，大小有操作系统决定。</li>
+<li>堆管理麻烦，频繁的new或者remove造成内存碎片，导致效率低下； 栈，先进后出，进出不会产生碎片，效率高且稳定。</li>
+<li>java的GC是针对heap内存的，因为stack内存在函数出栈时就被销毁了。</li>
+<li>方法中变量:存在stack栈中； 类成员变量存在Heap堆中</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://glanwang.com/2017/03/20/Java/Java堆和栈区别简介/" data-id="cjt71har5006lzg22me3oxh2r" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/堆，栈/">堆，栈</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Android/应用分包主dex过大那些事儿" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/03/20/Android/应用分包主dex过大那些事儿/" class="article-date">
+  <time datetime="2017-03-20T02:05:41.000Z" itemprop="datePublished">2017-03-20</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Android/">Android</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/03/20/Android/应用分包主dex过大那些事儿/">应用分包主dex过大那些事儿</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Too many classes in –main-dex-list, main dex capacity exceeded<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">com.android.dex.DexException: Too many classes in --main-dex-list, main dex capacity exceeded</span><br><span class="line">  at com.android.dx.command.dexer.Main.processAllFiles(Main.java:494)</span><br><span class="line">  at com.android.dx.command.dexer.Main.runMultiDex(Main.java:332)</span><br><span class="line">  at com.android.dx.command.dexer.Main.run(Main.java:243)</span><br><span class="line">  at com.android.dx.command.dexer.Main.main(Main.java:214)</span><br><span class="line">  at com.android.dx.command.Main.main(Main.java:106)</span><br></pre></td></tr></table></figure></p>
+<p>随着项目的不断更新迭代，第三方sdk的不断引入，我们虽然很早之前就进行了分包的操作，然而最近却又发生了，令人感到可恶的事情，那就是不知不觉中main-dex竟然又超了。这可如何是好，真是没有救了。好吧，不废话了，直接说一下我们的处理。<br>首先关注你的项目的buildToolsVersion版本号 :<br>一、 情况之一就是buildToolsVersion &lt; 24<br>我们最初就是这种情况，于是我们商定了几个解决的方案:<br>a. 通过对proguard文件的处理，尽量减小keep住的代码，希望能以此保证dex中class类数量不超限。<br>由于之前没有对proguard文件进行限制，所以导致很多keep的范围特别广，比如keep com.google和keep com.tencent这种的，这种其实不可避免的会导致dex中可能含有一些不必要的类。<br>经过我们的kepp处理，确实达到了一个能够是主dex不超限的临界值，但是，这个不能解决问题，因为版本迭代更新肯定会再次变大，于是我们想到了使用b方案<br>b. 从主dex中移除第三方sdk中的activity以及activity引用的类<br>如果你去查资料你会发现，好多国外的项目也同样遇到了，这种尴尬的问题，他们的方法其实就是移除了所有的activity和activity引用类。详情查看blog: <a href="http://blog.osom.info/2014/12/too-many-methods-in-main-dex.html" target="_blank" rel="noopener">http://blog.osom.info/2014/12/too-many-methods-in-main-dex.html</a> .<br>此处我说一下Android gradle插件版本在2.0之上的解决方式， 更低版本的插件，其实解决方式更为简单，请google一下即可<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">afterEvaluate &#123;</span><br><span class="line">        tasks.matching &#123;</span><br><span class="line">            it.name.startsWith(&apos;collect&apos;) &amp;&amp; it.name.endsWith(&apos;MultiDexComponents&apos;)</span><br><span class="line">        &#125;.each&#123;</span><br><span class="line">            println &quot;main-dex-filter: found task $it.name&quot;</span><br><span class="line">            it.filter &#123; name, attrs -&gt;</span><br><span class="line">                def componentName = attrs.get(&apos;android:name&apos;)</span><br><span class="line">                if (&apos;activity&apos;.equals(name)) &#123;</span><br><span class="line">                    //注意此处的过滤条件，写你自己需要过滤的类的相关过滤条件</span><br><span class="line">                    if(componentName.contains(&quot;com.netease.newsreader.activity.debug&quot;) || componentName.contains(&quot;com.netease.epay.sdk&quot;) )&#123;</span><br><span class="line">                        //包含debug和epay相关的activity</span><br><span class="line">                        println &quot;debug code and epay code : main-dex-filter: skipping, detected activity [$componentName]&quot;</span><br><span class="line">                        return false</span><br><span class="line">                    &#125;</span><br><span class="line">                    else if(componentName.contains(&quot;com.netease.newsreader.activity&quot;) || componentName.contains(&quot;com.netease.nr&quot;))&#123;</span><br><span class="line">//                      当前包代码</span><br><span class="line">                        println &quot;main-dex-filter: keeping, detected $name [$componentName]&quot;</span><br><span class="line">                        return true</span><br><span class="line">                    &#125;</span><br><span class="line">                    return true</span><br><span class="line">                &#125; else &#123;</span><br><span class="line">                    println &quot;main-dex-filter: keeping, detected $name [$componentName]&quot;</span><br><span class="line">                    return true</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>简单的说明一下这种方式的原理: 就是在生成主dex组件之前，我们强制过滤调含有第三方activity的类，这样，根据main-dex-list文件生成的maindexComponent就不包含第三方主dex，类分析工具根据这个生成的maindexComponent的jar包分析依赖的时候也不会包含移除的这部分activity的依赖。<br>注意:此处需要大致了解一下dex分包的过程， 我就大概说一下，不太理解的地方可以google一下: 1. 首先buildTools会分析proguard文件和AndroidManifest.xml文件，将四大组件、Application、instrumentation和keep住的类，生成一个componentClasses.jar(在build/intermediates/multi-dex/release/componentClasses.jar路径下)；2. 然后会根据这个jar中的类，去分析类依赖生成一个maindexList.txt文件，此文件中包含了分析出来的需要放到主dex中的类； 3. 根据这个文件进行分包的操作。</p>
+<p>二、 buildToolsVersion &gt; 24 的情况<br>省省心吧，你不会发生这个问题，buildToolsVersion &gt;24之后，发现会吧四大组件等不必要放到主dex中的东西，默认放到其他地方，因此你的buildToolsVersion大于24，就不会发生此问题。不要问我如何发现的？其实我是搞了一周减小主dex包之后偶然发现的，当时真是蓝瘦香菇啊。<br>好了，到此你应该明白了，大招就是将buildToolsVersion的版本号提高到24以上。祝好吧!!</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://glanwang.com/2017/03/20/Android/应用分包主dex过大那些事儿/" data-id="cjt71hapv0059zg22t9ouvt1g" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Too-many-classes-in-main-dex-list，-main-dex-capacity-exceeded/">Too many classes in --main-dex-list， main dex capacity exceeded</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Android/Glide使用中的问题" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/02/27/Android/Glide使用中的问题/" class="article-date">
+  <time datetime="2017-02-27T09:49:54.000Z" itemprop="datePublished">2017-02-27</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Android/">Android</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/02/27/Android/Glide使用中的问题/">Glide使用中的问题</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>总结一下最近使用glide的过程中出现的两个比较棘手的问题</p>
 <ol>
-<li>glide没有提供从缓存中找到对应资源的api。<br>对于这个问题，其实解决方案想到两个:第一个通过反射不改变源码的情况下能够做到；第二个只能是修改一下相关的源码，自己提供一个api让开发团队小伙伴使用。面对这两个选择我们只能选择第二个了，虽然改了源码对以后版本升级可能会出现一定的影响，但相对于反射来说其优势还是比较明显的。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * add by guangcong</span><br><span class="line"> * 根据url, 从本地缓存中获取到缓存的图片</span><br><span class="line"> */</span><br><span class="line">public static File findDiskCache(Context context, String url) &#123;</span><br><span class="line">    OriginalKey originalKey = new OriginalKey(url, EmptySignature.obtain());</span><br><span class="line">    if (DiskLruCacheWrapper.wrapper == null)&#123;</span><br><span class="line">        get(context).getEngine().initDiskCacheProvider();</span><br><span class="line">    &#125;</span><br><span class="line">    if(DiskLruCacheWrapper.wrapper != null)&#123;</span><br><span class="line">        try &#123;</span><br><span class="line">            File file = DiskLruCacheWrapper.wrapper.get(originalKey);</span><br><span class="line">            if(file != null &amp;&amp; file.exists())&#123;</span><br><span class="line">                return file;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; catch (Throwable e)&#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return null;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li></ol></div><p class="readmore"><a href="/2017/02/27/Android/Glide使用中的问题/">阅读全文</a></p></div><div class="post"><h1 class="post-title"><a href="/2017/02/15/Gradle/Gradle之Transform/">Gradle之Transform</a></h1><div class="post-meta">2017-02-15</div><div class="post-content"><h3 id="Transfrom"><a href="#Transfrom" class="headerlink" title="Transfrom"></a>Transfrom</h3><p>Trasnform API是gradle 1.5.0之后版本提供的，该API的作用是:允许第三方在打包Dex文件之前的编译过程中操作.class文件， 目前Android gradle插件中的jarMerge, proguard, multi-dex，instantRun等一些列操作都已经转换为Transform的实现了。</p></div><p class="readmore"><a href="/2017/02/15/Gradle/Gradle之Transform/">阅读全文</a></p></div><div class="post"><h1 class="post-title"><a href="/2017/02/13/Gradle/Groovy语法简介/">Groovy语法简介</a></h1><div class="post-meta">2017-02-13</div><div class="post-content"><h3 id="Groovy"><a href="#Groovy" class="headerlink" title="Groovy"></a>Groovy</h3><p>Groovy是一门JVM语言，也就是说Groovy的代码最终也会编译成JVM字节码， 交给虚拟机去执行。gradle之所以选择groovy语言，很重要的一个因素是groovy的结构看起来非常通俗移动，如同配置文件一般。<br>Groovy语法的简介:</p></div><p class="readmore"><a href="/2017/02/13/Gradle/Groovy语法简介/">阅读全文</a></p></div><nav class="page-navigator"><a class="extend prev" rel="prev" href="/page/2/">上一页</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/4/">下一页</a></nav></div></div><div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar"><div class="widget"><form class="search-form" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank"><input type="text" name="q" maxlength="20" placeholder="Search"><input type="hidden" name="sitesearch" value="http://glanwang.com"></form></div><div class="widget"><div class="widget-title"><i class="fa fa-folder-o"> 分类</i></div><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Gradle/">Gradle</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac/">Mac</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Other/">Other</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-star-o"> 标签</i></div><div class="tagcloud"><a href="/tags/请求追踪/" style="font-size: 15px;">请求追踪</a> <a href="/tags/gradle-守护进程，org-gradle-daemon/" style="font-size: 15px;">gradle 守护进程，org.gradle.daemon</a> <a href="/tags/transform-API-gradle/" style="font-size: 15px;">transform API, gradle</a> <a href="/tags/Gradle/" style="font-size: 15px;">Gradle</a> <a href="/tags/IDEA导出可执行jar/" style="font-size: 15px;">IDEA导出可执行jar</a> <a href="/tags/堆，栈/" style="font-size: 15px;">堆，栈</a> <a href="/tags/设计模式/" style="font-size: 15px;">设计模式</a> <a href="/tags/transient/" style="font-size: 15px;">transient</a> <a href="/tags/shell/" style="font-size: 15px;">shell</a> <a href="/tags/shell字符串/" style="font-size: 15px;">shell字符串</a> <a href="/tags/正则表达式，shell/" style="font-size: 15px;">正则表达式，shell</a> <a href="/tags/git/" style="font-size: 15px;">git</a> <a href="/tags/git-clean/" style="font-size: 15px;">git clean</a> <a href="/tags/git迁移/" style="font-size: 15px;">git迁移</a> <a href="/tags/vim/" style="font-size: 15px;">vim</a> <a href="/tags/AOP/" style="font-size: 15px;">AOP</a> <a href="/tags/memory-monitors-android-studio/" style="font-size: 15px;">memory monitors, android studio</a> <a href="/tags/嵌套滚动-NestedScrolling/" style="font-size: 15px;">嵌套滚动, NestedScrolling</a> <a href="/tags/design-appBarLayout/" style="font-size: 15px;">design, appBarLayout</a> <a href="/tags/AspectJ-android/" style="font-size: 15px;">AspectJ, android</a> <a href="/tags/glide-图片无法加载-获取缓存图片/" style="font-size: 15px;">glide, 图片无法加载, 获取缓存图片</a> <a href="/tags/glide源码解读/" style="font-size: 15px;">glide源码解读</a> <a href="/tags/gradle教程/" style="font-size: 15px;">gradle教程</a> <a href="/tags/gradle，屏蔽，task/" style="font-size: 15px;">gradle，屏蔽，task</a> <a href="/tags/okhttp-header/" style="font-size: 15px;">okhttp, header</a> <a href="/tags/proguard/" style="font-size: 15px;">proguard</a> <a href="/tags/sqltie-GreenDao/" style="font-size: 15px;">sqltie, GreenDao</a> <a href="/tags/apktools/" style="font-size: 15px;">apktools</a> <a href="/tags/https-httpDNS/" style="font-size: 15px;">https, httpDNS</a> <a href="/tags/事件传递/" style="font-size: 15px;">事件传递</a> <a href="/tags/嵌套滚动-viewpager/" style="font-size: 15px;">嵌套滚动, viewpager</a> <a href="/tags/Too-many-classes-in-main-dex-list，-main-dex-capacity-exceeded/" style="font-size: 15px;">Too many classes in --main-dex-list， main dex capacity exceeded</a> <a href="/tags/widget-android-8-0/" style="font-size: 15px;">widget, android 8.0</a> <a href="/tags/瘦身/" style="font-size: 15px;">瘦身</a> <a href="/tags/Android8-0适配/" style="font-size: 15px;">Android8.0适配</a> <a href="/tags/greenDao-数据库/" style="font-size: 15px;">greenDao, 数据库</a> <a href="/tags/热更新-热补丁/" style="font-size: 15px;">热更新, 热补丁</a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> 最近文章</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2019/03/04/Test/">Test</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/10/12/Android/桌面Widget适配android8-0/">桌面Widget适配android8.0</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/24/Mac/Mac下提升效率的常用命令/">Mac提升效率的常用命令</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/09/Other/git-clean使用/">git-clean使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/04/Android/网易新闻全链路状态追踪解决方案/">网易新闻全链路状态追踪解决方案</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/15/Android/记Android8.0输入和导航变更引起的bug/">记Android8.0输入和导航变更引起的bug</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/11/Android/使用嵌套滚动实现viewpager和header的联动/">使用嵌套滚动实现viewpager和header的联动</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/29/Android/事件传递温习/">事件传递温习</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/23/Android/Android嵌套滚动入门/">Android嵌套滚动入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/02/01/Android/RecyclerView绑定View时更新数据问题解决/">RecyclerView绑定View时更新数据问题解决</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-external-link"> 友情链接</i></div><ul></ul><a href="http://www.example1.com/" title="site-name1" target="_blank">site-name1</a><ul></ul><a href="http://www.example2.com/" title="site-name2" target="_blank">site-name2</a><ul></ul><a href="http://www.example3.com/" title="site-name3" target="_blank">site-name3</a></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">Copyright © 2019 <a href="/." rel="nofollow">Glan Wang.</a> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></div></div><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=0.0.0" async></script><script type="text/javascript" src="//lib.baomitu.com/fancybox/3.5.2/jquery.fancybox.min.js" async></script><script type="text/javascript" src="/js/fancybox.js?v=0.0.0" async></script><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/fancybox/3.5.2/jquery.fancybox.min.css"><script type="text/javascript" src="/js/codeblock-resizer.js?v=0.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=0.0.0"></script></div></body></html>
+<li>glide没有提供从缓存中找到对应资源的api。<br>对于这个问题，其实解决方案想到两个:第一个通过反射不改变源码的情况下能够做到；第二个只能是修改一下相关的源码，自己提供一个api让开发团队小伙伴使用。面对这两个选择我们只能选择第二个了，虽然改了源码对以后版本升级可能会出现一定的影响，但相对于反射来说其优势还是比较明显的。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * add by guangcong</span><br><span class="line"> * 根据url, 从本地缓存中获取到缓存的图片</span><br><span class="line"> */</span><br><span class="line">public static File findDiskCache(Context context, String url) &#123;</span><br><span class="line">    OriginalKey originalKey = new OriginalKey(url, EmptySignature.obtain());</span><br><span class="line">    if (DiskLruCacheWrapper.wrapper == null)&#123;</span><br><span class="line">        get(context).getEngine().initDiskCacheProvider();</span><br><span class="line">    &#125;</span><br><span class="line">    if(DiskLruCacheWrapper.wrapper != null)&#123;</span><br><span class="line">        try &#123;</span><br><span class="line">            File file = DiskLruCacheWrapper.wrapper.get(originalKey);</span><br><span class="line">            if(file != null &amp;&amp; file.exists())&#123;</span><br><span class="line">                return file;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; catch (Throwable e)&#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return null;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p><code>注意</code>: 1. 需要设置内存缓存包含DiskCacheStrategy.SOURCE(即至少要缓存original data)；2. 上述api需要更改某些类的修饰类型为public</p>
+<ol start="2">
+<li>用户反馈图片无法展示的问题。<br>对于这个问题，绝逼是一个大坑啊。最初遇到这个问题，排查了所有可能性根本找不出问题所在。于是只能通过记录日志打log的方式，查找问题所在。在log中我们发现图片的请求是成功的，但是再想磁盘写的时候莫名的出错了，而且错误比较奇怪<br><img src="/2017/02/27/Android/Glide使用中的问题/glide1.jpg" alt><br>总是在DecodeJob的上述方法中报错 <code>Failed to ensureFile java.io.IOException: open failed: ENOENT (No such file or directory)</code> 而且文件不存在再次创建也不成功。这真是逆天了，根本不知道为什么这样。<br>黄天不负有心人，我组的大神竟然用一个反馈最多的机型复现了。复现步骤也很简单，就是vivo的一个手机自带了360清理软件，使用清理软件的时候回吧sdcard上我们创建的缓存目录删除掉，之后再创建就无法成功了。<br>到此我们也发现了问题，最主要的原因是我们使用了Context.getExternalCacheDir()作为缓存目录，此目录是在sdcard上的，清理软件会进行清理。至于为什么清理之后无法再次创建了，真个还是不太明白。于是我们吧缓存目录设置到了/data/data下，问题就完美解决了。glide默认也是缓存到/data/data下的。</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://glanwang.com/2017/02/27/Android/Glide使用中的问题/" data-id="cjt71halb0026zg227jciv4m5" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/glide-图片无法加载-获取缓存图片/">glide, 图片无法加载, 获取缓存图片</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Gradle/Gradle之Transform" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/02/15/Gradle/Gradle之Transform/" class="article-date">
+  <time datetime="2017-02-15T07:04:34.000Z" itemprop="datePublished">2017-02-15</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Gradle/">Gradle</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/02/15/Gradle/Gradle之Transform/">Gradle之Transform</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="Transfrom"><a href="#Transfrom" class="headerlink" title="Transfrom"></a>Transfrom</h3><p>Trasnform API是gradle 1.5.0之后版本提供的，该API的作用是:允许第三方在打包Dex文件之前的编译过程中操作.class文件， 目前Android gradle插件中的jarMerge, proguard, multi-dex，instantRun等一些列操作都已经转换为Transform的实现了。</p>
+<h4 id="如何使用Transform-API"><a href="#如何使用Transform-API" class="headerlink" title="如何使用Transform API"></a>如何使用Transform API</h4><p>使用Transform基本分两个步骤:</p>
+<ol>
+<li>先继承Transform类实现子类 </li>
+<li>将实现的Transform进行注册进android编译流程中  android.registerTransform(transform) 或android.registerTransform(theTransform, dependencies)<h4 id="Transform类中必须的实现"><a href="#Transform类中必须的实现" class="headerlink" title="Transform类中必须的实现"></a>Transform类中必须的实现</h4></li>
+<li><p>getName()<br>Transform中的抽象方法,实现之后返回当前Transform子类的名字.该方法return出去的名字并不是最终编译时的名字。<br>gradle core的代码中可以找到Transform的管理类， com.android.build.gradle.internal.pipeline.TransformManager在此类中会根据transform返回的name按照transform${InputType1}And${InputType2}And${InputTypeN}And${name}For${flavor}${BuildType}的形式进行拼装成完成的名字</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">private static String getTaskNamePrefix(@NonNull Transform transform) &#123;</span><br><span class="line">    StringBuilder sb = new StringBuilder(100);</span><br><span class="line">    sb.append(&quot;transform&quot;);</span><br><span class="line">    Iterator&lt;ContentType&gt; iterator = transform.getInputTypes().iterator();</span><br><span class="line">    // there&apos;s always at least one</span><br><span class="line">    sb.append(capitalize(iterator.next().name().toLowerCase(Locale.getDefault())));</span><br><span class="line">    while (iterator.hasNext()) &#123;</span><br><span class="line">        sb.append(&quot;And&quot;).append(capitalize(</span><br><span class="line">                iterator.next().name().toLowerCase(Locale.getDefault())));</span><br><span class="line">    &#125;</span><br><span class="line">    sb.append(&quot;With&quot;).append(capitalize(transform.getName())).append(&quot;For&quot;);</span><br><span class="line">    return sb.toString();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>getInputTypes()<br>指名当前的Transform要处理的数据类型。 具体类型包含两种:</p>
+</li>
+</ol>
+<ul>
+<li>QualifiedContent.DefaultContentType.CLASSES 代表要处理的数据是编译之后字节码， 这些数据的容器可以是jar包也可以是文件夹 </li>
+<li>QualifiedContent.DefaultContentType.RESOURCES标识要处理的是标准的java资源 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 指明当前Trasfrom要处理的数据类型</span><br><span class="line"> */</span><br><span class="line">@Override</span><br><span class="line">public Set&lt;QualifiedContent.ContentType&gt; getInputTypes() &#123;</span><br><span class="line">    //ImmutableSet 表示不可变的set</span><br><span class="line">    //此处的inputType包含两个大类</span><br><span class="line">    //1. CLASSES标识要处理的数据是编译过后的java字节码，这些数据的容器可以是jar包也可以是文件夹</span><br><span class="line">    //2. RESOURCES标识要处理的是java资源</span><br><span class="line">    return ImmutableSet.&lt;QualifiedContent.ContentType&gt;of(QualifiedContent.DefaultContentType.CLASSES);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<ol start="3">
+<li>getScopes()<br>配置当前Transform的影响范围,相当于作用域.其中Scope的属性解释如下图所示.<br>|Type    | Des|<br>|——–|——-|——-|<br>|PROJECT|    只处理当前项目|<br>|SUB_PROJECTS|  只处理子项目|<br>|PROJECT_LOCAL_DEPS    |只处理当前项目的本地依赖,例如jar, aar|<br>|SUB_PROJECTS_LOCAL_DEPS    |只处理子项目的本地依赖,例如jar, aar|<br>|EXTERNAL_LIBRARIES|    只处理外部的依赖库|<br>|PROVIDED_ONLY|    只处理本地或远程以provided形式引入的依赖库|<br>|TESTED_CODE|    测试代码|<br>跟getInputTypes方法一样, getScopes也是返回一个集合,那么就可以根据自己的需求配置多种Scope</li>
+<li>isIncremental()<br>当前Transform是否支持增量编译</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://glanwang.com/2017/02/15/Gradle/Gradle之Transform/" data-id="cjt71hafg0006zg22cyc6g6vi" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/transform-API-gradle/">transform API, gradle</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Gradle/Groovy语法简介" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/02/13/Gradle/Groovy语法简介/" class="article-date">
+  <time datetime="2017-02-13T08:05:28.000Z" itemprop="datePublished">2017-02-13</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Gradle/">Gradle</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/02/13/Gradle/Groovy语法简介/">Groovy语法简介</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="Groovy"><a href="#Groovy" class="headerlink" title="Groovy"></a>Groovy</h3><p>Groovy是一门JVM语言，也就是说Groovy的代码最终也会编译成JVM字节码， 交给虚拟机去执行。gradle之所以选择groovy语言，很重要的一个因素是groovy的结构看起来非常通俗移动，如同配置文件一般。<br>Groovy语法的简介:</p>
+<h4 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h4><p>groovy中没有固定的类型，有点类似于若类型的语言，变量可以通过def关键字引用<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">def name = &apos;Glan&apos;</span><br><span class="line">def hello = &quot;Hello, $name&quot;</span><br></pre></td></tr></table></figure></p>
+<p><code>注意:</code> 单引号表示这个字符串只是单纯的字符串；而双引号则可以在字符中引用变量,进行插值操作。</p>
+<h4 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h4><p>groovy的方法也是通过def关键字进行定义的。方法如果不指定返回值，默认返回最后一行代码的值。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">def square(def num)&#123;</span><br><span class="line">    num*num</span><br><span class="line">&#125;</span><br><span class="line">square 4</span><br></pre></td></tr></table></figure></p>
+<h4 id="类"><a href="#类" class="headerlink" title="类"></a>类</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">class MyGroovyClass &#123;</span><br><span class="line">    String greeting //变量</span><br><span class="line">    //方法</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Groovy中，默认所有的类和方法都是public的，所有的类的字段都是private的；</li>
+<li>new关键字穿件实例，使用def接受对象引用: def instance = new MyGroovyClass()</li>
+<li>类中声明的字段，默认都会生成对应的setter和getter方法(有点类似于Object C)。所以代码中可以直接使用get和set方法。 <code>instance.setGreeting &#39;hello, groovy&#39;</code>。<br><code>注意</code>:groovy的方法调用是可以没有括号的，而且也不需要分号结尾(使用分号也不会报错)。 也可以直接通过instance.greeting这样的方式获取字段，其实调用的还是get方法。<h4 id="Map、-Collections"><a href="#Map、-Collections" class="headerlink" title="Map、 Collections"></a>Map、 Collections</h4>创建list <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">List list = [1, 2, 3, 4, 5]</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>遍历列表<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">list.each()&#123; element -&gt; </span><br><span class="line">    println element</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>定义一个Map, map的key必须为字符，不写单双引号默认也是字符串<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Map map = [&apos;glan&apos; : g,  &apos;wang&apos;:2]</span><br></pre></td></tr></table></figure></p>
+<p>获取map的值<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">map.get(&apos;glan&apos;)</span><br><span class="line">map[&apos;glan&apos;]</span><br></pre></td></tr></table></figure></p>
+<p>定义Range类:Range为List的一个拓展，<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">def aRange = 1..5  &lt;==Range类型的变量 由begin值+两个点+end值表示</span><br><span class="line">                      左边这个aRange包含1,2,3,4,5这5个值</span><br><span class="line"></span><br><span class="line">如果不想包含最后一个元素，则</span><br><span class="line"></span><br><span class="line">def aRangeWithoutEnd = 1..&lt;5  &lt;==包含1,2,3,4这4个元素</span><br><span class="line">println aRange.from</span><br><span class="line">println aRange.to</span><br></pre></td></tr></table></figure></p>
+<h4 id="闭包"><a href="#闭包" class="headerlink" title="闭包"></a>闭包</h4><p>闭包(Closure)， 是一种数据类型，它代表了一段可执行的代码，是Grooovy中一个非常重要的数据类型或者说一种概念。外型如下:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">def aClosure = &#123;//闭包是一段代码，所以需要用花括号括起来</span><br><span class="line">    param1, param2 -&gt;   //箭头前边标识参数，后面是代码</span><br><span class="line">    println &quot;this is code&quot;   //这是代码，最后一句是返回值</span><br><span class="line">    //也可以使用return进行返回，类似于Groovy函数</span><br><span class="line">&#125;</span><br><span class="line">//总结:</span><br><span class="line">def xxx = &#123;paramters -&gt; code&#125;  //或者  </span><br><span class="line">def xxx = &#123;无参数，纯code&#125;  这种case不需要-&gt;符号</span><br></pre></td></tr></table></figure></p>
+<p>调用闭包: 闭包对象.call(参数)  或者更像函数的调用方法 : 闭包对象(参数)<br>例如:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">aClosure.call(&quot;hello&quot;, 100)   或者</span><br><span class="line">aClosure(&quot;hello&quot;, 100)</span><br></pre></td></tr></table></figure></p>
+<p><code>注意:</code>如果闭包没定义参数的话，则隐含有一个参数，这个参数名字叫it，和this的作用类似。it代表闭包的参数。<br>例如:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">def greeting = &#123;&quot;hello, $it&quot;&#125;</span><br><span class="line">//等同与</span><br><span class="line">def greeting = &#123; it -&gt;  &quot;hello, $it&quot;&#125;</span><br><span class="line"></span><br><span class="line">def noParamClosure = &#123; -&gt; true&#125; //标识没有参数的闭包，此时调用就不能传递参数否则报错</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">def square  = &#123;num -&gt;</span><br><span class="line">    num * num </span><br><span class="line">   &#125;</span><br><span class="line">   square 8</span><br></pre></td></tr></table></figure>
+<p>如果只有一个参数，我们甚至可以省略这个参数，默认使用it作为参数，最后代码是这样的：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Closure square = &#123;</span><br><span class="line">    it * it</span><br><span class="line">&#125;</span><br><span class="line">square 16</span><br></pre></td></tr></table></figure></p>
+<p>####Groovy I/O操作</p>
+<ul>
+<li><p>读文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">def targetFile = new File(文件名)  //创建file对象</span><br><span class="line">//1. 每一行兑取</span><br><span class="line">targetFile.eachLine &#123; line -&gt; </span><br><span class="line">        println line</span><br><span class="line">&#125;</span><br><span class="line">//2. 直接得到文件内容</span><br><span class="line">targetFile.getBytes()  //或者直接targetFile.bytes</span><br><span class="line">//3. 操作流</span><br><span class="line">def  ism = targetFile.newInputStream()</span><br><span class="line">//操作ism后需要关闭</span><br><span class="line">ism.close</span><br><span class="line">//4. 使用闭包操作inputStream，这种方式再gradle中常用.而且不需要自己关闭流</span><br><span class="line">targetFile.withInputStrem &#123; ism -&gt;</span><br><span class="line">    操作ism， 不用调用close， Groovy在闭包中会自动关闭</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>写文件: 和对文件基本差不多。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">def srcFile = new File(源文件名)  </span><br><span class="line">def targetFile = new File(目标文件名)  </span><br><span class="line">targetFile.withOutputStream&#123; os-&gt;  </span><br><span class="line">  srcFile.withInputStream&#123; ins-&gt;  </span><br><span class="line">      os &lt;&lt; ins   //利用OutputStream的&lt;&lt;操作符重载，完成从inputstream到OutputStream  的输出</span><br><span class="line">   &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="Groovy-in-Gradle"><a href="#Groovy-in-Gradle" class="headerlink" title="Groovy in Gradle"></a>Groovy in Gradle</h3><p>了解了groovy的基本语法，我们来看看gradle的代码</p>
+<ul>
+<li>apply <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apply plugin: &apos;com.android.application&apos;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>这段代码其实就是掉用了project对象的apply方法， 传入的是一个以plugin为key的map对象。完整的写法为<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">project.apply([plugin: &apos;com.android.application&apos;])</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>dependencies<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">dependencies &#123;</span><br><span class="line">    compile &apos;com.google.code.gson:gson:2.2&apos;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>时机调用的时候会传入一个DependencyHandler的闭包，完整如下:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">project.dependencies(&#123;</span><br><span class="line">    add(&apos;compile&apos; , &apos;com.google.code.gson:gson:2.2&apos; , &#123;</span><br><span class="line">        //configuration statements</span><br><span class="line">        &#125;)   </span><br><span class="line">     &#125;)</span><br></pre></td></tr></table></figure></p>
+<h4 id="Task"><a href="#Task" class="headerlink" title="Task"></a>Task</h4><ul>
+<li>创建Task<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">task hello &#123;</span><br><span class="line">    println &apos;hello, world&apos;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>gradle的声明周期有三步， 初始化， 配置和执行。上面的代码在配置过程中就已经支行了，所以打印出的字符串发生在任务执行之前，如果要再执行的阶段执行任务代码则需要如下:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">task hello &lt;&lt; &#123;</span><br><span class="line">    println ‘Hello, world’</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>添加Action :<br>  Task包含一系列的action， 当task执行的时候，所有的action都会一次执行。如果我们想加入自己的action， 我们可以通过复写doFirst()和doLast()方法:<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">task hello &#123;</span><br><span class="line">    println &apos;Configuration&apos;  //执行阶段之前</span><br><span class="line">    doLast &#123;</span><br><span class="line">        println &apos;Bye bye&apos;</span><br><span class="line">    &#125;</span><br><span class="line">    doFirst &#123;</span><br><span class="line">        println &apos;Hello &apos;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>运行gradle hello执行结果为<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Configuration</span><br><span class="line">:hello</span><br><span class="line">Hello</span><br><span class="line">Bye bye</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>Task依赖: task的依赖关系有两种， mustRunAfter和dependsOn。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">task task1 &lt;&lt; &#123;</span><br><span class="line">    println &apos;task1&apos;</span><br><span class="line">&#125;</span><br><span class="line">task task2 &lt;&lt;&#123;</span><br><span class="line">    println &apos;task2&apos;</span><br><span class="line">&#125;</span><br><span class="line">task2.mustRunAfter task1  //第一种关系</span><br><span class="line">task2.dependsOn task1  //第二种</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>他们的区别是，运行的的时候前者必须要都按顺序加入gradlew task2 task1执行才可以顺利执行，否则单独执行每个任务，后者只需要执行gradlew task2即可同时执行两个任务。</p>
+<h4 id="Gradle-的编译周期"><a href="#Gradle-的编译周期" class="headerlink" title="Gradle 的编译周期"></a>Gradle 的编译周期</h4><p><img src="/2017/02/13/Gradle/Groovy语法简介/gradle.jpg" alt><br>编译过程分为三个阶段：</p>
+<ul>
+<li>首先是初始化阶段。对我们前面的multi-project build而言，就是执行settings.gradle</li>
+<li>Initiliazation phase的下一个阶段是Configration阶段。</li>
+<li>Configration阶段的目标是解析每个project中的build.gradle。比如multi-project build例子中，解析每个子目录中的build.gradle。在这两个阶段之间，我们可以加一些定制化的Hook。这当然是通过API来添加的。<br>-Configuration阶段完了后，整个build的project以及内部的Task关系就确定了。恩？前面说过，一个Project包含很多Task，每个Task之间有依赖关系。Configuration会建立一个有向图来描述Task之间的依赖关系。所以，我们可以添加一个HOOK，即当Task关系图建立好后，执行一些操作。</li>
+<li>最后一个阶段就是执行任务了。当然，任务执行完后，我们还可以加Hook。</li>
+</ul>
+<p>在解析 Gradle 的编译过程之前我们需要理解在 Gradle 中非常重要的两个对象。Project和Task。</p>
+<p>每个项目的编译至少有一个 Project,一个 build.gradle就代表一个project,每个project里面包含了多个task,task 里面又包含很多action，action是一个代码块，里面包含了需要被执行的代码。</p>
+<p>在编译过程中， Gradle 会根据 build 相关文件，聚合所有的project和task，执行task 中的 action。因为 build.gradle文件中的task非常多，先执行哪个后执行那个需要一种逻辑来保证。这种逻辑就是依赖逻辑，几乎所有的Task 都需要依赖其他 task 来执行，没有被依赖的task 会首先被执行。所以到最后所有的 Task 会构成一个 有向无环图（DAG Directed Acyclic Graph）的数据结构。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://glanwang.com/2017/02/13/Gradle/Groovy语法简介/" data-id="cjt71hafq000bzg22way2jovh" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Gradle/">Gradle</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+
+
+  <nav id="page-nav">
+    
+    <a class="extend prev" rel="prev" href="/page/2/">&laquo; 上一页</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/4/">下一页 &raquo;</a>
+  </nav>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Gradle/">Gradle</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac/">Mac</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Other/">Other</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AOP/">AOP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android8-0适配/">Android8.0适配</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AspectJ-android/">AspectJ, android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Gradle/">Gradle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IDEA导出可执行jar/">IDEA导出可执行jar</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Too-many-classes-in-main-dex-list，-main-dex-capacity-exceeded/">Too many classes in --main-dex-list， main dex capacity exceeded</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/apktools/">apktools</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/design-appBarLayout/">design, appBarLayout</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git-clean/">git clean</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git迁移/">git迁移</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/glide-图片无法加载-获取缓存图片/">glide, 图片无法加载, 获取缓存图片</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/glide源码解读/">glide源码解读</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gradle-守护进程，org-gradle-daemon/">gradle 守护进程，org.gradle.daemon</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gradle教程/">gradle教程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gradle，屏蔽，task/">gradle，屏蔽，task</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/greenDao-数据库/">greenDao, 数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/https-httpDNS/">https, httpDNS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/memory-monitors-android-studio/">memory monitors, android studio</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/okhttp-header/">okhttp, header</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/proguard/">proguard</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/">shell</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell字符串/">shell字符串</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sqltie-GreenDao/">sqltie, GreenDao</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/transform-API-gradle/">transform API, gradle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/transient/">transient</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vim/">vim</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/widget-android-8-0/">widget, android 8.0</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/事件传递/">事件传递</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/堆，栈/">堆，栈</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/嵌套滚动-NestedScrolling/">嵌套滚动, NestedScrolling</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/嵌套滚动-viewpager/">嵌套滚动, viewpager</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/正则表达式，shell/">正则表达式，shell</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/热更新-热补丁/">热更新, 热补丁</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/瘦身/">瘦身</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/设计模式/">设计模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/请求追踪/">请求追踪</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/AOP/" style="font-size: 10px;">AOP</a> <a href="/tags/Android8-0适配/" style="font-size: 10px;">Android8.0适配</a> <a href="/tags/AspectJ-android/" style="font-size: 10px;">AspectJ, android</a> <a href="/tags/Gradle/" style="font-size: 10px;">Gradle</a> <a href="/tags/IDEA导出可执行jar/" style="font-size: 10px;">IDEA导出可执行jar</a> <a href="/tags/Too-many-classes-in-main-dex-list，-main-dex-capacity-exceeded/" style="font-size: 10px;">Too many classes in --main-dex-list， main dex capacity exceeded</a> <a href="/tags/apktools/" style="font-size: 10px;">apktools</a> <a href="/tags/design-appBarLayout/" style="font-size: 10px;">design, appBarLayout</a> <a href="/tags/git/" style="font-size: 20px;">git</a> <a href="/tags/git-clean/" style="font-size: 10px;">git clean</a> <a href="/tags/git迁移/" style="font-size: 10px;">git迁移</a> <a href="/tags/glide-图片无法加载-获取缓存图片/" style="font-size: 10px;">glide, 图片无法加载, 获取缓存图片</a> <a href="/tags/glide源码解读/" style="font-size: 10px;">glide源码解读</a> <a href="/tags/gradle-守护进程，org-gradle-daemon/" style="font-size: 10px;">gradle 守护进程，org.gradle.daemon</a> <a href="/tags/gradle教程/" style="font-size: 10px;">gradle教程</a> <a href="/tags/gradle，屏蔽，task/" style="font-size: 10px;">gradle，屏蔽，task</a> <a href="/tags/greenDao-数据库/" style="font-size: 10px;">greenDao, 数据库</a> <a href="/tags/https-httpDNS/" style="font-size: 10px;">https, httpDNS</a> <a href="/tags/memory-monitors-android-studio/" style="font-size: 10px;">memory monitors, android studio</a> <a href="/tags/okhttp-header/" style="font-size: 10px;">okhttp, header</a> <a href="/tags/proguard/" style="font-size: 10px;">proguard</a> <a href="/tags/shell/" style="font-size: 10px;">shell</a> <a href="/tags/shell字符串/" style="font-size: 10px;">shell字符串</a> <a href="/tags/sqltie-GreenDao/" style="font-size: 10px;">sqltie, GreenDao</a> <a href="/tags/transform-API-gradle/" style="font-size: 10px;">transform API, gradle</a> <a href="/tags/transient/" style="font-size: 10px;">transient</a> <a href="/tags/vim/" style="font-size: 10px;">vim</a> <a href="/tags/widget-android-8-0/" style="font-size: 10px;">widget, android 8.0</a> <a href="/tags/事件传递/" style="font-size: 10px;">事件传递</a> <a href="/tags/堆，栈/" style="font-size: 10px;">堆，栈</a> <a href="/tags/嵌套滚动-NestedScrolling/" style="font-size: 10px;">嵌套滚动, NestedScrolling</a> <a href="/tags/嵌套滚动-viewpager/" style="font-size: 10px;">嵌套滚动, viewpager</a> <a href="/tags/正则表达式，shell/" style="font-size: 10px;">正则表达式，shell</a> <a href="/tags/热更新-热补丁/" style="font-size: 10px;">热更新, 热补丁</a> <a href="/tags/瘦身/" style="font-size: 10px;">瘦身</a> <a href="/tags/设计模式/" style="font-size: 10px;">设计模式</a> <a href="/tags/请求追踪/" style="font-size: 15px;">请求追踪</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">三月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">八月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">六月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">五月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">二月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">六月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">十一月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">十月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">九月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">八月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">七月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">六月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">五月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/03/04/Test/">Test</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/12/Android/桌面Widget适配android8-0/">桌面Widget适配android8.0</a>
+          </li>
+        
+          <li>
+            <a href="/2018/08/24/Mac/Mac下提升效率的常用命令/">Mac提升效率的常用命令</a>
+          </li>
+        
+          <li>
+            <a href="/2018/07/09/Other/git-clean使用/">git-clean使用</a>
+          </li>
+        
+          <li>
+            <a href="/2018/07/04/Android/网易新闻全链路状态追踪解决方案/">网易新闻全链路状态追踪解决方案</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 GlanWang<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

@@ -1,7 +1,1060 @@
-<!DOCTYPE html><html lang="zh-CN"><head><meta name="generator" content="Hexo 3.8.0"><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description"><title>Glan Wang | CoderGC</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=0.0.0"><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/normalize/8.0.1/normalize.min.css"><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/pure/1.0.0/pure-min.css"><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/pure/1.0.0/grids-responsive-min.css"><link rel="stylesheet" href="//lib.baomitu.com/font-awesome/4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//lib.baomitu.com/jquery/3.3.1/jquery.min.js"></script><link rel="icon" mask sizes="any" href="/favicon.ico"><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">Glan Wang</h1><a id="logo" href="/.">Glan Wang</a><p class="description">CoderGC</p></div><div id="nav-menu"><a class="current" href="/."><i class="fa fa-home"> 首页</i></a><a href="/archives/"><i class="fa fa-archive"> 归档</i></a><a href="/about/"><i class="fa fa-user"> 关于</i></a><a href="/atom.xml"><i class="fa fa-rss"> 订阅</i></a></div></div><div class="pure-g" id="layout"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title"><a href="/2017/09/27/Java/Java设计模式总结-单例模式/">Java设计模式总结---单例模式</a></h1><div class="post-meta">2017-09-27</div><div class="post-content"><p>最近想系统的总结学习一下 java 的设计模式，于是做了计划每周搞一个。从最熟悉的开始吧—–单例 Singleton。</p>
-<h3 id="使用情景"><a href="#使用情景" class="headerlink" title="使用情景"></a>使用情景</h3><p>单例目的是保证只有一个对象，所以一般使用单例有两种情况:一种真的就是需要一个对象，例如缓存，数据库，日志对象，读取配置；另一种是创建一个对象比较耗时，这时我们可以考虑使用单例，只创建一次。</p></div><p class="readmore"><a href="/2017/09/27/Java/Java设计模式总结-单例模式/">阅读全文</a></p></div><div class="post"><h1 class="post-title"><a href="/2017/09/01/Other/vim学习/">vim笔记一</a></h1><div class="post-meta">2017-09-01</div><div class="post-content"><h3 id="光标"><a href="#光标" class="headerlink" title="光标"></a>光标</h3><ul>
-<li>hjkl 四个键操作光标方向。  j, k 上下 h,l 左右。 <h3 id="vim-的进入和退出"><a href="#vim-的进入和退出" class="headerlink" title="vim 的进入和退出"></a>vim 的进入和退出</h3></li></ul></div><p class="readmore"><a href="/2017/09/01/Other/vim学习/">阅读全文</a></p></div><div class="post"><h1 class="post-title"><a href="/2017/08/29/Mac/shell正则表达式/">shell正则表达式</a></h1><div class="post-meta">2017-08-29</div><div class="post-content"><h3 id="正则的意义"><a href="#正则的意义" class="headerlink" title="正则的意义"></a>正则的意义</h3><p>正则对于平时的开发工作是非常有意义的，如果不用正则有可能你需要复杂的逻辑去完成一个需求。然而，使用正则的时候经常会<code>骂娘</code>， 为什么骂娘？ 无非两个原因: 一、看不懂了。二、忘记了规则实在写不出来。 其实，如果不是特别经常使用正则确实会忘的比较厉害。但是，如果你对正则进行一个深入的理解，是有助于长期记忆的。</p></div><p class="readmore"><a href="/2017/08/29/Mac/shell正则表达式/">阅读全文</a></p></div><div class="post"><h1 class="post-title"><a href="/2017/08/18/Gradle/Gradle守护进程导致的android打包异常/">Gradle守护进程导致的android打包异常</a></h1><div class="post-meta">2017-08-18</div><div class="post-content"><p>公司内部打包平台可以根据不同分支不同渠道信息进行自动化打包。昨天发版打包时竟然发现了一个特别诡异的问题导致生成的 apk 安装包直接崩溃。</p>
-<h3 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h3><p> 先选择含有听云sdk 代码的分支进行自动化打包，打包完毕验证 apk 没有问题； 然后选择不含有听云 sdk 代码的分支进行自动化打包，打包完成，验证 apk，直接启动崩溃。查看 log<br>java.lang.NoClassDefFoundError: Failed resolution of: Lcom/networkbench/agent/impl/instrumentation/NBSSQLiteInstrumentation;<br>看到上述 log，第一反应有点懵逼，怎么会包听云 sdk 中的类呢。明明代码中没有引入听云 sdk。 难道 代码 checkout 出错了？难道 build脚本我忘记 clean Task 了？ 难道 clean 代码没有 clean 干净？…… </p></div><p class="readmore"><a href="/2017/08/18/Gradle/Gradle守护进程导致的android打包异常/">阅读全文</a></p></div><div class="post"><h1 class="post-title"><a href="/2017/08/17/Android/SQLite迁移到GreenDao/">SQLite迁移到GreenDao</a></h1><div class="post-meta">2017-08-17</div><div class="post-content"><p>从原生的 SQLite 迁移到 GreenDao 数据库框架整体上来讲还是相对比较容易的，这也归功与 GreenDao 易用的 API 和编译期注解。</p>
-<h3 id="整体的设计思路"><a href="#整体的设计思路" class="headerlink" title="整体的设计思路"></a>整体的设计思路</h3><p><img src="SQLite迁移到GreenDao/db_framework.png" alt="db_framework"></p></div><p class="readmore"><a href="/2017/08/17/Android/SQLite迁移到GreenDao/">阅读全文</a></p></div><div class="post"><h1 class="post-title"><a href="/2017/08/16/Android/Android数据库调研以及GreenDao3使用/">Android数据库调研以及GreenDao3使用</a></h1><div class="post-meta">2017-08-16</div><div class="post-content"><p>网易新闻客户端对数据库的依赖是比较重的，很多数据都存在了客户端数据库，因此我们很早之前就想将数据库模块进行改造。于是我们对目前 Android 上使用比较广泛的数据库框架做了一个调研，并写了一个 demo 比较了一下各个框架的性能和易用性。</p>
-<h3 id="Android-上常用的数据库框架"><a href="#Android-上常用的数据库框架" class="headerlink" title="Android 上常用的数据库框架"></a>Android 上常用的数据库框架</h3><p>调研了一下目前 android 上常用的数据库框架，主要有:</p></div><p class="readmore"><a href="/2017/08/16/Android/Android数据库调研以及GreenDao3使用/">阅读全文</a></p></div><div class="post"><h1 class="post-title"><a href="/2017/07/18/Android/AOP技术在网易新闻中的应用/">AOP技术在网易新闻中的应用</a></h1><div class="post-meta">2017-07-18</div><div class="post-content"><h3 id="AOP概念"><a href="#AOP概念" class="headerlink" title="AOP概念"></a>AOP概念</h3><p>百度百科中对AOP的解释如下:<br>在软件业，AOP为Aspect Oriented Programming的缩写，意为：面向切面编程，通过预编译方式和运行期动态代理实现程序功能的统一维护的一种技术。AOP是OOP的延续，是软件开发中的一个热点，也是Spring框架中的一个重要内容，是函数式编程的一种衍生范型。利用AOP可以对业务逻辑的各个部分进行隔离，从而使得业务逻辑各部分之间的耦合度降低，提高程序的可重用性，同时提高了开发的效率。<br>说白了，AOP其实就是OOP的补充，OOP从横向上区分出一个个的类来，而AOP则从纵向上向对象中加入特定的代码。</p></div><p class="readmore"><a href="/2017/07/18/Android/AOP技术在网易新闻中的应用/">阅读全文</a></p></div><div class="post"><h1 class="post-title"><a href="/2017/07/14/Android/网易新闻热补丁技术实践/">网易新闻热补丁技术实践</a></h1><div class="post-meta">2017-07-14</div><div class="post-content"><p>两年之前android hot fix技术炒的非常热，各大厂商也是花样百出，各自献计，一时间出现了百家齐鸣的现象。但是各家都有各家的问题。当然网易其实也不甘落后，公司不同部门也研发了自己的热更新热补丁方案。网易新闻也是不断的探索未知，先后实践过一些方案， 目前使用的还是基于AOP的方案。<br>到目前为止，新闻android客户端上线热补丁技术也已经将近两年的时间了。也曾经为部门立下赫赫战功。一直想给这套方案起一个优雅的名字，但是始终没有想到满意的。直到今天早上，偶然间看到了一个单词Vulcan([‘vʌlkən]伏尔加，罗马神话中的火神与金工神)，对这个词非常有感觉，那我就暂时已Vulcan对我们这套热补丁方案命名吧。<br>其实，很早之前就想写一下这套实践方案的思路，一直手懒没有写，今天看到了Vulcan这个词，一时兴起，提笔书之。</p></div><p class="readmore"><a href="/2017/07/14/Android/网易新闻热补丁技术实践/">阅读全文</a></p></div><div class="post"><h1 class="post-title"><a href="/2017/07/06/Android/网易新闻瘦身实践/">网易新闻瘦身实践</a></h1><div class="post-meta">2017-07-06</div><div class="post-content"><p>随着业务的不断增长，网易新闻客户端已经承载了过多的功能，不仅仅是一个新闻资讯的app，而是成了公司各个业务线的载体。因此，体积增长的问题就暴露了出来。体积最大时达到了30M，这对一个android应用级别的app来说算是非常大的了。于是不得不把瘦身的工作提到日程上。</p>
-<h3 id="分析apk，查看个模块的占比"><a href="#分析apk，查看个模块的占比" class="headerlink" title="分析apk，查看个模块的占比"></a>分析apk，查看个模块的占比</h3><p>这一块目前来说还是非常方便的，直接使用android studio提供的apk分析工具，将自己的apk拉入进去，查看一下包体积的状况即可。<br><img src="网易新闻瘦身实践/apkanalyze.jpg" alt><br>如上图所示，可以看到主要的体积占用是再lib下的so库， 资源文件和dex这三个部分。于是我们根据分析采取了以下措施。</p></div><p class="readmore"><a href="/2017/07/06/Android/网易新闻瘦身实践/">阅读全文</a></p></div><div class="post"><h1 class="post-title"><a href="/2017/07/04/Android/AppBarLayout的五中ScrollFlags/">AppBarLayout的五中ScrollFlags</a></h1><div class="post-meta">2017-07-04</div><div class="post-content"><p>最近使用CoordinatorLayout和AppBarLayout，总结一下AppBarLayout的scrollFlags属性；<br>scrollFlags共有五中取值提供给AppBarLayout的ChildView使用， 在布局中直接使用app:layout_scroolFlags设置， 对应的职位scroll, enterAlways, enterAlwaysCollapsed, snap, exitUntilCollapsed; 代码中通过’setScrollFlags(int)’来进行设置。</p></div><p class="readmore"><a href="/2017/07/04/Android/AppBarLayout的五中ScrollFlags/">阅读全文</a></p></div><nav class="page-navigator"><a class="extend prev" rel="prev" href="/">上一页</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/3/">下一页</a></nav></div></div><div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar"><div class="widget"><form class="search-form" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank"><input type="text" name="q" maxlength="20" placeholder="Search"><input type="hidden" name="sitesearch" value="http://glanwang.com"></form></div><div class="widget"><div class="widget-title"><i class="fa fa-folder-o"> 分类</i></div><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Gradle/">Gradle</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac/">Mac</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Other/">Other</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-star-o"> 标签</i></div><div class="tagcloud"><a href="/tags/请求追踪/" style="font-size: 15px;">请求追踪</a> <a href="/tags/gradle-守护进程，org-gradle-daemon/" style="font-size: 15px;">gradle 守护进程，org.gradle.daemon</a> <a href="/tags/transform-API-gradle/" style="font-size: 15px;">transform API, gradle</a> <a href="/tags/Gradle/" style="font-size: 15px;">Gradle</a> <a href="/tags/IDEA导出可执行jar/" style="font-size: 15px;">IDEA导出可执行jar</a> <a href="/tags/堆，栈/" style="font-size: 15px;">堆，栈</a> <a href="/tags/设计模式/" style="font-size: 15px;">设计模式</a> <a href="/tags/transient/" style="font-size: 15px;">transient</a> <a href="/tags/shell/" style="font-size: 15px;">shell</a> <a href="/tags/shell字符串/" style="font-size: 15px;">shell字符串</a> <a href="/tags/正则表达式，shell/" style="font-size: 15px;">正则表达式，shell</a> <a href="/tags/git/" style="font-size: 15px;">git</a> <a href="/tags/git-clean/" style="font-size: 15px;">git clean</a> <a href="/tags/git迁移/" style="font-size: 15px;">git迁移</a> <a href="/tags/vim/" style="font-size: 15px;">vim</a> <a href="/tags/AOP/" style="font-size: 15px;">AOP</a> <a href="/tags/memory-monitors-android-studio/" style="font-size: 15px;">memory monitors, android studio</a> <a href="/tags/嵌套滚动-NestedScrolling/" style="font-size: 15px;">嵌套滚动, NestedScrolling</a> <a href="/tags/design-appBarLayout/" style="font-size: 15px;">design, appBarLayout</a> <a href="/tags/AspectJ-android/" style="font-size: 15px;">AspectJ, android</a> <a href="/tags/glide-图片无法加载-获取缓存图片/" style="font-size: 15px;">glide, 图片无法加载, 获取缓存图片</a> <a href="/tags/glide源码解读/" style="font-size: 15px;">glide源码解读</a> <a href="/tags/gradle教程/" style="font-size: 15px;">gradle教程</a> <a href="/tags/gradle，屏蔽，task/" style="font-size: 15px;">gradle，屏蔽，task</a> <a href="/tags/okhttp-header/" style="font-size: 15px;">okhttp, header</a> <a href="/tags/proguard/" style="font-size: 15px;">proguard</a> <a href="/tags/sqltie-GreenDao/" style="font-size: 15px;">sqltie, GreenDao</a> <a href="/tags/apktools/" style="font-size: 15px;">apktools</a> <a href="/tags/https-httpDNS/" style="font-size: 15px;">https, httpDNS</a> <a href="/tags/事件传递/" style="font-size: 15px;">事件传递</a> <a href="/tags/嵌套滚动-viewpager/" style="font-size: 15px;">嵌套滚动, viewpager</a> <a href="/tags/Too-many-classes-in-main-dex-list，-main-dex-capacity-exceeded/" style="font-size: 15px;">Too many classes in --main-dex-list， main dex capacity exceeded</a> <a href="/tags/widget-android-8-0/" style="font-size: 15px;">widget, android 8.0</a> <a href="/tags/瘦身/" style="font-size: 15px;">瘦身</a> <a href="/tags/Android8-0适配/" style="font-size: 15px;">Android8.0适配</a> <a href="/tags/greenDao-数据库/" style="font-size: 15px;">greenDao, 数据库</a> <a href="/tags/热更新-热补丁/" style="font-size: 15px;">热更新, 热补丁</a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> 最近文章</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2019/03/04/Test/">Test</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/10/12/Android/桌面Widget适配android8-0/">桌面Widget适配android8.0</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/24/Mac/Mac下提升效率的常用命令/">Mac提升效率的常用命令</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/09/Other/git-clean使用/">git-clean使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/04/Android/网易新闻全链路状态追踪解决方案/">网易新闻全链路状态追踪解决方案</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/15/Android/记Android8.0输入和导航变更引起的bug/">记Android8.0输入和导航变更引起的bug</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/11/Android/使用嵌套滚动实现viewpager和header的联动/">使用嵌套滚动实现viewpager和header的联动</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/29/Android/事件传递温习/">事件传递温习</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/23/Android/Android嵌套滚动入门/">Android嵌套滚动入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/02/01/Android/RecyclerView绑定View时更新数据问题解决/">RecyclerView绑定View时更新数据问题解决</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-external-link"> 友情链接</i></div><ul></ul><a href="http://www.example1.com/" title="site-name1" target="_blank">site-name1</a><ul></ul><a href="http://www.example2.com/" title="site-name2" target="_blank">site-name2</a><ul></ul><a href="http://www.example3.com/" title="site-name3" target="_blank">site-name3</a></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">Copyright © 2019 <a href="/." rel="nofollow">Glan Wang.</a> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></div></div><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=0.0.0" async></script><script type="text/javascript" src="//lib.baomitu.com/fancybox/3.5.2/jquery.fancybox.min.js" async></script><script type="text/javascript" src="/js/fancybox.js?v=0.0.0" async></script><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/fancybox/3.5.2/jquery.fancybox.min.css"><script type="text/javascript" src="/js/codeblock-resizer.js?v=0.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=0.0.0"></script></div></body></html>
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+
+  
+  <title>Glan Wang</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Glan Wang">
+<meta property="og:url" content="http://glanwang.com/page/2/index.html">
+<meta property="og:site_name" content="Glan Wang">
+<meta property="og:locale" content="zh-CN">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Glan Wang">
+  
+    <link rel="alternate" href="/atom.xml" title="Glan Wang" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Glan Wang</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">CoderGC</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://glanwang.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-Java/Java设计模式总结-单例模式" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/09/27/Java/Java设计模式总结-单例模式/" class="article-date">
+  <time datetime="2017-09-27T10:11:27.000Z" itemprop="datePublished">2017-09-27</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Java/">Java</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/09/27/Java/Java设计模式总结-单例模式/">Java设计模式总结---单例模式</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>最近想系统的总结学习一下 java 的设计模式，于是做了计划每周搞一个。从最熟悉的开始吧—–单例 Singleton。</p>
+<h3 id="使用情景"><a href="#使用情景" class="headerlink" title="使用情景"></a>使用情景</h3><p>单例目的是保证只有一个对象，所以一般使用单例有两种情况:一种真的就是需要一个对象，例如缓存，数据库，日志对象，读取配置；另一种是创建一个对象比较耗时，这时我们可以考虑使用单例，只创建一次。</p>
+<h3 id="单例的实现"><a href="#单例的实现" class="headerlink" title="单例的实现"></a>单例的实现</h3><p>单例实现分为两大类:懒汉式和饿汉式<br>个人习惯使用懒汉式，因为懒汉式是按需加载，这样能够减少类加载时的内存开销</p>
+<h3 id="懒汉式"><a href="#懒汉式" class="headerlink" title="懒汉式"></a>懒汉式</h3><h4 id="双重检索版本"><a href="#双重检索版本" class="headerlink" title="双重检索版本"></a>双重检索版本</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Single</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Single mInstance;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Single</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Single <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (mInstance == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">synchronized</span> (Single.class) &#123;</span><br><span class="line">                <span class="keyword">if</span> (mInstance == <span class="keyword">null</span>) &#123;</span><br><span class="line">                    mInstance = <span class="keyword">new</span> Single();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> mInstance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>解释:<br>第一个 if(mInstance== null) ，是为了解决效率问题，synchronized 是对效率有所影响的。<br>第二个if(mInstance == null)， 视为了放置可能出现多个实例的情况。<br>但是这样真的保证万无一失了么？？？ 其实不是的，仍然室友一定的概率出现问题。</p>
+<h4 id="volatile-版本"><a href="#volatile-版本" class="headerlink" title="volatile 版本"></a>volatile 版本</h4><p>mInstance = new Single()；的过程其实并非是一个原子操作，再 jvm 中这句话其实做了三件事:1. 给 mInstance分配内存； 2. 给 Single 类的构造函数初执行，生成 Single 实例； 3. 将 Single对象指向分配的内存控件(指向确定后 mInstance 是非 null 的)。<br>由于 jvm 的即时编译器存在指令重排序的优化，最终不能保证执行顺序是1-2-3。实际执行顺序有可能是1-3-2。加入执行顺序是1-3-2 : 3执行完成时，mInstance 已经是非空了，但是其还没有进行初始化操作，这时候如果其他线程获取到直接使用就可能会出错。<br>当然以上情况出现的概率已经非常小了，平时开发可以忽略，但其实毕竟是有这样的问题，那么如何解决呢？ 方案很简单:给 mInstance 添加 volatile 关键字。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Single</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">volatile</span> Single mInstance;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Single</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Single <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (mInstance == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">synchronized</span> (Single.class) &#123;</span><br><span class="line">                <span class="keyword">if</span> (mInstance == <span class="keyword">null</span>) &#123;</span><br><span class="line">                    mInstance = <span class="keyword">new</span> Single();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> mInstance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>volatile保证了一个写操作完成之前，不会调用读操作。也就是说在上述1-2-3的写操作完成之前，不会调用读操作 if(mInstance==null)。</p>
+<h3 id="饿汉式"><a href="#饿汉式" class="headerlink" title="饿汉式"></a>饿汉式</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Single</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Single mInstance = <span class="keyword">new</span> Single();</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Single</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Single <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> mInstance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="其他的单例实现方式"><a href="#其他的单例实现方式" class="headerlink" title="其他的单例实现方式"></a>其他的单例实现方式</h3><h4 id="静态内部类的方式"><a href="#静态内部类的方式" class="headerlink" title="静态内部类的方式"></a>静态内部类的方式</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Single</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Single</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">SingleHolder</span> </span>&#123;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Single instance = <span class="keyword">new</span> Single();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Single <span class="title">getInstance</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> SingleHolder.instance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>由于 SingleHolder 是一个内部类，只有再使用时才会被加载。 getInstance()方法第一次调用时才会到 SingleHolder 内部类的加载。因此，这种方式很好的避免了懒汉式的加载时直接初始化对象的弊端。</p>
+<h4 id="枚举极简单例"><a href="#枚举极简单例" class="headerlink" title="枚举极简单例"></a>枚举极简单例</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">public enum SingleB &#123;</span><br><span class="line">    INSTANCE;</span><br><span class="line">    public void fun() &#123;</span><br><span class="line">        //dongsomthing</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>由于创建枚举实例的过程是线程安全的，所以这种写法也没有同步的问题。 但是其缺点是不适合需要继承的场景。</p>
+<p>参考文章<a href="http://www.jianshu.com/p/d2755af464d2" target="_blank" rel="noopener">http://www.jianshu.com/p/d2755af464d2</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://glanwang.com/2017/09/27/Java/Java设计模式总结-单例模式/" data-id="cjt71harb006tzg22iz0fwa4f" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/设计模式/">设计模式</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Other/vim学习" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/09/01/Other/vim学习/" class="article-date">
+  <time datetime="2017-09-01T13:22:57.000Z" itemprop="datePublished">2017-09-01</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Other/">Other</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/09/01/Other/vim学习/">vim笔记一</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="光标"><a href="#光标" class="headerlink" title="光标"></a>光标</h3><ul>
+<li>hjkl 四个键操作光标方向。  j, k 上下 h,l 左右。 <h3 id="vim-的进入和退出"><a href="#vim-的进入和退出" class="headerlink" title="vim 的进入和退出"></a>vim 的进入和退出</h3></li>
+<li>:q! 不保存退出</li>
+<li>:wq 保存退出<h3 id="文本编辑"><a href="#文本编辑" class="headerlink" title="文本编辑"></a>文本编辑</h3><h4 id="删除"><a href="#删除" class="headerlink" title="删除"></a>删除</h4>Normal 模式下: </li>
+<li>可以按下 x 键删除光标所在位置的字符</li>
+<li>dw 从光标处删除至第一个单词的末尾包括空格，如果是中文，则一直到标点符号的或者空格结束</li>
+<li>d$ 从当前位置删除到行末尾 。$有点正则表达式的含义，标识匹配结尾 </li>
+<li>dd 删除整行。 整行操作比较频繁，所以两个 d 直接删除。</li>
+<li>[n]dd 同时删除 n 行<br>删除命令 d 的格式:<br>[num] d obj  或者 d [num] obj<br>num 标识次数， d 标识删除，<br>  w - 从当前光标当前位置直到单字/单词末尾，包括空格。<br>  e - 从当前光标当前位置直到单字/单词末尾，但是 <em>不</em> 包括空格。<br>  $ - 从当前光标当前位置直到当前行末。<h4 id="置入命令"><a href="#置入命令" class="headerlink" title="置入命令"></a>置入命令</h4></li>
+<li>p 将最后一次删除的内容置入光标之后可以理解成 paste，有点类似与剪切的功能<h4 id="撤销命令"><a href="#撤销命令" class="headerlink" title="撤销命令"></a>撤销命令</h4></li>
+<li>u 撤销最后执行的命令</li>
+<li>U 撤销再一行中所做的改动</li>
+<li>Ctrl R 撤销之前的撤销命令<h4 id="替换命令"><a href="#替换命令" class="headerlink" title="替换命令"></a>替换命令</h4></li>
+<li>r  输入 r 和一个字符替换光标所在位置的字符。即先输入 r 命令，然后输入字母，即可替换调光标所在的字母。<h4 id="更改指令"><a href="#更改指令" class="headerlink" title="更改指令"></a>更改指令</h4><ul>
+<li>c指令: 更改類指令可以使用同刪除類命令所使用的對象參數<br>[num] c obj 或者 c [num] obj<br>例如 : c$指令，进入编辑模式，更改当前光标到行尾。<h4 id="插入"><a href="#插入" class="headerlink" title="插入"></a>插入</h4>Normal 模式直接按下 i, 进入编辑模式，可以进行插入修改操作<h4 id="定位和文件状态"><a href="#定位和文件状态" class="headerlink" title="定位和文件状态"></a>定位和文件状态</h4></li>
+</ul>
+</li>
+<li>ctrl g 显示当前光标所在行以及文件信息。</li>
+<li>shift g 光标定位到最后一行</li>
+<li>行号 + shift g 光标定位到指定的行<h4 id="搜索命令"><a href="#搜索命令" class="headerlink" title="搜索命令"></a>搜索命令</h4></li>
+<li>/  keyword : 在当前文件中从上到下搜索关键字</li>
+<li>? keyword:  在当前文件中从下到上搜索关键字<br>查询之后，按 n 查找下一个，shift n 上一个</li>
+<li>:set hls  设置高亮显示搜索(hls 指 highlight search)</li>
+<li>:set ic 设置搜索忽略大小写(ic 只 ignore case)</li>
+<li>% 查找配对的括号，包括(, [, { </li>
+</ul>
+<h4 id="sed-替换修正错误"><a href="#sed-替换修正错误" class="headerlink" title="sed 替换修正错误"></a>sed 替换修正错误</h4><p><code>输入 :s/old/new/g 替换当前行所有 old 为 new</code><br><code>:s/old/new 替换当前行第一个 old 为 new</code></p>
+<h4 id="再-VIM-内执行外部命令"><a href="#再-VIM-内执行外部命令" class="headerlink" title="再 VIM 内执行外部命令"></a>再 VIM 内执行外部命令</h4><ul>
+<li><code>: ! 命令 回车</code> vim 内执行外部的 shell 命令<h4 id="保存文件"><a href="#保存文件" class="headerlink" title="保存文件"></a>保存文件</h4></li>
+<li>:w filename  将 vim 内容保存到文件中</li>
+<li>:line1, line2 w filename 将 line1行和 line2行之间的聂荣保存到文件 filename<h4 id="提取和合并文件"><a href="#提取和合并文件" class="headerlink" title="提取和合并文件"></a>提取和合并文件</h4></li>
+<li>:r filename 向当前文件中插入另外一个文件的内容。从光标所在位置开始插入。<h4 id="插入文本"><a href="#插入文本" class="headerlink" title="插入文本"></a>插入文本</h4></li>
+<li><code>输入 o</code> 将在光标的下方新起一行，并自动进入编辑模式，可以进行添加内容</li>
+<li><code>输入 O</code> 将在光标的上方新起一行，并自动进入编辑模式，可以进行添加内容</li>
+<li><code>输入 a</code> 可以在光标之后插入文本</li>
+<li><code>输入 A</code> 可以在当前行末尾插入文本<h3 id="VIMRC启动脚本"><a href="#VIMRC启动脚本" class="headerlink" title="VIMRC启动脚本"></a>VIMRC启动脚本</h3>vim 启动时会加载 vimrc 文件，此文件可以配置一些 vim 的功能，比如让 vim 高亮某些语法等等。<br>:edit ~/.vimrc  编辑当前用户下的 vimrc 文件<br>:write 保存 vimrc 文件</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://glanwang.com/2017/09/01/Other/vim学习/" data-id="cjt71hask008kzg22st0rombe" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/vim/">vim</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Mac/shell正则表达式" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/08/29/Mac/shell正则表达式/" class="article-date">
+  <time datetime="2017-08-29T07:20:33.000Z" itemprop="datePublished">2017-08-29</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Mac/">Mac</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/08/29/Mac/shell正则表达式/">shell正则表达式</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="正则的意义"><a href="#正则的意义" class="headerlink" title="正则的意义"></a>正则的意义</h3><p>正则对于平时的开发工作是非常有意义的，如果不用正则有可能你需要复杂的逻辑去完成一个需求。然而，使用正则的时候经常会<code>骂娘</code>， 为什么骂娘？ 无非两个原因: 一、看不懂了。二、忘记了规则实在写不出来。 其实，如果不是特别经常使用正则确实会忘的比较厉害。但是，如果你对正则进行一个深入的理解，是有助于长期记忆的。</p>
+<h3 id="正则表达式组成"><a href="#正则表达式组成" class="headerlink" title="正则表达式组成"></a>正则表达式组成</h3><p><img src="/2017/08/29/Mac/shell正则表达式/regular_element.jpg" alt><br>如上图: 正则表达式有三部分组成: 字符、 数量限定符和位置限定符。掌握它的结构就非常容易看懂和写出正确的表达式。</p>
+<h4 id="字符"><a href="#字符" class="headerlink" title="字符"></a>字符</h4><table>
+<thead>
+<tr>
+<th style="text-align:center">字 符</th>
+<th style="text-align:left">含 义</th>
+<th style="text-align:left">栗 子</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">.</td>
+<td style="text-align:left">匹配任意字符</td>
+<td style="text-align:left">G.CD 可以配 GACD, GbCD, 但不匹配 GCD</td>
+</tr>
+<tr>
+<td style="text-align:center">[ ]</td>
+<td style="text-align:left">匹配括号中的任意一个字符</td>
+<td style="text-align:left">[abc]d 匹配 ad, bd, cd</td>
+</tr>
+<tr>
+<td style="text-align:center">-</td>
+<td style="text-align:left">在[]内部使用，表示范围</td>
+<td style="text-align:left">[0-9], [a-zA-Z]</td>
+</tr>
+<tr>
+<td style="text-align:center">^</td>
+<td style="text-align:left">括号内的开头，表示匹配除括号内的字符以外的任一字符； 不在括号内使用，标识匹配开头</td>
+<td style="text-align:left">[^wgc]匹配除 wgc 之外的任一字符</td>
+</tr>
+</tbody>
+</table>
+<p><img src="/2017/08/29/Mac/shell正则表达式/sample1.jpg" alt></p>
+<h4 id="数量限定符"><a href="#数量限定符" class="headerlink" title="数量限定符"></a>数量限定符</h4><table>
+<thead>
+<tr>
+<th style="text-align:center">数量限定符</th>
+<th style="text-align:left">含义</th>
+<th style="text-align:left">栗子</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">?</td>
+<td style="text-align:left">匹配一次或者零次其前边的单元</td>
+<td style="text-align:left">[0-9].[0-9]? 匹配小数点后可以有一个或0个0-9的数字</td>
+</tr>
+<tr>
+<td style="text-align:center">+</td>
+<td style="text-align:left">匹配一次或多次其前边的单元</td>
+<td style="text-align:left">wgc@[a-zA-Z]+匹配 wgc@之后有一个或多个字母</td>
+</tr>
+<tr>
+<td style="text-align:center">*</td>
+<td style="text-align:left">匹配零次或多次其前边的单元</td>
+<td style="text-align:left">[0-9]*  匹配至少一位数字</td>
+</tr>
+<tr>
+<td style="text-align:center">{N}</td>
+<td style="text-align:left">匹配 N 次其前边的单元</td>
+<td style="text-align:left">[1-9][0-9]{2}</td>
+<td>匹配100~999的三位数</td>
+</tr>
+<tr>
+<td style="text-align:center">{N, }</td>
+<td style="text-align:left">匹配至少 N 次其前边的单元</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:center">{, N}</td>
+<td style="text-align:left">匹配最多 N 次其前边的单元</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:center">{N, M}</td>
+<td style="text-align:left">匹配最少 N 次，最多 M 次其前边的单元</td>
+</tr>
+</tbody>
+</table>
+<p><img src="/2017/08/29/Mac/shell正则表达式/sample2.jpg" alt></p>
+<h4 id="位置限定符"><a href="#位置限定符" class="headerlink" title="位置限定符"></a>位置限定符</h4><table>
+<thead>
+<tr>
+<th style="text-align:center">位置限定符</th>
+<th style="text-align:left">含义</th>
+<th style="text-align:left">栗子</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">^</td>
+<td style="text-align:left">匹配行守位置</td>
+<td style="text-align:left">^Android 匹配行首为 Android</td>
+</tr>
+<tr>
+<td style="text-align:center">$</td>
+<td style="text-align:left">匹配行尾位置</td>
+<td style="text-align:left">Android$ 匹配已 Android 结尾</td>
+</tr>
+<tr>
+<td style="text-align:center">\&lt;</td>
+<td style="text-align:left">匹配<code>单个词</code>开头的位置</td>
+<td style="text-align:left">\&lt;wgc 匹配 wgcabcd 但是不匹配 wg cabcd</td>
+</tr>
+<tr>
+<td style="text-align:center">\&gt;</td>
+<td style="text-align:left">匹配<code>单个词</code>结尾的位置</td>
+<td style="text-align:left">wgc></td>
+</tr>
+<tr>
+<td style="text-align:center">\b</td>
+<td style="text-align:left">匹配单个词开头或结尾的位置</td>
+<td style="text-align:left">\bwgc\b 匹配 wgc 但不匹配 wgcisok</td>
+</tr>
+<tr>
+<td style="text-align:center">\B</td>
+<td style="text-align:left">匹配非单词开头或者结尾的位置</td>
+<td style="text-align:left">\Bwgc\B 匹配 abcwgcab  不匹配 wgcab</td>
+</tr>
+</tbody>
+</table>
+<p><img src="/2017/08/29/Mac/shell正则表达式/sample3.jpg" alt></p>
+<h4 id="特殊字符串"><a href="#特殊字符串" class="headerlink" title="特殊字符串"></a>特殊字符串</h4><table>
+<thead>
+<tr>
+<th style="text-align:center">特殊字符</th>
+<th style="text-align:left">含义</th>
+<th style="text-align:left">栗子</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">\</td>
+<td style="text-align:left">转义字符</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:center">()</td>
+<td style="text-align:left">将正则表达式的一部分括起来组成一个单元，可以对整个单元使用数量限定符</td>
+<td style="text-align:left">([0-9]{1,3}.){3}[0-9]{1,3}匹配 ip 地址</td>
+</tr>
+<tr>
+<td style="text-align:center">或</td>
+<td style="text-align:left">逻辑或</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:center">s</td>
+<td style="text-align:left">空白字符：[ \t\n\x0B\f\r]  常用</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:center">\t</td>
+<td style="text-align:left">制表符 (‘\u0009’)</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:center">\n</td>
+<td style="text-align:left">新行（换行）符 (‘\u000A’)</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:center">\r</td>
+<td style="text-align:left">回车符 (‘\u000D’)</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:center">\f</td>
+<td style="text-align:left">换页符 (‘\u000C’)</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:center">\a</td>
+<td style="text-align:left">报警 (bell) 符 (‘\u0007’)</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:center">\e</td>
+<td style="text-align:left">转义符 (‘\u001B’)</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:center">\cx</td>
+<td style="text-align:left">对应于 x 的控制符</td>
+</tr>
+</tbody>
+</table>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://glanwang.com/2017/08/29/Mac/shell正则表达式/" data-id="cjt71harv007qzg221jj6catu" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/正则表达式，shell/">正则表达式，shell</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Gradle/Gradle守护进程导致的android打包异常" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/08/18/Gradle/Gradle守护进程导致的android打包异常/" class="article-date">
+  <time datetime="2017-08-18T03:34:35.000Z" itemprop="datePublished">2017-08-18</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Gradle/">Gradle</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/08/18/Gradle/Gradle守护进程导致的android打包异常/">Gradle守护进程导致的android打包异常</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>公司内部打包平台可以根据不同分支不同渠道信息进行自动化打包。昨天发版打包时竟然发现了一个特别诡异的问题导致生成的 apk 安装包直接崩溃。</p>
+<h3 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h3><p> 先选择含有听云sdk 代码的分支进行自动化打包，打包完毕验证 apk 没有问题； 然后选择不含有听云 sdk 代码的分支进行自动化打包，打包完成，验证 apk，直接启动崩溃。查看 log<br>java.lang.NoClassDefFoundError: Failed resolution of: Lcom/networkbench/agent/impl/instrumentation/NBSSQLiteInstrumentation;<br>看到上述 log，第一反应有点懵逼，怎么会包听云 sdk 中的类呢。明明代码中没有引入听云 sdk。 难道 代码 checkout 出错了？难道 build脚本我忘记 clean Task 了？ 难道 clean 代码没有 clean 干净？…… </p>
+<h3 id="问题排查"><a href="#问题排查" class="headerlink" title="问题排查"></a>问题排查</h3><p>拿到 log 之后如果发现了异常问题， 竟然输出了很多听云 plugin 打印的 处理 class 字节码的 log( tag 为[NBSAgent.info]的 log)， 这不科学啊，因为我当前代码并未嵌入听云 sdk。<br>根据 log 明确了排查方向: 1. 打包脚本没有 clean 掉上次缓存； 2. 代码 checkout 错误<br><strong> I 排查打包脚本 </strong><br>打开打包脚本排查是否进行了 clean 的操作， 现实是残忍的，打包经本没有发现问题，确实已经执行了 clean 的操作。<br><strong> II 查看代码是否正常 </strong><br>进入缓存的代码区，查看 git branch 信息以及 git log 信息， 不幸的是仍然没有发现异常。<br>难道是自动话打包平台除了 bug？？<br><strong> III 排查打包平台部署主机 </strong><br>直接在打包平台部署的主机上新 clone 一份代码，直接执行 gradle clean assembleRelease Task 直接打包。 更不幸的是，打包 log 中依然有听云嵌码的 log。验证生成的 apk 果然又发生了同样的启动崩溃。<br>好吧到此位置，上述原因都已经排除了。那会是什么原因呢？<br><strong> IV 更换主机打包 </strong><br>更换主机导没有任何异常，生成的 apk 是 ok 的。<br>经过上述过程的排查，原因只剩下两个: 1. 听云 的 gradle plugin 导致的问题； 2. 打包平台部署主机的环境问题。<br><strong> V 排查听云 plugin  </strong><br>想要排查这个问题，就需要知道一些 java 字节码处理的技术，以及听云 plugin 处理 class 字节码的原理。<br><strong> 听云字节码处理原理: </strong><br>听云 plugin 字节码处理是通过Java Instrumentation + ASM 技术来实现的。这也就意味着，听云可能是将他们自己的代码注入到了 Java 进程中。 从这个原理分析，如果第一次打含听云 sdk 的代码，之后继续打不含听云 sdk 的代码，如果这个过程中 Java 进程没有死掉，也就也围着第二次很可能会被听云 plugin 进行嵌码。<br>验证上述猜想: 通过 ps 命令过滤出来打包主机上的 java 进程， 然后将 java 进程杀死，重新打包。 验证生成的 apk 是 ok 的。看来确实是这个原因导致的。<br>那么，问题回到了 Java 进程为什么在两次打包中没有死掉呢？<br>查看了主机的 gradle 配置项, 发现了以下两个配置项，gradle 守护进程和并行构建都开启了。其实，当初打开这两个配置的原因就是希望构建速度能够更快，没有考虑到会发生这种问题。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">org.gradle.parallel=ture //并行构建启动</span><br><span class="line">org.gradle.daemon=true //gradle守护进程</span><br></pre></td></tr></table></figure></p>
+<p><strong> 建议 </strong>: debug 状态下提高构建速度，可以将这两个选项打开。 但是真正在线上机器做 release 打包时还是关闭了吧。不要仅仅为快一点，导致存在其他的风险，特别是像我们这种自动打包平台，随时都可能从任何分支进行构建 apk。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://glanwang.com/2017/08/18/Gradle/Gradle守护进程导致的android打包异常/" data-id="cjt71hafl0007zg22aw1j4efo" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/gradle-守护进程，org-gradle-daemon/">gradle 守护进程，org.gradle.daemon</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Android/SQLite迁移到GreenDao" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/08/17/Android/SQLite迁移到GreenDao/" class="article-date">
+  <time datetime="2017-08-17T03:48:21.000Z" itemprop="datePublished">2017-08-17</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Android/">Android</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/08/17/Android/SQLite迁移到GreenDao/">SQLite迁移到GreenDao</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>从原生的 SQLite 迁移到 GreenDao 数据库框架整体上来讲还是相对比较容易的，这也归功与 GreenDao 易用的 API 和编译期注解。</p>
+<h3 id="整体的设计思路"><a href="#整体的设计思路" class="headerlink" title="整体的设计思路"></a>整体的设计思路</h3><p><img src="/2017/08/17/Android/SQLite迁移到GreenDao/db_framework.png" alt="db_framework"></p>
+<ul>
+<li>DAO 层主要由各个表的 Manager 类来进行承担，<ol>
+<li>负责与数据存储层进行 CURD 的操作。</li>
+<li>CommonDao 其实是对 GreenDao 框架 API 的封装，同时承担当数据变更时，通知业务层 Observer 的任务。</li>
+<li>将 Entity 实体类转换成业务层的 Bean，以便对业务层的变更最小化</li>
+</ol>
+</li>
+<li>Entity 实体主要定义了数据表的格式。<h3 id="出现的问题"><a href="#出现的问题" class="headerlink" title="出现的问题"></a>出现的问题</h3><h4 id="旧数据库关键数据的迁移"><a href="#旧数据库关键数据的迁移" class="headerlink" title="旧数据库关键数据的迁移"></a>旧数据库关键数据的迁移</h4>问题描述:<br><img src="/2017/08/17/Android/SQLite迁移到GreenDao/db_transform.jpg" alt="db_transform"><br>存在两个问题:</li>
+</ul>
+<ol>
+<li>两个独立的数据库文件如何迁移</li>
+<li>何时进行迁移</li>
+</ol>
+<p>解决方案:<br><strong> I 两个独立的数据库文件如何迁移  :  使用 SQLite 附加数据的功能 </strong><br>由于是两个独立的数据库，操作起来是非常困难的。因此我们最终目的就是通过一定的方式像操作一个数据库一样操作两个数据库文件。如何做到呢？将 old 数据库附加到 新建的数据库上，这样就可以像操作一个数据一样操作两个数据库文件了。<br><code>ATTACH DATABASE &#39;DatabaseName&#39; As &#39;Alias-Name&#39;</code><br>如果数据库尚未被创建，上面的命令将创建一个数据库，如果数据库已存在，则把数据库文件名称与逻辑数据库 ‘Alias-Name’ 绑定在一起。<br><strong> II 何时进行数据的迁移: 新数据库创建表完成的时候 </strong><br>可悲的是，DBHelper 的 onCreate 是在一个数据库事务中执行的，然而 SQLite 附加数据的操作是不允许在数据库事务中执行的，如果在数据库事务中执行会抛出异常。那么如何搞定这个事情呢？ 其实我们采取了变通的方式，即创建完表之后结束事务，进行 attach database 的操作，然后再开启事务。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Database db)</span> </span>&#123;</span><br><span class="line">     DaoMaster.createAllTables(db, <span class="keyword">false</span>); <span class="comment">//创建所有的声明的表</span></span><br><span class="line">    <span class="keyword">boolean</span> isOldDBExist = DBUtil.isDatabaseExist(DBMigrateHelper.OLD_DB_NAME);       </span><br><span class="line">    <span class="keyword">if</span> (isOldDBExist) &#123;</span><br><span class="line">        db.setTransactionSuccessful();</span><br><span class="line">        db.endTransaction(); <span class="comment">//处于数据库事务中的时候不允许进行 attach database 的操作，因此这里先结束事务，attach 完成之后再进行开启事务</span></span><br><span class="line">        SQLiteDatabase oldDB = BaseApplication.getInstance().openOrCreateDatabase(DBMigrateHelper.OLD_DB_NAME, Context.MODE_PRIVATE, <span class="keyword">null</span>);</span><br><span class="line">        <span class="keyword">if</span> (oldDB != <span class="keyword">null</span>) &#123;</span><br><span class="line">            attachDB(); <span class="comment">//执行 ATTACH DATABASE的操作和数据库表迁移的操作</span></span><br><span class="line">            db.beginTransaction(); <span class="comment">//重新开启事务</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    initTableData(db);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="数据库升级过程中创建新表和修改表"><a href="#数据库升级过程中创建新表和修改表" class="headerlink" title="数据库升级过程中创建新表和修改表"></a>数据库升级过程中创建新表和修改表</h4><p><strong> I 创建表 </strong><br>创建表就是添加了新的 Entity，在 DBHelper 的 onUpgrade 方法中直接调用 Entity 对应 Dao类中的createTable()方法即可。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onUpgrade</span><span class="params">(SQLiteDatabase db, <span class="keyword">int</span> oldVersion, <span class="keyword">int</span> newVersion)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(newVersion &lt; oldVersion)&#123;</span><br><span class="line">        Database wrapDB = wrap(db);</span><br><span class="line">        DaoMaster.dropAllTables(wrapDB, <span class="keyword">false</span>);</span><br><span class="line">        onCreate(wrapDB);</span><br><span class="line">    &#125;</span><br><span class="line">    TestUpdateEntityDao.createTable(db, <span class="keyword">true</span>); <span class="comment">//创建新表</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong> II 修改表 </strong><br>修改表结构其实没什么好办法，只能在onUpgrade 方法中直接使用 raw sql 的方式进行修改了</p>
+<h4 id="如何兼容业务中使用了ContentObserver-对数据变更进行监听"><a href="#如何兼容业务中使用了ContentObserver-对数据变更进行监听" class="headerlink" title="如何兼容业务中使用了ContentObserver 对数据变更进行监听"></a>如何兼容业务中使用了ContentObserver 对数据变更进行监听</h4><p>由于业务均是使用的 ContentProvider 的方式对数据库进行的操作，同时也是使用的 ContentObserver 的形式对数据变更进行的监听，为了保证业务变更最小，使用 CommonDao类对 GreenDao 的 CURD 操作的 api 进行了一层封装，并CommonDao 的 update和 insert 方法执行后进行ContentResolver 的 notify 操作。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://glanwang.com/2017/08/17/Android/SQLite迁移到GreenDao/" data-id="cjt71han8003azg22hqm96ng3" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/sqltie-GreenDao/">sqltie, GreenDao</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Android/Android数据库调研以及GreenDao3使用" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/08/16/Android/Android数据库调研以及GreenDao3使用/" class="article-date">
+  <time datetime="2017-08-16T09:35:55.000Z" itemprop="datePublished">2017-08-16</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Android/">Android</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/08/16/Android/Android数据库调研以及GreenDao3使用/">Android数据库调研以及GreenDao3使用</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>网易新闻客户端对数据库的依赖是比较重的，很多数据都存在了客户端数据库，因此我们很早之前就想将数据库模块进行改造。于是我们对目前 Android 上使用比较广泛的数据库框架做了一个调研，并写了一个 demo 比较了一下各个框架的性能和易用性。</p>
+<h3 id="Android-上常用的数据库框架"><a href="#Android-上常用的数据库框架" class="headerlink" title="Android 上常用的数据库框架"></a>Android 上常用的数据库框架</h3><p>调研了一下目前 android 上常用的数据库框架，主要有:</p>
+<ul>
+<li>SQLite android 原生自带的数据库</li>
+<li>WCDB 微信团队前一段时间开源的数据库。基于 android 原生的 SQLite 数据的优化，并能支持数据库的加密。</li>
+<li>ORMLite 基于 ORM(对象关系映射) 概念的数据库框架。基于反射和注解的原理实现的 ORM 数据库框架。官网 <a href="http://ormlite.com/" target="_blank" rel="noopener"> http://ormlite.com/ </a></li>
+<li>GreenDao 基于 ORM(对象关系映射) 概念的数据库框架。基于编译期注解的 ORM 数据库框架。官网<a href="https://github.com/greenrobot/greenDAO" target="_blank" rel="noopener">https://github.com/greenrobot/greenDAO</a></li>
+<li>Realm 与 SQLite 没有任何关系的移动应用的轻量级数据库。性能优越，传说中想要干掉 SQLite 成移动端的一方霸主<br>下表是对上述集中数据库在指定机型是上操作2000条简单数据的对比结果:</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>DB/Item</th>
+<th>SQLite</th>
+<th>WCDB</th>
+<th>ORMLite</th>
+<th>GreenDao</th>
+<th>Realm</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>版本</td>
+<td>-</td>
+<td>1.0.2</td>
+<td>5.0</td>
+<td>3.2.2</td>
+<td>3.4.0</td>
+</tr>
+<tr>
+<td>insert</td>
+<td>4805ms</td>
+<td>4753ms</td>
+<td>200ms</td>
+<td>80ms</td>
+<td>40ms</td>
+</tr>
+<tr>
+<td>query</td>
+<td>20.4ms</td>
+<td>11ms</td>
+<td>23.2ms</td>
+<td>4.6ms</td>
+<td>0.2ms</td>
+</tr>
+<tr>
+<td>体积</td>
+<td>-</td>
+<td>900KB</td>
+<td>396KB</td>
+<td>140KB</td>
+<td>1.7M(仅 armeabi-v7a so 体积)，其他平台体积更大</td>
+</tr>
+<tr>
+<td>优缺点</td>
+<td>Android 原生自带</td>
+<td>基于原生sqlite 的优化，支持加密</td>
+<td>使用方便，但基于反射和注解效率低</td>
+<td>使用方便，基于编译器注解，效率较高</td>
+<td>优点:速度快，速度快，速度快。缺点:1.体积大；2不支持id自增长；3不支持线程切换;4不支持limit； android 上还有其他一些坑</td>
+</tr>
+</tbody>
+</table>
+<p>综合上表，确定数据库框架的选型:GreenDao</p>
+<h4 id="舍弃-Realm-数据库的原因"><a href="#舍弃-Realm-数据库的原因" class="headerlink" title="舍弃 Realm 数据库的原因"></a>舍弃 Realm 数据库的原因</h4><p>最初没有具体查看体积，故准备使用 Realm 数据库，同时也是为了能和 iOS 客户端保持一致，因为 iOS 最近刚刚切换到 Realm 数据库。 当写完 realm 数据库 demo 的时候，我准备放弃它了，原因有几个方面: a. 体积太大了，我们刚刚做完瘦身的工作，使用它就一下回到解放前了。而如果采用下发 so 的方式减小包体积又不太可行，因为客户端一启动时就需要调用数据库。b. 坑太多了，有其自身的缺陷和 android 上的一些坑，大家 google 一下就能发现。</p>
+<h4 id="选择-GreenDao-数据库"><a href="#选择-GreenDao-数据库" class="headerlink" title="选择 GreenDao 数据库"></a>选择 GreenDao 数据库</h4><p>目前只剩下 WCDB, ORMLite和 GreenDao。 基于性能，开发效率和体积最终选择了 GreenDao 框架。<br>先上 GreenDao 官方的性能对比图，虽然官方图片有点夸张，但是也能说明一些问题。<br><img src="/2017/08/16/Android/Android数据库调研以及GreenDao3使用/greenDao.png" alt></p>
+<h3 id="GreenDao-优缺点"><a href="#GreenDao-优缺点" class="headerlink" title="GreenDao 优缺点"></a>GreenDao 优缺点</h3><p>在使用的过程中总结了一些 GreenDao数据库框架的优缺点:<br>优点:</p>
+<ol>
+<li>性能最大化(官方词汇)。 虽然不能和 Realm 相比较，但是基于 ORM 的框架中算是最好的。做了比较好的数据库缓存，并且使用的是基于编译时的注解。</li>
+<li>API 非常易用，提升了开发效率</li>
+<li>最小的内存开销(内存方面目前没有和原生 SQLite 做对比，不敢多讲)</li>
+<li>较小的文件体积</li>
+<li>可支持原生语句，从android 原生 SQLite 过度到 greenDao 相对还是比较容易</li>
+<li>数据表结构和 Entity 数据结构convert 支持，Entity 的不同数据结构和数据库存储结构之间做一个灵活的转换</li>
+</ol>
+<p>缺点:</p>
+<ol>
+<li>不支持组合主键。 未找到好的解决方案，只能是自己创建表时不使用组合主键。</li>
+<li><p>不支持组合唯一约束。 解决方案: 组合唯一约束可以使用组合索引的方式来解决</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">@Entity( nameInDb = CommentFollow.TableInfo.TABLE_NAME,</span><br><span class="line">  generateConstructors = false,</span><br><span class="line">         //设置loginUserid和followUserId的多行索引，并设置唯一，代替unique(a,b) on conflict replace</span><br><span class="line">         indexes = &#123;@Index(value = &quot;loginUserId, followUserId&quot;, unique = true)&#125;   )</span><br><span class="line"> public class CommentFollow &#123;      </span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<p>  上述例子中使用 loginUserId和 followUserId 组成的唯一索引来代替组合唯一约束</p>
+</li>
+<li><p>编译期注解的常量设置只能支持当前类的内部常量，外部常量值无法识别。 例如</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">@Entity(nameInDb = Ask.TableInfo.TABLE_NAME, generateConstructors = false)</span><br><span class="line">public class Ask &#123;</span><br><span class="line">    public interface TableInfo &#123;</span><br><span class="line">        String TABLE_NAME = &quot;ask_list&quot;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br><span class="line">    上述代码中 Entity 注解中的 value 值nameInDb 只能支持当前类中定义的常量或者直接在此处写字符串，不能支持此类以外的常量。即上如例子中 TableInfo 只能是当前类内部定义的常量</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>对于 SQL 中的 max(), min()等函数的支持不友好。解决方案: a. 使用raw sql 语句；b. 使用排序等变通方式达到相同效果</p>
+</li>
+<li>缓存处理容易产生坑。 例如:不使用 greenDao 提供的 api 进行数据库update or insert操作，而是使用 raw sql 语句进行的update or insert时，需要手工清理缓存数据，防止数据异常</li>
+<li>Entity 实体类不支持类的继承。即Entity 类中继承自父类的成员变量不能直接存储到数据库中</li>
+<li>目前暂时不支持UNIQUE ON CONFLICT IGNORE， 只能通过先查询再插入解决。查看最新 master 代码已经解决(根据主键设置忽略)，但是还未发布。详情: <a href="https://github.com/greenrobot/greenDAO/pull/145/commits/9d656c1f5eb2e74210fc1f430ad31d357a5a2aeb" target="_blank" rel="noopener">https://github.com/greenrobot/greenDAO/pull/145/commits/9d656c1f5eb2e74210fc1f430ad31d357a5a2aeb</a></li>
+</ol>
+<h3 id="GreenDao注解"><a href="#GreenDao注解" class="headerlink" title="GreenDao注解"></a>GreenDao注解</h3><h4 id="常见注解"><a href="#常见注解" class="headerlink" title="常见注解"></a>常见注解</h4><ul>
+<li><p>@Entity 用于标识这是一个需要Greendao帮我们生成代码的bean， 可以指定自动生成构造，set/get等方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">@Entity(  schema = &quot;myschema&quot;, </span><br><span class="line">        active = true,//TODO 是标明是否支持实体类之间update，refresh，delete等操作         </span><br><span class="line">        nameInDb = &quot;table_user&quot;,         </span><br><span class="line">        indexes = &#123;  @Index(value = &quot;name DESC&quot;, unique = true)  &#125;,         </span><br><span class="line">        createInDb = true )</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>@Id 标明主键，括号里可以指定是否自增 </p>
+</li>
+<li>@Property 用于设置属性在数据库中的列名（默认不写就是保持一致）</li>
+<li>@NotNull 非空</li>
+<li>@Transient 标识这个字段是自定义的不会创建到数据库表里 </li>
+<li>@Generated 这个是build后greendao自动生成的，这个注解为防止重复，每一块代码生成后会加个hash作为标记。 官方不建议你去碰这些代码，改动会导致里面代码与hash值不符。 <h4 id="关系注解"><a href="#关系注解" class="headerlink" title="关系注解"></a>关系注解</h4></li>
+<li><p>@ToOne 是将自己的一个属性与另一个表建立关联<br>外键关联支持与另一个表的主键建立关联，目前没找到与另一个表的唯一非主键建立关联的方式</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">@Entity</span><br><span class="line">public class Order &#123;</span><br><span class="line">    @Id private Long id;  </span><br><span class="line">    private long customerId;  </span><br><span class="line">    @ToOne(joinProperty = &quot;customerId&quot;)</span><br><span class="line">    private Customer customer;</span><br><span class="line">&#125;  </span><br><span class="line">@Entity</span><br><span class="line">public class Customer &#123;</span><br><span class="line">    @Id </span><br><span class="line">    private Long id;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>@ToMany 的使用场景有些多 以下几种不常用<br>@ToMany的属性referencedJoinProperty，类似于外键约束。 查询时使用深度查询即可多表查询</p>
+</li>
+<li>@JoinProperty 对于更复杂的关系，可以使用这个注解标明目标属性的源属性。</li>
+<li>@JoinEntity 如果你在做多对多的关系，有其他的表或实体参与，可以给目标属性添加这个额外的注解（感觉不常用吧）<br>注意： 想要一次性查询出关联表的数据，需要使用OrderDao.queryDeep()进行查询，因为默认情况下是志勇调用了Order.getCustomer的时候才去查找Customer表中的数据，这一点可以从自动生成的getter方法看到。getter方法如下<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">/** To-one relationship, resolved on first access. */</span><br><span class="line">    @Generated(hash = 1566736934)</span><br><span class="line">    public AskSupport getMAskSupport() &#123;</span><br><span class="line">        String __key = this.askSupportId;</span><br><span class="line">        if (mAskSupport__resolvedKey == null || mAskSupport__resolvedKey != __key) &#123;</span><br><span class="line">            final DaoSession daoSession = this.daoSession;</span><br><span class="line">            if (daoSession == null) &#123;</span><br><span class="line">                throw new DaoException(&quot;Entity is detached from DAO context&quot;);</span><br><span class="line">            &#125;</span><br><span class="line">            AskSupportDao targetDao = daoSession.getAskSupportDao();</span><br><span class="line">            AskSupport mAskSupportNew = targetDao.load(__key);</span><br><span class="line">            synchronized (this) &#123;</span><br><span class="line">                mAskSupport = mAskSupportNew;</span><br><span class="line">                mAskSupport__resolvedKey = __key;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return mAskSupport;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="转换注解"><a href="#转换注解" class="headerlink" title="转换注解"></a>转换注解</h4><ul>
+<li>convert 注解负责在 Entity 实体中数据结构和数据表中存储的数据结构进行转换<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">    @Convert(converter = StringListGreenConverter.class, columnType = String.class) //columnType 为数据存储的类型，支持 java 的基本类型和 String</span><br><span class="line">    private List&lt;String&gt; pics;</span><br><span class="line">    </span><br><span class="line">    public class StringListGreenConverter implements PropertyConverter&lt;List&lt;String&gt;, String&gt; &#123;</span><br><span class="line">    @Override</span><br><span class="line">    public List&lt;String&gt; convertToEntityProperty(String databaseValue) &#123;</span><br><span class="line">        if (TextUtils.isEmpty(databaseValue)) &#123;</span><br><span class="line">            return new ArrayList&lt;String&gt;();</span><br><span class="line">        &#125;</span><br><span class="line">        return JsonUtils.fromJson(databaseValue, new TypeToken&lt;ArrayList&lt;String&gt;&gt;() &#123;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public String convertToDatabaseValue(List&lt;String&gt; entityProperty) &#123;</span><br><span class="line">        return JsonUtils.toJson(entityProperty);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://glanwang.com/2017/08/16/Android/Android数据库调研以及GreenDao3使用/" data-id="cjt71hatc0097zg22vaq3gmgd" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/greenDao-数据库/">greenDao, 数据库</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Android/AOP技术在网易新闻中的应用" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/07/18/Android/AOP技术在网易新闻中的应用/" class="article-date">
+  <time datetime="2017-07-18T01:34:18.000Z" itemprop="datePublished">2017-07-18</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Android/">Android</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/07/18/Android/AOP技术在网易新闻中的应用/">AOP技术在网易新闻中的应用</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="AOP概念"><a href="#AOP概念" class="headerlink" title="AOP概念"></a>AOP概念</h3><p>百度百科中对AOP的解释如下:<br>在软件业，AOP为Aspect Oriented Programming的缩写，意为：面向切面编程，通过预编译方式和运行期动态代理实现程序功能的统一维护的一种技术。AOP是OOP的延续，是软件开发中的一个热点，也是Spring框架中的一个重要内容，是函数式编程的一种衍生范型。利用AOP可以对业务逻辑的各个部分进行隔离，从而使得业务逻辑各部分之间的耦合度降低，提高程序的可重用性，同时提高了开发的效率。<br>说白了，AOP其实就是OOP的补充，OOP从横向上区分出一个个的类来，而AOP则从纵向上向对象中加入特定的代码。</p>
+<h3 id="AOP在网易新闻android客户端的应用"><a href="#AOP在网易新闻android客户端的应用" class="headerlink" title="AOP在网易新闻android客户端的应用"></a>AOP在网易新闻android客户端的应用</h3><p>看过之前文章的同学，可能了解，网易新闻android客户端的热更新技术使用的AOP的技术。除此之外AOP还有哪些能够解决我们痛点的使用场景的。我简单列举一下目前我们再android客户端上对AOP技术的应用</p>
+<h4 id="网易新闻热补丁技术"><a href="#网易新闻热补丁技术" class="headerlink" title="网易新闻热补丁技术"></a>网易新闻热补丁技术</h4><p>网易新闻的android客户端热更新技术使用的是AspectJ， AspectJ就是AOP技术的一种框架。详情<a href="http://glanwang.com/2017/07/14/Android/%E7%BD%91%E6%98%93%E6%96%B0%E9%97%BB%E7%83%AD%E8%A1%A5%E4%B8%81%E6%8A%80%E6%9C%AF%E5%AE%9E%E8%B7%B5/">网易新闻热补丁技术实践</a></p>
+<h4 id="检测方法耗时"><a href="#检测方法耗时" class="headerlink" title="检测方法耗时"></a>检测方法耗时</h4><p>新闻客户端开发了一套能够根据指定的sdk进行排查方法耗时的工具，原理就是使用的AspectJ处理字节码包装方法。<br>方法耗时，这个其实android上已经有一些现成的工具，比如trace view等等，这些工具都可以进行方法耗时的检测。但是痛点是这些工具使用起来都比较麻烦，效率低下， 而且无法针对某一个块代码或者某个指定的sdk进行查看方法耗时。<br>我们为了能够提高客户端的FPS，其中有一个思路就是希望降低主线程方法耗时。 最初的思路就是使用trace View等工具进行排查。不用不知道一用你就会发现有多么的繁琐。于是我们希望能有一种方式能够快速打印出我们的方法耗时。<br>于是我们采用了AOP的技术，对每个方法做一个切点，在执行之后打印方法耗时。<br>具体的实现原理和网易新闻热更新技术原理差不多，都是对方法做切点，注入一段自己逻辑，只不过注入的是计算方法耗时的逻辑而已。<br>具体实现仍然使用的是AspectJ的方案:<br>I 编译完成之后使用AspectJ编译器处理字节码， 两种方案</p>
+<h4 id="a-hook-java-compiler的方案"><a href="#a-hook-java-compiler的方案" class="headerlink" title="a. hook java compiler的方案"></a>a. hook java compiler的方案</h4><p>直接hook java Compiler的Task，在java源码编译完成之后执行AspectJ的编译器，进行字节码插桩操作。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">project.android.applicationVariants.all &#123; variant -&gt;</span><br><span class="line">            if (variant.buildType.name != &quot;release&quot;) &#123;</span><br><span class="line">                log.debug(&quot;Skipping non-release build type &apos;$&#123;variant.buildType.name&#125;&apos;.&quot;)</span><br><span class="line">                return;</span><br><span class="line">            &#125;</span><br><span class="line">            JavaCompile javaCompile = variant.javaCompile</span><br><span class="line">            javaCompile.doLast &#123;</span><br><span class="line">                            String[] args = [&quot;-showWeaveInfo&quot;,</span><br><span class="line">                                             &quot;-1.5&quot;,</span><br><span class="line">                                             &quot;-inpath&quot;, javaCompile.destinationDir.toString(),</span><br><span class="line">                                             &quot;-aspectpath&quot;, javaCompile.classpath.asPath,</span><br><span class="line">                                             &quot;-d&quot;, javaCompile.destinationDir.toString(),</span><br><span class="line">                                             &quot;-classpath&quot;, javaCompile.classpath.asPath,</span><br><span class="line">                                             &quot;-bootclasspath&quot;, project.android.bootClasspath.join(File.pathSeparator)]</span><br><span class="line">                            log.debug &quot;ajc args: &quot; + Arrays.toString(args)</span><br><span class="line">                            MessageHandler handler = new MessageHandler(true);</span><br><span class="line">                            new Main().run(args, handler);                    </span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure></p>
+<p>此中方案的缺陷就是对参与编译过程的代码处理很简单，但是对于一些不参与编译过程的jar/aar等处理比较困难。</p>
+<h4 id="b-gradle-Transform-API方案"><a href="#b-gradle-Transform-API方案" class="headerlink" title="b. gradle Transform API方案"></a>b. gradle Transform API方案</h4><p>对于上述方法存在一些问题，对于一些jar包，其实已经是字节码了不会走这个过程，因此对一些jar的插桩操作不是很好处理。因此我们采用了Transform API的方案。 transform api是Android gradle plugin 1.5之后新api， 作用就是在生成dex之前，给开发者一个机会能够统一进行修改字节码， 这个过程中你能拿到所有的源码生成的class文件和jar/aar中的class文件。因此，此时处理能够满足我们对所有的class文件进行处理。 为了方便我们实现了一个gradle plugin 专门进行AspectJ处理class文件，完成字节码插桩操作。<br>    并且为了处理对第三方jar包的方法耗时最终，我们可以配置对指定的jar或者aar进行字节码插桩，查看方法耗时.<br>    如: 插件的配置如下，再buildType为debug的时，对AMap_Location jar包(高德地图sdk)进行字节码插桩<br>    <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">aspectj &#123;</span><br><span class="line">    includeJarFilter &apos;AMap_Location&apos;</span><br><span class="line">    enableBuildType &apos;debug&apos;//, &apos;debug&apos; //buildType为debug时，会输出主线程方法耗时时间， 需要关闭instantRun，clean再run</span><br><span class="line">    enable true</span><br><span class="line">    printlog true</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>II 注入计算方法耗时的逻辑<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">@Aspect</span><br><span class="line">public class AspectJSpectControler &#123;</span><br><span class="line">    @Around(value = &quot;execution(* com.netease.newsreader..*.*(..)&quot;)</span><br><span class="line">    public Object weavePatchLogic(ProceedingJoinPoint joinPoint) throws Throwable &#123;</span><br><span class="line">        if (BuildConfig.DEBUG) &#123; //debug    状态下计算方法耗时</span><br><span class="line">            long startT = System.currentTimeMillis();</span><br><span class="line">            Object proceed = joinPoint.proceed();</span><br><span class="line">            long consume = System.currentTimeMillis() - startT;</span><br><span class="line">            if (consume &gt; 40 &amp;&amp; Thread.currentThread().getId() == BaseApplication.getInstance().getMainThreadId()) &#123; // 方法耗时大于40毫秒，并且当前线程是主线程，则直接打印当前方法的签名</span><br><span class="line">                NeteaseLog.d(METHOD_TIME_TAG, consume + &quot; ms &quot; + joinPoint.getSignature() + &quot; main thread method&quot;);</span><br><span class="line">            &#125;</span><br><span class="line">            return proceed;</span><br><span class="line">        &#125;</span><br><span class="line">        return joinPoint.proceed();</span><br><span class="line">    &#125;    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>II 运行app，过滤log查看方法耗时<br>打印log过滤关键字<br><code>adb logcat | grep method</code><br><img src="/2017/07/18/Android/AOP技术在网易新闻中的应用/methodtime.jpg" alt></p>
+<h4 id="对第三方sdk或开源哭某些方法进行hook修改"><a href="#对第三方sdk或开源哭某些方法进行hook修改" class="headerlink" title="对第三方sdk或开源哭某些方法进行hook修改"></a>对第三方sdk或开源哭某些方法进行hook修改</h4><p>原理同上</p>
+<h4 id="处理权限问题"><a href="#处理权限问题" class="headerlink" title="处理权限问题"></a>处理权限问题</h4><p>处理权限问题，目前我们没有使用AspectJ的方案。大家如果感兴趣的话，可以从github查一下，很多公司确实是使用了这种方案。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://glanwang.com/2017/07/18/Android/AOP技术在网易新闻中的应用/" data-id="cjt71hag1000hzg22m3059p60" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/AOP/">AOP</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Android/网易新闻热补丁技术实践" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/07/14/Android/网易新闻热补丁技术实践/" class="article-date">
+  <time datetime="2017-07-14T02:09:17.000Z" itemprop="datePublished">2017-07-14</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Android/">Android</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/07/14/Android/网易新闻热补丁技术实践/">网易新闻热补丁技术实践</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>两年之前android hot fix技术炒的非常热，各大厂商也是花样百出，各自献计，一时间出现了百家齐鸣的现象。但是各家都有各家的问题。当然网易其实也不甘落后，公司不同部门也研发了自己的热更新热补丁方案。网易新闻也是不断的探索未知，先后实践过一些方案， 目前使用的还是基于AOP的方案。<br>到目前为止，新闻android客户端上线热补丁技术也已经将近两年的时间了。也曾经为部门立下赫赫战功。一直想给这套方案起一个优雅的名字，但是始终没有想到满意的。直到今天早上，偶然间看到了一个单词Vulcan([‘vʌlkən]伏尔加，罗马神话中的火神与金工神)，对这个词非常有感觉，那我就暂时已Vulcan对我们这套热补丁方案命名吧。<br>其实，很早之前就想写一下这套实践方案的思路，一直手懒没有写，今天看到了Vulcan这个词，一时兴起，提笔书之。</p>
+<h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><p>原理来说很简单，简单来说就一句话:利用了java的 AOP技术，对字节码进行处理。 AOP技术已经不是一个新技术了，而是一个比较成熟的技术。也正因如此我们可以很快上手。java方面的aop技术有很多，如何选择呢？ 经过调研我们最终选的了AspectJ的方案。也许有人看到了AspectJ就感觉这个用来做热补丁是不是太重了，但是不得不说AspectJ对java确实太友好了，让我们不得不选择它。</p>
+<h4 id="一、-构建时利用aop技术对每个方法进行插桩的操作"><a href="#一、-构建时利用aop技术对每个方法进行插桩的操作" class="headerlink" title="一、 构建时利用aop技术对每个方法进行插桩的操作"></a>一、 构建时利用aop技术对每个方法进行插桩的操作</h4><p><img src="/2017/07/14/Android/网易新闻热补丁技术实践/vulcanpatch.jpg" alt><br>如上图所示，gradle进行构建的时候，在Java源码编译完成之后，生成dex文件之前，我们调用AspectJ的编译器进行插桩。插桩的目的是给每一个方法注入一段寻找patch方法的逻辑。<br>简单来说就是每个方法执行时先去根据自己方法的签名寻找是否有自己对应的patch方法，如果有执行patch方法，没有执行自己原有的逻辑。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">public Object weaveJoinPoint(ProceedingJoinPoint joinPoint) throws Throwable &#123;</span><br><span class="line">        try &#123;</span><br><span class="line">            String e = joinPoint.toLongString(); //获取当前方法的签名</span><br><span class="line">            PatchDebug.printMethodDesByFile(e); </span><br><span class="line">            if(PatchUtils.hasMethodPatch(e)) &#123;  //查询是否有自己方法的patch方法</span><br><span class="line">                Object target = joinPoint.getTarget(); //获取当前的运行对象，方便设置给patch方法</span><br><span class="line">                Object[] params = joinPoint.getArgs(); //获取运行参数</span><br><span class="line">                .................................          //省略一些处理逻辑</span><br><span class="line">                return joinPoint.proceed();//执行原有逻辑</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; catch (Exception var8) &#123;</span><br><span class="line">            var8.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        return joinPoint.proceed(); </span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<p>I 对于如何进行插桩？<br> 大家自行了解AOP的使用即可。<br>II 何时进行插桩？<br>最基本的原则是:java源码编译完成之后，Dex文件生成之前。<br>III 如何基于构建插桩<br>对于Ant打包估计已经很少有人再用了，这里就先忽略了。<br>对于gradle的构建， 其实也有很多方法，我就说一下网易新闻这边采用过的方案吧</p>
+<ol>
+<li><p>最开始使用的是直接hook java Compiler的Task，在java源码编译完成之后执行AspectJ的编译器，进行字节码插桩操作。</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">project.android.applicationVariants.all &#123; variant -&gt;</span><br><span class="line">    if (variant.buildType.name != &quot;release&quot;) &#123;</span><br><span class="line">        log.debug(&quot;Skipping non-release build type &apos;$&#123;variant.buildType.name&#125;&apos;.&quot;)</span><br><span class="line">        return;</span><br><span class="line">    &#125;</span><br><span class="line">    JavaCompile javaCompile = variant.javaCompile</span><br><span class="line">    javaCompile.doLast &#123;</span><br><span class="line">                    String[] args = [&quot;-showWeaveInfo&quot;,</span><br><span class="line">                                     &quot;-1.5&quot;,</span><br><span class="line">                                     &quot;-inpath&quot;, javaCompile.destinationDir.toString(),</span><br><span class="line">                                     &quot;-aspectpath&quot;, javaCompile.classpath.asPath,</span><br><span class="line">                                     &quot;-d&quot;, javaCompile.destinationDir.toString(),</span><br><span class="line">                                     &quot;-classpath&quot;, javaCompile.classpath.asPath,</span><br><span class="line">                                     &quot;-bootclasspath&quot;, project.android.bootClasspath.join(File.pathSeparator)]</span><br><span class="line">                    log.debug &quot;ajc args: &quot; + Arrays.toString(args)</span><br><span class="line">                    MessageHandler handler = new MessageHandler(true);</span><br><span class="line">                    new Main().run(args, handler);                    </span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>gradle Transform API方案<br> 对于上述方法存在一些问题，对于一些jar包，其实已经是字节码了不会走这个过程，因此对一些jar的插桩操作不是很好处理。因此我们采用了Transform API的方案。 transform api是Android gradle plugin 1.5之后新api， 作用就是在生成dex之前，给开发者一个机会能够统一进行修改字节码。<br>用这个方案写了一个实现了Transform API的gradle 插件，具体对哪些jar包进行插桩我们通过gradle配置的方式实现。这就大大的方便了我们对自己的代码和第三方的代码进行字节码的处理。</p>
+</li>
+</ol>
+<h4 id="二、创建patch补丁包"><a href="#二、创建patch补丁包" class="headerlink" title="二、创建patch补丁包"></a>二、创建patch补丁包</h4><p>出现bug时将需要进行替换的方法放到指定类，然后生成一个只含有此java类字节码的apk包，进行下发<br><img src="/2017/07/14/Android/网易新闻热补丁技术实践/createpatchapk.jpg" alt><br>patch 类sample<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">public class PicShowFragmentPatch &#123;</span><br><span class="line">    private String TAG = &quot;PicShowFragmentPatch&quot;;</span><br><span class="line">    private PicShowFragment mTarget;</span><br><span class="line">    //接受当前运行对象</span><br><span class="line">    public void setTarget(PicShowFragment target) &#123;</span><br><span class="line">        mTarget = target; </span><br><span class="line">    &#125;</span><br><span class="line">    /**注意：如果需打patch的类被混淆过 @PatchAnnotation 的信息需要填写混淆过之后的对应路径</span><br><span class="line">     *注解的value值为方法的签名，签名中要注意写类的全路径</span><br><span class="line">     * #before  先执行patch代码逻辑 再执行原代码逻辑</span><br><span class="line">     * #replace 只执行patch代码逻辑</span><br><span class="line">     * #after	 先执行原代码逻辑  再执行patch代码逻辑</span><br><span class="line">     */</span><br><span class="line">    @PatchAnnotation(value = &quot;public void com.netease.nr.biz.pics.PicShowFragment.onLocalLoadFinished(java.lang.Object)&quot;, intercept = &quot;after&quot;)</span><br><span class="line">    public void onLocalLoadFinished(Object object)&#123;</span><br><span class="line">        Toast.makeText(mTarget.getContext(), &quot;onLocalLoadFinished patch stat&quot;, Toast.LENGTH_LONG).show();</span><br><span class="line">    ...................................... //执行patch方法的逻辑</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="三、-补丁包的传输和加载"><a href="#三、-补丁包的传输和加载" class="headerlink" title="三、 补丁包的传输和加载"></a>三、 补丁包的传输和加载</h4><p>对于补丁包的传输，没有什么好说的。但是需要提示的是在补丁包加载之前一定要注意安全性校验、安全行校验、安全性校验。重要的事情已经说完。<br>加载patch包的方式: 由于最终的patch包的形式是一个apk，因此加载也很简单直接使用android的DexFile.loadDex()将apk加载。加载完成之后遍历每一个Enumeration， 并反射获取所有class的Method，进行缓存起来，方便每个方法在缓存中查找。</p>
+<h3 id="优点和缺点"><a href="#优点和缺点" class="headerlink" title="优点和缺点"></a>优点和缺点</h3><table>
+<thead>
+<tr>
+<th>优点</th>
+<th>缺点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>无兼容行问题； 时时生效；下发的patch包体积非常小</td>
+<td>apk方法数增大；插桩操作后apk体积增大；打release包时间变长</td>
+</tr>
+</tbody>
+</table>
+<ol>
+<li>AspectJ是对java完全兼容的，所以Vulcan的patch方案不存在兼容行问题。</li>
+<li>每个方法执行时都会寻找对应的patch方法，因此是时时生效的；</li>
+<li>下发的补丁，我们移除了apk中的资源文件，只保留了patch类的class文件和AndroidMainfest.xml中的版本信息，因此将体积做到了极限。</li>
+<li>apk方法数增大，这个是aop技术的最大弊端之一，再加上android有65535的方法数问题，导致我们不得不对apk进行多dex处理</li>
+<li>由于对字节码的修改导致了dex体积增大，随之而来导致了apk体积的增大；目前网易新闻插桩与不插桩体积相差再1M左右。</li>
+<li>编译时间变长，这个无需解释了吧，每个类字节码的处理是需要时间的。</li>
+</ol>
+<h3 id="TODO"><a href="#TODO" class="headerlink" title="TODO"></a>TODO</h3><ol>
+<li>探索其他的轻量级的aop技术，减小对字节码体积的影响；</li>
+<li>探索其他aop技术，减少对java方法数的影响</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://glanwang.com/2017/07/14/Android/网易新闻热补丁技术实践/" data-id="cjt71hatg009azg225i57mi5n" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/热更新-热补丁/">热更新, 热补丁</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Android/网易新闻瘦身实践" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/07/06/Android/网易新闻瘦身实践/" class="article-date">
+  <time datetime="2017-07-06T01:55:07.000Z" itemprop="datePublished">2017-07-06</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Android/">Android</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/07/06/Android/网易新闻瘦身实践/">网易新闻瘦身实践</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>随着业务的不断增长，网易新闻客户端已经承载了过多的功能，不仅仅是一个新闻资讯的app，而是成了公司各个业务线的载体。因此，体积增长的问题就暴露了出来。体积最大时达到了30M，这对一个android应用级别的app来说算是非常大的了。于是不得不把瘦身的工作提到日程上。</p>
+<h3 id="分析apk，查看个模块的占比"><a href="#分析apk，查看个模块的占比" class="headerlink" title="分析apk，查看个模块的占比"></a>分析apk，查看个模块的占比</h3><p>这一块目前来说还是非常方便的，直接使用android studio提供的apk分析工具，将自己的apk拉入进去，查看一下包体积的状况即可。<br><img src="/2017/07/06/Android/网易新闻瘦身实践/apkanalyze.jpg" alt><br>如上图所示，可以看到主要的体积占用是再lib下的so库， 资源文件和dex这三个部分。于是我们根据分析采取了以下措施。</p>
+<h3 id="实施瘦身"><a href="#实施瘦身" class="headerlink" title="实施瘦身"></a>实施瘦身</h3><h4 id="资源图片的压缩"><a href="#资源图片的压缩" class="headerlink" title="资源图片的压缩"></a>资源图片的压缩</h4><p>对于资源图片，之前一直是收工进行压缩图片。我们对比了目前比较好的图片压缩工具。</p>
+<ol>
+<li><a href="https://tinypng.com/" target="_blank" rel="noopener">https://tinypng.com</a>  在线的压缩工具，免费版对图片压缩有大小和size限制。但是实践过程中我们发现这个工具对某些图片压缩不成功时竟然出现了比原始图片大的状况。</li>
+<li>mac下的压缩工具ImageOptim， 此工具的压缩效果也是不错的，只不过这是一款软件，我们只能每次进行手工操作，集成度不高。那么有没有一款工具能做到效果好，同时可集成度高，不用我们每次进行手工操作的。</li>
+<li>pngquant <a href="https://pngquant.org" target="_blank" rel="noopener">https://pngquant.org</a> 开源的图片压缩工具<br>显而易见，我们最终选择了开源的pngquant工具，原因主要有两方面，一、开源，没有限制；二、便于集成。正是这两个方面的原因，我们团队中的小伙伴开发了一个gradle插件，可以对图片进行统一的压缩处理，并且可以使用此插件，依赖lint分析对代码中没有引用的资源文件进行移除。<h4 id="本地图片Webp化"><a href="#本地图片Webp化" class="headerlink" title="本地图片Webp化"></a>本地图片Webp化</h4>对于压缩过的图片，其实效果已经很好了，但是我们考虑还有没有再进行压缩的方案。于是，我们考虑了webp格式的图。对于webp格式的图片，虽然是google的技术，但是在android上使用还是有很大坑的。第一，系统版本的支持，4.0以上才支持webp格式； 第二， 不同版本的支持格式不一样， 4.1以上的系统才支持含透明的的webp图片。<br>由于上边这些坑，我们不得不采取一些折中的方案。一般有两种选型，一、客户端增加开源库以便在低版本系统上支持webp图片；二、客户端只对不含透明度的图片进行webp化，避免4.1一下的手机无法解析的情况。<br>综上所述，我们选择了第二种方案，只将不含透明度的图片进行webp化。<h4 id="Proguard规范化"><a href="#Proguard规范化" class="headerlink" title="Proguard规范化"></a>Proguard规范化</h4>对应Proguard，之前客户端一致没有太注重这方面，导致proguard非常冗余。例如: 很多第三方库都是全部keep的，这就导致了很多无用的类也打包进入了dex文件导致体积的增加。<br>因此，针对这种情况我们采用了case by case的排查。将proguard规范更加细致化。 比如，之前引入的google广告sdk，体积相当庞大，压缩前大约有1M，而proguard中我们直接全部keep的。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">-keep class com.google.** &#123;*;&#125; </span><br><span class="line">-keep class com.tencent.** &#123;*;&#125;</span><br><span class="line">-keep class com.sina.** &#123;*;&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>这种状况我们做了一下处理，分析对应的sdk包，只keep主sdk中没有混淆的类，sdk中已经做过混淆的类，我们不进行keep。这样就保证了我们调用的api是没有问题的，同时也去除了一些我们没有引用到的类。<br><code>注意: proguard的处理是非常有风险的，需要进行全面的测试</code></p>
+<h4 id="so库的处理"><a href="#so库的处理" class="headerlink" title="so库的处理"></a>so库的处理</h4><p>对so库的处理，我们做了两方面的工作。</p>
+<h5 id="I-移除除armeabi以外的所有so库"><a href="#I-移除除armeabi以外的所有so库" class="headerlink" title="I 移除除armeabi以外的所有so库"></a>I 移除除armeabi以外的所有so库</h5><p>原因大家应该也都清楚。目前arm处理器的占比已经非常非常高。而且，调研一下你会发现微信，qq等装机量很大的apk都已经移除了。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">buildTypes &#123;</span><br><span class="line">    release &#123;</span><br><span class="line">        minifyEnabled true</span><br><span class="line">        proguardFiles &apos;proguard.cfg&apos;</span><br><span class="line">        signingConfig signingConfigs.release</span><br><span class="line">        ndk &#123;</span><br><span class="line">            abiFilters &quot;armeabi&quot;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    debug &#123;</span><br><span class="line">        minifyEnabled false</span><br><span class="line">        signingConfig signingConfigs.release</span><br><span class="line">        ndk &#123;</span><br><span class="line">            abiFilters &quot;armeabi&quot;, &quot;x86&quot;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>release状态下我们只保留了armeabi的so，但是debug状态下我们保留了armeabi和x86的so，原因是我们平时开发使用模拟器比较多，保留x86更便于我们平时开发</p>
+<h5 id="II-找出armeabi中体积很大的so，实行动态下发机制。"><a href="#II-找出armeabi中体积很大的so，实行动态下发机制。" class="headerlink" title="II 找出armeabi中体积很大的so，实行动态下发机制。"></a>II 找出armeabi中体积很大的so，实行动态下发机制。</h5><p>使用System.load(filePath)方法代替System.loadLibrary(libName)进行动态下发so。<br>当然这个要根据实际情况进行分析，首先要分析so是我们代码中自己进行load的还是sdk中进行load的。一般而言，自己进行load的so非常好处理，我们只需要动态下发，下发完成之后在进行load即可。而对于sdk内部load的so，就会稍微麻烦一点，我们不得不hook sdk内部load so的方法，修改其load的时机和路径。<br>幸运的是，我们遇到的体积最大的so，压缩前5M，是我们的一个播放器使用到的so，于是我们修改了播放器的load so的时机，下载完成之后进行load。 下载完成之前，如果有用户点击视屏，我们直接使用系统自带的MediaPlayer进行播放。</p>
+<p><code>注意: System.load(filePath) 此方法的filePath有些手机是不支持sdcard下的文件的，因此动态下发so时，需要将so放到/data/data/{apkId}包下</code></p>
+<h4 id="夜间模式"><a href="#夜间模式" class="headerlink" title="夜间模式"></a>夜间模式</h4><p>夜间模式，新闻客户端这边一直使用的比较原始的方式，两套资源的方式。<br>于是我们希望你能做成动态下发夜间资源的形式。这项工作基本已经完成，但是由于种种原因目前还没有正式上线。</p>
+<h4 id="支持语言的精简"><a href="#支持语言的精简" class="headerlink" title="支持语言的精简"></a>支持语言的精简</h4><p>引用的很读标准库会支持很多国际语言(如v7等support包会含有很多语言)，其实对于我们来说大多数是没有用的。其实只保留中文和英文基本上已经足够了。</p>
+<h3 id="Need-TODO"><a href="#Need-TODO" class="headerlink" title="Need TODO"></a>Need TODO</h3><h4 id="dex瘦身"><a href="#dex瘦身" class="headerlink" title="dex瘦身"></a>dex瘦身</h4><p>由于我们的热更新方案使用的是aop的方式，对字节码进行了修改，导致class文件均会增大，大约增大了1~1.5M，因此我们希望能找到更加合适的方案对字节进行修改，减小最后生成的dex体积。</p>
+<h4 id="support的拆分"><a href="#support的拆分" class="headerlink" title="support的拆分"></a>support的拆分</h4><p>google提供的最新的v4包已经对版本进行了拆分，因此我们希望以后只引入需要的support包，以便减小最终dex体积。</p>
+<hr>
+<p>基于微博网友47Log 的补充:</p>
+<h4 id="资源混淆"><a href="#资源混淆" class="headerlink" title="资源混淆"></a>资源混淆</h4><p>其实资源混淆我们很早之前就已经做了，所以上边没有写。我们也是使用它的 AndRes，这个效果还是很明显的，网易新闻大小在24M 左右的时候，走完 AndRes 资源混淆，差不多能减掉1.5~2M。</p>
+<h4 id="使用-Vector-进行替换资源"><a href="#使用-Vector-进行替换资源" class="headerlink" title="使用 Vector 进行替换资源"></a>使用 Vector 进行替换资源</h4><p>这个也是可行的，因为 Vector 意味着体积会更小。如果时间允许的话，这个也是缩小体积的一个方面。不过从成本和效果上看不一定会是特别有效的方案。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://glanwang.com/2017/07/06/Android/网易新闻瘦身实践/" data-id="cjt71haqf005vzg224j1yib8j" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/瘦身/">瘦身</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Android/AppBarLayout的五中ScrollFlags" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/07/04/Android/AppBarLayout的五中ScrollFlags/" class="article-date">
+  <time datetime="2017-07-04T05:13:44.000Z" itemprop="datePublished">2017-07-04</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Android/">Android</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/07/04/Android/AppBarLayout的五中ScrollFlags/">AppBarLayout的五中ScrollFlags</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>最近使用CoordinatorLayout和AppBarLayout，总结一下AppBarLayout的scrollFlags属性；<br>scrollFlags共有五中取值提供给AppBarLayout的ChildView使用， 在布局中直接使用app:layout_scroolFlags设置， 对应的职位scroll, enterAlways, enterAlwaysCollapsed, snap, exitUntilCollapsed; 代码中通过’setScrollFlags(int)’来进行设置。</p>
+<h3 id="scroll"><a href="#scroll" class="headerlink" title="scroll"></a>scroll</h3><p>child view 伴随这滚动事件儿滚出或滚进屏幕。 注意: a. 如果使用其他值，必定要使用这个值才能起作用；b. 如果再这个chid view前面的任何Chid view没有设置这个值，那么这个child View的设置不起作用<br><img src="/2017/07/04/Android/AppBarLayout的五中ScrollFlags/scroll.gif" alt></p>
+<h3 id="enterAlways"><a href="#enterAlways" class="headerlink" title="enterAlways"></a>enterAlways</h3><p>快速返回。 其实就是向下滚动时Scrolling view和child view之前的滚动优先级的问题。 对比scroll 和scroll | enterAlways设置，发生向下滚动式时，scroll优先滚动scrolling View， 后者优先滚动child view，当滚动的一方已经全部滚进屏幕之后，另一方才开始滚动。<br><img src="/2017/07/04/Android/AppBarLayout的五中ScrollFlags/enterAlways.gif" alt></p>
+<h3 id="enterAlwaysCollapsed"><a href="#enterAlwaysCollapsed" class="headerlink" title="enterAlwaysCollapsed"></a>enterAlwaysCollapsed</h3><p>enterAlways的附加值。这里涉及到Child View的高度和最小高度，向下滚动时，Child View先向下滚动最小高度值，然后Scrolling View开始滚动，到达边界时，Child View再向下滚动，直至显示完全。<br><img src="/2017/07/04/Android/AppBarLayout的五中ScrollFlags/enterAlwaysCollapsed.gif" alt></p>
+<h3 id="exitUntilCollapsed"><a href="#exitUntilCollapsed" class="headerlink" title="exitUntilCollapsed"></a>exitUntilCollapsed</h3><p>这里也涉及到最小高度。发生向上滚动事件时，Child View向上滚动退出直至最小高度，然后Scrolling View开始滚动。<code>也就是，Child View不会完全退出屏幕`</code>。<br><img src="/2017/07/04/Android/AppBarLayout的五中ScrollFlags/exitUntilCollapsed.gif" alt></p>
+<h3 id="snap"><a href="#snap" class="headerlink" title="snap"></a>snap</h3><p>类似于viewPager的吸附效果<br>简单理解，就是Child View滚动比例的一个吸附效果。也就是说，Child View不会存在局部显示的情况，滚动Child View的部分高度，当我们松开手指时，Child View要么向上全部滚出屏幕，要么向下全部滚进屏幕，有点类似ViewPager的左右滑动。<br><img src="/2017/07/04/Android/AppBarLayout的五中ScrollFlags/snap.gif" alt></p>
+<p>原文连接: <a href="http://www.jianshu.com/p/7caa5f4f49bd" target="_blank" rel="noopener">http://www.jianshu.com/p/7caa5f4f49bd</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://glanwang.com/2017/07/04/Android/AppBarLayout的五中ScrollFlags/" data-id="cjt71hak3001rzg22xoh9lqay" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/design-appBarLayout/">design, appBarLayout</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+
+
+  <nav id="page-nav">
+    
+    <a class="extend prev" rel="prev" href="/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/3/">下一页 &raquo;</a>
+  </nav>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Gradle/">Gradle</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac/">Mac</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Other/">Other</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AOP/">AOP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android8-0适配/">Android8.0适配</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AspectJ-android/">AspectJ, android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Gradle/">Gradle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IDEA导出可执行jar/">IDEA导出可执行jar</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Too-many-classes-in-main-dex-list，-main-dex-capacity-exceeded/">Too many classes in --main-dex-list， main dex capacity exceeded</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/apktools/">apktools</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/design-appBarLayout/">design, appBarLayout</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git-clean/">git clean</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git迁移/">git迁移</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/glide-图片无法加载-获取缓存图片/">glide, 图片无法加载, 获取缓存图片</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/glide源码解读/">glide源码解读</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gradle-守护进程，org-gradle-daemon/">gradle 守护进程，org.gradle.daemon</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gradle教程/">gradle教程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gradle，屏蔽，task/">gradle，屏蔽，task</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/greenDao-数据库/">greenDao, 数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/https-httpDNS/">https, httpDNS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/memory-monitors-android-studio/">memory monitors, android studio</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/okhttp-header/">okhttp, header</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/proguard/">proguard</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/">shell</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell字符串/">shell字符串</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sqltie-GreenDao/">sqltie, GreenDao</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/transform-API-gradle/">transform API, gradle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/transient/">transient</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vim/">vim</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/widget-android-8-0/">widget, android 8.0</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/事件传递/">事件传递</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/堆，栈/">堆，栈</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/嵌套滚动-NestedScrolling/">嵌套滚动, NestedScrolling</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/嵌套滚动-viewpager/">嵌套滚动, viewpager</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/正则表达式，shell/">正则表达式，shell</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/热更新-热补丁/">热更新, 热补丁</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/瘦身/">瘦身</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/设计模式/">设计模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/请求追踪/">请求追踪</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/AOP/" style="font-size: 10px;">AOP</a> <a href="/tags/Android8-0适配/" style="font-size: 10px;">Android8.0适配</a> <a href="/tags/AspectJ-android/" style="font-size: 10px;">AspectJ, android</a> <a href="/tags/Gradle/" style="font-size: 10px;">Gradle</a> <a href="/tags/IDEA导出可执行jar/" style="font-size: 10px;">IDEA导出可执行jar</a> <a href="/tags/Too-many-classes-in-main-dex-list，-main-dex-capacity-exceeded/" style="font-size: 10px;">Too many classes in --main-dex-list， main dex capacity exceeded</a> <a href="/tags/apktools/" style="font-size: 10px;">apktools</a> <a href="/tags/design-appBarLayout/" style="font-size: 10px;">design, appBarLayout</a> <a href="/tags/git/" style="font-size: 20px;">git</a> <a href="/tags/git-clean/" style="font-size: 10px;">git clean</a> <a href="/tags/git迁移/" style="font-size: 10px;">git迁移</a> <a href="/tags/glide-图片无法加载-获取缓存图片/" style="font-size: 10px;">glide, 图片无法加载, 获取缓存图片</a> <a href="/tags/glide源码解读/" style="font-size: 10px;">glide源码解读</a> <a href="/tags/gradle-守护进程，org-gradle-daemon/" style="font-size: 10px;">gradle 守护进程，org.gradle.daemon</a> <a href="/tags/gradle教程/" style="font-size: 10px;">gradle教程</a> <a href="/tags/gradle，屏蔽，task/" style="font-size: 10px;">gradle，屏蔽，task</a> <a href="/tags/greenDao-数据库/" style="font-size: 10px;">greenDao, 数据库</a> <a href="/tags/https-httpDNS/" style="font-size: 10px;">https, httpDNS</a> <a href="/tags/memory-monitors-android-studio/" style="font-size: 10px;">memory monitors, android studio</a> <a href="/tags/okhttp-header/" style="font-size: 10px;">okhttp, header</a> <a href="/tags/proguard/" style="font-size: 10px;">proguard</a> <a href="/tags/shell/" style="font-size: 10px;">shell</a> <a href="/tags/shell字符串/" style="font-size: 10px;">shell字符串</a> <a href="/tags/sqltie-GreenDao/" style="font-size: 10px;">sqltie, GreenDao</a> <a href="/tags/transform-API-gradle/" style="font-size: 10px;">transform API, gradle</a> <a href="/tags/transient/" style="font-size: 10px;">transient</a> <a href="/tags/vim/" style="font-size: 10px;">vim</a> <a href="/tags/widget-android-8-0/" style="font-size: 10px;">widget, android 8.0</a> <a href="/tags/事件传递/" style="font-size: 10px;">事件传递</a> <a href="/tags/堆，栈/" style="font-size: 10px;">堆，栈</a> <a href="/tags/嵌套滚动-NestedScrolling/" style="font-size: 10px;">嵌套滚动, NestedScrolling</a> <a href="/tags/嵌套滚动-viewpager/" style="font-size: 10px;">嵌套滚动, viewpager</a> <a href="/tags/正则表达式，shell/" style="font-size: 10px;">正则表达式，shell</a> <a href="/tags/热更新-热补丁/" style="font-size: 10px;">热更新, 热补丁</a> <a href="/tags/瘦身/" style="font-size: 10px;">瘦身</a> <a href="/tags/设计模式/" style="font-size: 10px;">设计模式</a> <a href="/tags/请求追踪/" style="font-size: 15px;">请求追踪</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">三月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">八月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">六月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">五月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">二月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">六月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">十一月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">十月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">九月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">八月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">七月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">六月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">五月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/03/04/Test/">Test</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/12/Android/桌面Widget适配android8-0/">桌面Widget适配android8.0</a>
+          </li>
+        
+          <li>
+            <a href="/2018/08/24/Mac/Mac下提升效率的常用命令/">Mac提升效率的常用命令</a>
+          </li>
+        
+          <li>
+            <a href="/2018/07/09/Other/git-clean使用/">git-clean使用</a>
+          </li>
+        
+          <li>
+            <a href="/2018/07/04/Android/网易新闻全链路状态追踪解决方案/">网易新闻全链路状态追踪解决方案</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 GlanWang<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

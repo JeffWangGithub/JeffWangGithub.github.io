@@ -1,9 +1,711 @@
-<!DOCTYPE html><html lang="zh-CN"><head><meta name="generator" content="Hexo 3.8.0"><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description"><title>Glan Wang | CoderGC</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=0.0.0"><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/normalize/8.0.1/normalize.min.css"><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/pure/1.0.0/pure-min.css"><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/pure/1.0.0/grids-responsive-min.css"><link rel="stylesheet" href="//lib.baomitu.com/font-awesome/4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//lib.baomitu.com/jquery/3.3.1/jquery.min.js"></script><link rel="icon" mask sizes="any" href="/favicon.ico"><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">Glan Wang</h1><a id="logo" href="/.">Glan Wang</a><p class="description">CoderGC</p></div><div id="nav-menu"><a class="current" href="/."><i class="fa fa-home"> 首页</i></a><a href="/archives/"><i class="fa fa-archive"> 归档</i></a><a href="/about/"><i class="fa fa-user"> 关于</i></a><a href="/atom.xml"><i class="fa fa-rss"> 订阅</i></a></div></div><div class="pure-g" id="layout"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title"><a href="/2016/08/18/Other/Git记录用户名和密码/">Git常用命令以及常见问题处理</a></h1><div class="post-meta">2016-08-18</div><div class="post-content"><p>Mac下使用git进行操作时，总是会提示输入用户名和密码，特别蛋疼，今天查了一下如何让系统记录我们的用户名和密码<br><code>git config --global credential.helper store</code><br>使用这个会在当前用户根目录下创建一个.git-credentials的文件用于明文保存用户名密码及相关链接。 OK试试吧，看看系统是不是自动记录了你的用户名和密码</p></div><p class="readmore"><a href="/2016/08/18/Other/Git记录用户名和密码/">阅读全文</a></p></div><div class="post"><h1 class="post-title"><a href="/2016/07/20/Android/apktools反解析中的异常处理/">apktools反解析中的异常处理</a></h1><div class="post-meta">2016-07-20</div><div class="post-content"><p>最近在改打包脚本，有一个需求是想根据渠道来修改AndroidManifest.xml文件，查了一些文档，基本上是没有什么好的办法，最后只能上apktools进行反解析，然后进行回编译。然而使用的apktools进行反编译时，遇到了以下异常。google了一下，并从apktools官网查了一下文档了解到次异常是由于反编译的apk文件中使用了系统的资源，导致了反编译时找不到此资源。<br>apktools反编译工具反解析的时报如下异常<br><img src="apktools反解析中的异常处理/Snip20160720_5.png" alt><br>想要解决此异常，其实只需要把系统的资源的导出来用就行, 需要的资源在framework-res.apk中，<code>framework-res.apk一般存放于手机的/system目录下</code>。下边晒官网的解决方式。<br><a href="https://ibotpeaches.github.io/Apktool/" target="_blank" rel="noopener">apktools官网</a><br><img src="apktools反解析中的异常处理/Snip20160720_7.png" alt></p></div><p class="readmore"><a href="/2016/07/20/Android/apktools反解析中的异常处理/">阅读全文</a></p></div><div class="post"><h1 class="post-title"><a href="/2016/07/14/Android/Proguard那些事儿/">Proguard那些事儿</a></h1><div class="post-meta">2016-07-14</div><div class="post-content"><h3 id="Proguard功能"><a href="#Proguard功能" class="headerlink" title="Proguard功能"></a>Proguard功能</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">- 压缩(Shrink): 侦测并移除代码中无用的类、字段、方法和属性.</span><br><span class="line">- 优化(Optimize): 对字节码进行优化,移除无用的指令.</span><br><span class="line">- 混淆(Obfuscate): 使用a,b,c,d这样简短而无意义的名称,对类,字段和方法进行重命名.</span><br><span class="line">- 预校验(preverify): 在Java平台上对处理后的代码进行校验.</span><br></pre></td></tr></table></figure></div><p class="readmore"><a href="/2016/07/14/Android/Proguard那些事儿/">阅读全文</a></p></div><div class="post"><h1 class="post-title"><a href="/2016/07/08/Mac/Mac上查看文件的编码格式/">Mac上查看文件的编码格式</a></h1><div class="post-meta">2016-07-08</div><div class="post-content"><p>Mac上竟然真心不知道改怎么查看一个文件的编码格式，于是乎google了一把，查到了一个比较简介的命令:enca</p>
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+
+  
+  <title>Glan Wang</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Glan Wang">
+<meta property="og:url" content="http://glanwang.com/page/5/index.html">
+<meta property="og:site_name" content="Glan Wang">
+<meta property="og:locale" content="zh-CN">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Glan Wang">
+  
+    <link rel="alternate" href="/atom.xml" title="Glan Wang" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Glan Wang</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">CoderGC</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://glanwang.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-Other/Git记录用户名和密码" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/08/18/Other/Git记录用户名和密码/" class="article-date">
+  <time datetime="2016-08-18T02:29:24.000Z" itemprop="datePublished">2016-08-18</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Other/">Other</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/08/18/Other/Git记录用户名和密码/">Git常用命令以及常见问题处理</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Mac下使用git进行操作时，总是会提示输入用户名和密码，特别蛋疼，今天查了一下如何让系统记录我们的用户名和密码<br><code>git config --global credential.helper store</code><br>使用这个会在当前用户根目录下创建一个.git-credentials的文件用于明文保存用户名密码及相关链接。 OK试试吧，看看系统是不是自动记录了你的用户名和密码</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://glanwang.com/2016/08/18/Other/Git记录用户名和密码/" data-id="cjt71hash008bzg22sponbeda" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/git/">git</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Android/apktools反解析中的异常处理" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/07/20/Android/apktools反解析中的异常处理/" class="article-date">
+  <time datetime="2016-07-20T08:42:45.000Z" itemprop="datePublished">2016-07-20</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Android/">Android</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/07/20/Android/apktools反解析中的异常处理/">apktools反解析中的异常处理</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>最近在改打包脚本，有一个需求是想根据渠道来修改AndroidManifest.xml文件，查了一些文档，基本上是没有什么好的办法，最后只能上apktools进行反解析，然后进行回编译。然而使用的apktools进行反编译时，遇到了以下异常。google了一下，并从apktools官网查了一下文档了解到次异常是由于反编译的apk文件中使用了系统的资源，导致了反编译时找不到此资源。<br>apktools反编译工具反解析的时报如下异常<br><img src="/2016/07/20/Android/apktools反解析中的异常处理/Snip20160720_5.png" alt><br>想要解决此异常，其实只需要把系统的资源的导出来用就行, 需要的资源在framework-res.apk中，<code>framework-res.apk一般存放于手机的/system目录下</code>。下边晒官网的解决方式。<br><a href="https://ibotpeaches.github.io/Apktool/" target="_blank" rel="noopener">apktools官网</a><br><img src="/2016/07/20/Android/apktools反解析中的异常处理/Snip20160720_7.png" alt></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://glanwang.com/2016/07/20/Android/apktools反解析中的异常处理/" data-id="cjt71hap00045zg22ldopkmnt" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/apktools/">apktools</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="android-Android/Proguard那些事儿" class="article article-type-android" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/07/14/Android/Proguard那些事儿/" class="article-date">
+  <time datetime="2016-07-14T05:25:05.000Z" itemprop="datePublished">2016-07-14</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Android/">Android</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/07/14/Android/Proguard那些事儿/">Proguard那些事儿</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="Proguard功能"><a href="#Proguard功能" class="headerlink" title="Proguard功能"></a>Proguard功能</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">- 压缩(Shrink): 侦测并移除代码中无用的类、字段、方法和属性.</span><br><span class="line">- 优化(Optimize): 对字节码进行优化,移除无用的指令.</span><br><span class="line">- 混淆(Obfuscate): 使用a,b,c,d这样简短而无意义的名称,对类,字段和方法进行重命名.</span><br><span class="line">- 预校验(preverify): 在Java平台上对处理后的代码进行校验.</span><br></pre></td></tr></table></figure>
+<p>强烈建议阅读的博文:<a href="http://www.jianshu.com/p/60e82aafcfd0" target="_blank" rel="noopener">http://www.jianshu.com/p/60e82aafcfd0</a></p>
+<h3 id="ProGuard混淆规则-正则语法"><a href="#ProGuard混淆规则-正则语法" class="headerlink" title="ProGuard混淆规则/正则语法"></a>ProGuard混淆规则/正则语法</h3><ol>
+<li><p>语法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">-keep [modifier…] class_specification: 不混淆指定的类</span><br><span class="line">-keepclassmembers [modifier,,,] class_specification: 不混淆指定类的特定成员. </span><br><span class="line">-keepclasseswithmembernames [modifier,,,] class_specification: 不混淆指定的类和它的成员. </span><br><span class="line">-dontwarn [class_filter]: 不提示指定包名的混淆打包warning. </span><br><span class="line">-keepattributes [attribute_filter]: 不混淆特定的属性.</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>正则语法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">? : 能匹配任意一个字符,但是不能表示package的分隔符,即.</span><br><span class="line">* : 能匹配任意n个字符,但是不能表示package的分隔符,即.</span><br><span class="line">** : 能匹配任意n个字符,并且可以表示package的分隔符.</span><br><span class="line">% : 能匹配任何原始类型,如boolean、int等,但是不能表示void</span><br><span class="line">*** : 能匹配任意类型,包括原始类型和非原始类型,数组类型和非数组类型.</span><br><span class="line">… : 能匹配任何数量的任何参数.</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="Android中常用的选项"><a href="#Android中常用的选项" class="headerlink" title="Android中常用的选项"></a>Android中常用的选项</h3><p>android使用一般首先指定sdk/tools/proguard文件夹中的proguard-android.txt文件，然后自己在定义自己的proguard文件。<br>sdk目录中的proguard-android.txt定义了一些android开发中通用的混淆规则，但是这并不能满足我们的需要，仍需要根据我们的需求继续添加规则。<br>android sdk中自带规则的说明<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line">#混淆时不产生形形色色的类名</span><br><span class="line">-dontusemixedcaseclassnames</span><br><span class="line">##不跳过(混淆) jars中的 非public classes</span><br><span class="line">-dontskipnonpubliclibraryclasses</span><br><span class="line">#打印日志</span><br><span class="line">-verbose</span><br><span class="line"></span><br><span class="line">#不预校验,默认情况下如果类文件的目标平台Java 6 或更高时会进行预校验。Android没必要开启，关闭可减少处理时间。</span><br><span class="line">-dontpreverify</span><br><span class="line">#不优化输入的类文件，避免出现栈溢出异常，比较复杂的方法会出现栈溢出</span><br><span class="line">-dontoptimize</span><br><span class="line">-keepattributes *Annotation*</span><br><span class="line">-keep public class com.google.vending.licensing.ILicensingService</span><br><span class="line">-keep public class com.android.vending.licensing.ILicensingService</span><br><span class="line"># For native methods, see http://proguard.sourceforge.net/manual/examples.html#native</span><br><span class="line">-keepclasseswithmembernames class * &#123;</span><br><span class="line">    native &lt;methods&gt;;</span><br><span class="line">&#125;</span><br><span class="line"># keep setters in Views so that animations can still work.</span><br><span class="line"># see http://proguard.sourceforge.net/manual/examples.html#beans</span><br><span class="line">-keepclassmembers public class * extends android.view.View &#123;</span><br><span class="line">   void set*(***);</span><br><span class="line">   *** get*();</span><br><span class="line">&#125;</span><br><span class="line"># We want to keep methods in Activity that could be used in the XML attribute onClick</span><br><span class="line">-keepclassmembers class * extends android.app.Activity &#123;</span><br><span class="line">    public void *(android.view.View);</span><br><span class="line">&#125;</span><br><span class="line"># For enumeration classes, see http://proguard.sourceforge.net/manual/examples.html#enumerations</span><br><span class="line">-keepclassmembers enum * &#123;</span><br><span class="line">    public static **[] values();</span><br><span class="line">    public static ** valueOf(java.lang.String);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">-keepclassmembers class * implements android.os.Parcelable &#123;</span><br><span class="line">  public static final android.os.Parcelable$Creator CREATOR;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">-keepclassmembers class **.R$* &#123;</span><br><span class="line">    public static &lt;fields&gt;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"># The support library contains references to newer platform versions.</span><br><span class="line"># Don&apos;t warn about those in case this app is linking against an older</span><br><span class="line"># platform version.  We know about them, and they are safe.</span><br><span class="line">-dontwarn android.support.**</span><br><span class="line"></span><br><span class="line"># Understand the @Keep support annotation.</span><br><span class="line">-keep class android.support.annotation.Keep</span><br><span class="line">-keep @android.support.annotation.Keep class * &#123;*;&#125;</span><br><span class="line">-keepclasseswithmembers class * &#123;</span><br><span class="line">    @android.support.annotation.Keep &lt;methods&gt;;</span><br><span class="line">&#125;</span><br><span class="line">-keepclasseswithmembers class * &#123;</span><br><span class="line">    @android.support.annotation.Keep &lt;init&gt;(...);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><code>Proguard中其他选项的含义可以参考:[ProGuard 选项](http://www.open-open.com/lib/view/open1449238996467.html)这个译文的说明</code></p>
+<p>参考文章:<br><a href="http://hanhailong.com/2015/12/28/Android%E8%BF%9B%E9%98%B6%E4%B9%8BProGuard%E4%BB%A3%E7%A0%81%E6%B7%B7%E6%B7%86/?hmsr=toutiao.io&amp;utm_medium=toutiao.io&amp;utm_source=toutiao.io" target="_blank" rel="noopener">Android进阶之ProGuard代码混淆</a><br><a href="http://droidyue.com/blog/2016/07/10/understanding-android-obfuscated-code-by-proguard/?hmsr=toutiao.io&amp;utm_medium=toutiao.io&amp;utm_source=toutiao.io" target="_blank" rel="noopener">读懂 Android 中的代码混淆</a><br><a href="http://www.open-open.com/lib/view/open1449238996467.html" target="_blank" rel="noopener">ProGuard 选项</a><br><a href="http://blog.csdn.net/wzy_1988/article/details/50061501" target="_blank" rel="noopener">Android ProGuard技术详解</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://glanwang.com/2016/07/14/Android/Proguard那些事儿/" data-id="cjt71hamt0031zg22oiluoiv7" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/proguard/">proguard</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Mac/Mac上查看文件的编码格式" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/07/08/Mac/Mac上查看文件的编码格式/" class="article-date">
+  <time datetime="2016-07-08T10:29:38.000Z" itemprop="datePublished">2016-07-08</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Mac/">Mac</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/07/08/Mac/Mac上查看文件的编码格式/">Mac上查看文件的编码格式</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Mac上竟然真心不知道改怎么查看一个文件的编码格式，于是乎google了一把，查到了一个比较简介的命令:enca</p>
 <ol>
 <li>查看你的系统有没有安装此命令，直接在终端执行enca命令，查看</li>
-<li>如果没有安装，直接brew install enca即可，安装完毕即可使用。(不要问哥brew是什么)</li></ol></div><p class="readmore"><a href="/2016/07/08/Mac/Mac上查看文件的编码格式/">阅读全文</a></p></div><div class="post"><h1 class="post-title"><a href="/2016/07/08/Java/IDEA导出可执行jar/">IDEA导出可执行jar</a></h1><div class="post-meta">2016-07-08</div><div class="post-content"><h3 id="背景原因"><a href="#背景原因" class="headerlink" title="背景原因"></a>背景原因</h3><p>Android Studio创建了Java的Module，想导出可执行jar包，但是直接执行了jar的Task发现其似乎没有让选择MainClass的选项。于是乎，用jar命令将编译生成的class文件进行打包生成jar，病指定了manifest文件。<br>可悲的是: 使用java -jar xxx.jar 运行此命令时，却发现直接诶报错。查了一下原因应该是环境变量设置的有问题。由于不太熟悉jar命令，所以直接放弃了这种方式。想用其他方式来生成可执行jar:</p></div><p class="readmore"><a href="/2016/07/08/Java/IDEA导出可执行jar/">阅读全文</a></p></div><div class="post"><h1 class="post-title"><a href="/2016/07/02/Mac/Shell相关/">Shell相关</a></h1><div class="post-meta">2016-07-02</div><div class="post-content"><ol>
+<li>如果没有安装，直接brew install enca即可，安装完毕即可使用。(不要问哥brew是什么)</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">- enca file 查看file文件的编码格式</span><br><span class="line">- enca -x utf-8 file 将file文件转换为utf-8的格式</span><br><span class="line">- 其他更多的使用查看 enca --help</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://glanwang.com/2016/07/08/Mac/Mac上查看文件的编码格式/" data-id="cjt71harl0077zg229k45829r" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Java/IDEA导出可执行jar" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/07/08/Java/IDEA导出可执行jar/" class="article-date">
+  <time datetime="2016-07-08T07:08:29.000Z" itemprop="datePublished">2016-07-08</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Java/">Java</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/07/08/Java/IDEA导出可执行jar/">IDEA导出可执行jar</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="背景原因"><a href="#背景原因" class="headerlink" title="背景原因"></a>背景原因</h3><p>Android Studio创建了Java的Module，想导出可执行jar包，但是直接执行了jar的Task发现其似乎没有让选择MainClass的选项。于是乎，用jar命令将编译生成的class文件进行打包生成jar，病指定了manifest文件。<br>可悲的是: 使用java -jar xxx.jar 运行此命令时，却发现直接诶报错。查了一下原因应该是环境变量设置的有问题。由于不太熟悉jar命令，所以直接放弃了这种方式。想用其他方式来生成可执行jar:</p>
+<h3 id="方式一"><a href="#方式一" class="headerlink" title="方式一:"></a>方式一:</h3><p>直接使用eclipse: 这确实是比较牛逼的方式，但是自从Android Studio之后从来没摸过eclipse了。总感觉eclipse太low逼了。</p>
+<h3 id="方式二"><a href="#方式二" class="headerlink" title="方式二:"></a>方式二:</h3><p>想直接通过Android Studio导出可执行jar。无奈，Google将IDEA进行了阉割处理，好多IDEA有的功能都被替换了。</p>
+<h3 id="方式三"><a href="#方式三" class="headerlink" title="方式三:"></a>方式三:</h3><p>使用IDEA导出可执行jar: Android Studio本身就是基于IDEA的，两者的使用方式都是相同的，但是android studio在idea的基础上做了android的定制。<br>打开File -&gt; Project Structure -&gt; Artifacts，如下图<br><img src="/2016/07/08/Java/IDEA导出可执行jar/20160708.jpeg" alt><br>注:此图为网络盗图<br>到此OK搞定，可直接执行java -jar xxx.jar进行验证jar是否有问题</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://glanwang.com/2016/07/08/Java/IDEA导出可执行jar/" data-id="cjt71haqr006bzg22nc3aq9fj" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/IDEA导出可执行jar/">IDEA导出可执行jar</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Mac/Shell相关" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/07/02/Mac/Shell相关/" class="article-date">
+  <time datetime="2016-07-02T09:51:57.000Z" itemprop="datePublished">2016-07-02</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Mac/">Mac</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/07/02/Mac/Shell相关/">Shell相关</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <ol>
 <li><p>获取数据的长度</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">array=(1 2 3 6 7)</span><br><span class="line">echo $&#123;#array[@]&#125;</span><br></pre></td></tr></table></figure></li></ol></div><p class="readmore"><a href="/2016/07/02/Mac/Shell相关/">阅读全文</a></p></div><div class="post"><h1 class="post-title"><a href="/2016/06/29/Android/打包脚本梳理-md/">打包脚本梳理.md</a></h1><div class="post-meta">2016-06-29</div><div class="post-content"><h3 id="总体原理"><a href="#总体原理" class="headerlink" title="总体原理"></a>总体原理</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">st=&gt;start: Start</span><br><span class="line">e=&gt;end: End</span><br><span class="line">op1=&gt;operation: 获取渠道信息:\n </span><br><span class="line">op2=&gt;operation: 获取git源码:\n </span><br><span class="line">op3=&gt;operation: 替换gradle编译脚本:\n 用服务器的autoPkg.gradle脚本\n 替换代码中的autoPkg.gradle脚本 </span><br><span class="line">op4=&gt;operation: Start build 开始编译</span><br><span class="line">op5=&gt;operation:  注入渠道信息\n重新进行签名打包\n:genchal.sh执行</span><br><span class="line">st-&gt;op1-&gt;op2-&gt;op3-&gt;op4-&gt;op5-&gt;e</span><br></pre></td></tr></table></figure></div><p class="readmore"><a href="/2016/06/29/Android/打包脚本梳理-md/">阅读全文</a></p></div><div class="post"><h1 class="post-title"><a href="/2016/06/28/Android/Android自定义分包(MultiDex 手动指定 maindexlist)/">Android自定义分包(MultiDex 手动指定 maindexlist)</a></h1><div class="post-meta">2016-06-28</div><div class="post-content"><p><a href="http://eyyoung.github.io/2014/12/13/android-multidex-custom-mainldexlist/" target="_blank" rel="noopener">http://eyyoung.github.io/2014/12/13/android-multidex-custom-mainldexlist/</a></p></div><p class="readmore"><a href="/2016/06/28/Android/Android自定义分包(MultiDex 手动指定 maindexlist)/">阅读全文</a></p></div><div class="post"><h1 class="post-title"><a href="/2016/06/21/Other/在hexo中无痛使用本地图片/">在hexo中无痛使用本地图片</a></h1><div class="post-meta">2016-06-21</div><div class="post-content"><p><a href="http://www.tuicool.com/articles/umEBVfI" target="_blank" rel="noopener">http://www.tuicool.com/articles/umEBVfI</a></p>
-</div><p class="readmore"><a href="/2016/06/21/Other/在hexo中无痛使用本地图片/">阅读全文</a></p></div><div class="post"><h1 class="post-title"><a href="/2016/06/21/Android/Android Patch实践/">Android Patch实践</a></h1><div class="post-meta">2016-06-21</div><div class="post-content"><h3 id="常见的热补丁方案"><a href="#常见的热补丁方案" class="headerlink" title="常见的热补丁方案"></a>常见的热补丁方案</h3><ul>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">array=(1 2 3 6 7)</span><br><span class="line">echo $&#123;#array[@]&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在脚本中倒引号表示里边的是命令</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[`命令`]</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>dirname和basename</p>
+<ul>
+<li>dirname $0  获取当前脚本文件所在文件夹的路径</li>
+<li>basename $0 获取当前脚本文件的名称<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">echo $(dirname $0)</span><br><span class="line">echo $(basename $0)</span><br><span class="line">echo $(dirname $0)/$(basename $0)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>$+符号相关含义</p>
+<ul>
+<li>$$:  shell本身的PID(processID)</li>
+<li>$1:  shell最后运行的后台Process的PID</li>
+<li>$?:  最后运行的命令的结束代码(返回值)</li>
+<li>$-: 使用set命令设定的Flag一览</li>
+<li><code>$*:  如果此符号用双引号包裹，则以&quot;$1 $2 … $n&quot;的形式输出所有参数</code></li>
+<li><code>$@: 与$*相同</code></li>
+<li>$#:  获取到传递的参数个数</li>
+<li>$0: Shell本身的文件名</li>
+<li><code>$1～$n</code> 获取第n个参数</li>
+</ul>
+</li>
+<li><p>local的含义</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1.    Shell脚本中定义的变量是global的，其作用域从被定义的地方开始，到shell结束或被显示删除的地方为止。</span><br><span class="line">2.    Shell函数定义的变量默认是global的，其作用域从“函数被调用时执行变量定义的地方”开始，到shell结束或被显示删除处为止。函数定义的变量可以被显示定义成local的，其作用域局限于函数内。但请注意，函数的参数是local的。</span><br><span class="line">3.    如果同名，Shell函数定义的local变量会屏蔽脚本定义的global变量。</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>注意细节</p>
+<ul>
+<li>shell的赋值”=”等号前后不能有空格</li>
+<li>判断是否相等的等号(==或=) 前后要有空格</li>
+</ul>
+</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://glanwang.com/2016/07/02/Mac/Shell相关/" data-id="cjt71harr007izg224u8a6iuk" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/shell/">shell</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Android/打包脚本梳理-md" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/06/29/Android/打包脚本梳理-md/" class="article-date">
+  <time datetime="2016-06-29T06:59:59.000Z" itemprop="datePublished">2016-06-29</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/06/29/Android/打包脚本梳理-md/">打包脚本梳理.md</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="总体原理"><a href="#总体原理" class="headerlink" title="总体原理"></a>总体原理</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">st=&gt;start: Start</span><br><span class="line">e=&gt;end: End</span><br><span class="line">op1=&gt;operation: 获取渠道信息:\n </span><br><span class="line">op2=&gt;operation: 获取git源码:\n </span><br><span class="line">op3=&gt;operation: 替换gradle编译脚本:\n 用服务器的autoPkg.gradle脚本\n 替换代码中的autoPkg.gradle脚本 </span><br><span class="line">op4=&gt;operation: Start build 开始编译</span><br><span class="line">op5=&gt;operation:  注入渠道信息\n重新进行签名打包\n:genchal.sh执行</span><br><span class="line">st-&gt;op1-&gt;op2-&gt;op3-&gt;op4-&gt;op5-&gt;e</span><br></pre></td></tr></table></figure>
+<h3 id="步骤分析"><a href="#步骤分析" class="headerlink" title="步骤分析"></a>步骤分析</h3><ul>
+<li>获取渠道信息:<ol>
+<li>qudaoV0.1.sh执行，解析.xls文件中的渠道信息。通过xlsx2cvs插件解析xlsx文件中的渠道信息</li>
+</ol>
+</li>
+<li>获取git源码<ol>
+<li>git_getcode.sh脚本执行，获取所有分支源代码</li>
+<li>根据git_getcode.sh脚本中指定的分支切换到对应分支</li>
+<li>将对应分支的代码copy到newreader指定目录下</li>
+</ol>
+</li>
+<li>替换.gradle编译脚本<ol>
+<li>使用服务现有的gradle编译脚本替换代码中的脚本文件， 防止git服务商的gradle脚本被错误修改</li>
+</ol>
+</li>
+<li>开始编译源码<ol>
+<li>执行build.gradle脚本文件开始编译源码</li>
+<li>将生成的apk copy到渠道信息所在目录</li>
+</ol>
+</li>
+<li>注入渠道信息<ol>
+<li>解压apk文件，遍历注入渠道信息和配置信息(向ntescfg中注入相关配置信息信息)</li>
+<li>重新压缩签名，生成新的apk，并放置到不同的渠道目录下</li>
+</ol>
+</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://glanwang.com/2016/06/29/Android/打包脚本梳理-md/" data-id="cjt71hapz005bzg22kh0u4tv1" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Android/Android自定义分包(MultiDex 手动指定 maindexlist)" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/06/28/Android/Android自定义分包(MultiDex 手动指定 maindexlist)/" class="article-date">
+  <time datetime="2016-06-28T08:37:00.000Z" itemprop="datePublished">2016-06-28</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Android/">Android</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/06/28/Android/Android自定义分包(MultiDex 手动指定 maindexlist)/">Android自定义分包(MultiDex 手动指定 maindexlist)</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><a href="http://eyyoung.github.io/2014/12/13/android-multidex-custom-mainldexlist/" target="_blank" rel="noopener">http://eyyoung.github.io/2014/12/13/android-multidex-custom-mainldexlist/</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://glanwang.com/2016/06/28/Android/Android自定义分包(MultiDex 手动指定 maindexlist)/" data-id="cjt71hak1001pzg22g8n4jwaz" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Other/在hexo中无痛使用本地图片" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/06/21/Other/在hexo中无痛使用本地图片/" class="article-date">
+  <time datetime="2016-06-21T08:23:00.000Z" itemprop="datePublished">2016-06-21</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Other/">Other</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/06/21/Other/在hexo中无痛使用本地图片/">在hexo中无痛使用本地图片</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><a href="http://www.tuicool.com/articles/umEBVfI" target="_blank" rel="noopener">http://www.tuicool.com/articles/umEBVfI</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://glanwang.com/2016/06/21/Other/在hexo中无痛使用本地图片/" data-id="cjt71hasl008mzg22n26hqxg3" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Android/Android Patch实践" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/06/21/Android/Android Patch实践/" class="article-date">
+  <time datetime="2016-06-21T06:50:00.000Z" itemprop="datePublished">2016-06-21</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Android/">Android</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/06/21/Android/Android Patch实践/">Android Patch实践</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="常见的热补丁方案"><a href="#常见的热补丁方案" class="headerlink" title="常见的热补丁方案"></a>常见的热补丁方案</h3><ul>
 <li>Dexposed  方法级别的热修复：对Android系统版本，虚拟机类型有一定限制</li>
-<li>Andfix 方法级别特修：没有深入了解，jni的方案，应该也是存在兼容性问题</li></ul></div><p class="readmore"><a href="/2016/06/21/Android/Android Patch实践/">阅读全文</a></p></div><nav class="page-navigator"><a class="extend prev" rel="prev" href="/page/4/">上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/6/">下一页</a></nav></div></div><div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar"><div class="widget"><form class="search-form" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank"><input type="text" name="q" maxlength="20" placeholder="Search"><input type="hidden" name="sitesearch" value="http://glanwang.com"></form></div><div class="widget"><div class="widget-title"><i class="fa fa-folder-o"> 分类</i></div><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Gradle/">Gradle</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac/">Mac</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Other/">Other</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-star-o"> 标签</i></div><div class="tagcloud"><a href="/tags/请求追踪/" style="font-size: 15px;">请求追踪</a> <a href="/tags/gradle-守护进程，org-gradle-daemon/" style="font-size: 15px;">gradle 守护进程，org.gradle.daemon</a> <a href="/tags/transform-API-gradle/" style="font-size: 15px;">transform API, gradle</a> <a href="/tags/Gradle/" style="font-size: 15px;">Gradle</a> <a href="/tags/IDEA导出可执行jar/" style="font-size: 15px;">IDEA导出可执行jar</a> <a href="/tags/堆，栈/" style="font-size: 15px;">堆，栈</a> <a href="/tags/设计模式/" style="font-size: 15px;">设计模式</a> <a href="/tags/transient/" style="font-size: 15px;">transient</a> <a href="/tags/shell/" style="font-size: 15px;">shell</a> <a href="/tags/shell字符串/" style="font-size: 15px;">shell字符串</a> <a href="/tags/正则表达式，shell/" style="font-size: 15px;">正则表达式，shell</a> <a href="/tags/git/" style="font-size: 15px;">git</a> <a href="/tags/git-clean/" style="font-size: 15px;">git clean</a> <a href="/tags/git迁移/" style="font-size: 15px;">git迁移</a> <a href="/tags/vim/" style="font-size: 15px;">vim</a> <a href="/tags/AOP/" style="font-size: 15px;">AOP</a> <a href="/tags/memory-monitors-android-studio/" style="font-size: 15px;">memory monitors, android studio</a> <a href="/tags/嵌套滚动-NestedScrolling/" style="font-size: 15px;">嵌套滚动, NestedScrolling</a> <a href="/tags/design-appBarLayout/" style="font-size: 15px;">design, appBarLayout</a> <a href="/tags/AspectJ-android/" style="font-size: 15px;">AspectJ, android</a> <a href="/tags/glide-图片无法加载-获取缓存图片/" style="font-size: 15px;">glide, 图片无法加载, 获取缓存图片</a> <a href="/tags/glide源码解读/" style="font-size: 15px;">glide源码解读</a> <a href="/tags/gradle教程/" style="font-size: 15px;">gradle教程</a> <a href="/tags/gradle，屏蔽，task/" style="font-size: 15px;">gradle，屏蔽，task</a> <a href="/tags/okhttp-header/" style="font-size: 15px;">okhttp, header</a> <a href="/tags/proguard/" style="font-size: 15px;">proguard</a> <a href="/tags/sqltie-GreenDao/" style="font-size: 15px;">sqltie, GreenDao</a> <a href="/tags/apktools/" style="font-size: 15px;">apktools</a> <a href="/tags/https-httpDNS/" style="font-size: 15px;">https, httpDNS</a> <a href="/tags/事件传递/" style="font-size: 15px;">事件传递</a> <a href="/tags/嵌套滚动-viewpager/" style="font-size: 15px;">嵌套滚动, viewpager</a> <a href="/tags/Too-many-classes-in-main-dex-list，-main-dex-capacity-exceeded/" style="font-size: 15px;">Too many classes in --main-dex-list， main dex capacity exceeded</a> <a href="/tags/widget-android-8-0/" style="font-size: 15px;">widget, android 8.0</a> <a href="/tags/瘦身/" style="font-size: 15px;">瘦身</a> <a href="/tags/Android8-0适配/" style="font-size: 15px;">Android8.0适配</a> <a href="/tags/greenDao-数据库/" style="font-size: 15px;">greenDao, 数据库</a> <a href="/tags/热更新-热补丁/" style="font-size: 15px;">热更新, 热补丁</a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> 最近文章</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2019/03/04/Test/">Test</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/10/12/Android/桌面Widget适配android8-0/">桌面Widget适配android8.0</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/24/Mac/Mac下提升效率的常用命令/">Mac提升效率的常用命令</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/09/Other/git-clean使用/">git-clean使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/04/Android/网易新闻全链路状态追踪解决方案/">网易新闻全链路状态追踪解决方案</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/15/Android/记Android8.0输入和导航变更引起的bug/">记Android8.0输入和导航变更引起的bug</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/11/Android/使用嵌套滚动实现viewpager和header的联动/">使用嵌套滚动实现viewpager和header的联动</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/29/Android/事件传递温习/">事件传递温习</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/23/Android/Android嵌套滚动入门/">Android嵌套滚动入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/02/01/Android/RecyclerView绑定View时更新数据问题解决/">RecyclerView绑定View时更新数据问题解决</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-external-link"> 友情链接</i></div><ul></ul><a href="http://www.example1.com/" title="site-name1" target="_blank">site-name1</a><ul></ul><a href="http://www.example2.com/" title="site-name2" target="_blank">site-name2</a><ul></ul><a href="http://www.example3.com/" title="site-name3" target="_blank">site-name3</a></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">Copyright © 2019 <a href="/." rel="nofollow">Glan Wang.</a> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></div></div><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=0.0.0" async></script><script type="text/javascript" src="//lib.baomitu.com/fancybox/3.5.2/jquery.fancybox.min.js" async></script><script type="text/javascript" src="/js/fancybox.js?v=0.0.0" async></script><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/fancybox/3.5.2/jquery.fancybox.min.css"><script type="text/javascript" src="/js/codeblock-resizer.js?v=0.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=0.0.0"></script></div></body></html>
+<li>Andfix 方法级别特修：没有深入了解，jni的方案，应该也是存在兼容性问题</li>
+<li>腾讯类替换方案，类级别的方案 ： 缺点，需要应用重启</li>
+</ul>
+<h3 id="我们采用的方案——AspectJ切面编程"><a href="#我们采用的方案——AspectJ切面编程" class="headerlink" title="我们采用的方案——AspectJ切面编程"></a>我们采用的方案——AspectJ切面编程</h3><h4 id="AOP切面编程"><a href="#AOP切面编程" class="headerlink" title="AOP切面编程"></a>AOP切面编程</h4><p>面向切面编程，通过预编译方式和运行期动态代理实现程序功能的统一维护的一种技术。基本上可以简单理解为将执行过程进行切片，可以在切点处做一些相关逻辑处理。<br>最常见的gradle也是支持切面编程的，例如：我们可以在某一个Task的前后做一些事情。</p>
+<h4 id="关于AspectJ"><a href="#关于AspectJ" class="headerlink" title="关于AspectJ"></a>关于AspectJ</h4><p>aop并不是一个新技术，而是比较成熟的一门技术了。但是它大多的应用场景在Java EE方面。比如各大成熟的web框架都支持aop的编程，spring自带又aop的框架，但不是aspectJ，但是由于aspectJ 1.5之后对Java的兼容性堪称完美至极，所以大部分开发者都把aspectJ应用到了spring上。</p>
+<p><img src="/2016/06/21/Android/Android Patch实践/2B0526EB-084A-4986-A767-636A90A51F3C.png" alt></p>
+<h4 id="AspectJ具体可以看什么事情"><a href="#AspectJ具体可以看什么事情" class="headerlink" title="AspectJ具体可以看什么事情"></a>AspectJ具体可以看什么事情</h4><p>aspectJ是一个非常强大的aop变成框架，</p>
+<h4 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h4><p>与Dexposed基本相同，都是采用了AOP的方案，只不过是是实现原理不同。简单来讲就是实现对方法调用的hook，当方法调用时可以监听到，从而可以在方法调用前后做一些事情，或者直接替换掉该方法。</p>
+<h3 id="阿里选择Dexposed方案的原因"><a href="#阿里选择Dexposed方案的原因" class="headerlink" title="阿里选择Dexposed方案的原因"></a>阿里选择Dexposed方案的原因</h3><p>阿里当初做热补丁方案的时候，也曾经考虑首选aspectJ方法，但是它没有选择aspectJ方案的原因是，由于阿里有一些特殊的需求：就是需要对android系统很多类的调用做切面化分析。比如：分析Android系统某个类各方法的调用。这种需求AspectJ是不能满足的，因此阿里后来选择了Dexposed的方案。</p>
+<h4 id="AspectJ方案的优缺点"><a href="#AspectJ方案的优缺点" class="headerlink" title="AspectJ方案的优缺点"></a>AspectJ方案的优缺点</h4><p>网易新闻的方案：不存在Android兼容性问题，完全基于java的方案。<br>    缺点：</p>
+<pre><code>1. 编译效率有影响--解决方法
+2. 执行效率与patch包大小有关，涉及到反射，反射是不可避免的，包括其他方案也或多或少的涉及到反射。但是对于bug修复来说，代码量很小，反射的效率基本可以忽略。
+</code></pre><h3 id="难点"><a href="#难点" class="headerlink" title="难点"></a>难点</h3><ol>
+<li>加载patch类和patch方法的问题<br> 解决方案：将patch类打包成jar或者apk，即我们可以通过现有api进行加载的方式，保证patch类可以在运行时进行加载</li>
+<li>动态调用patch方法问题以及当前需要patch类对象的获取<br> aspectJ变成中提供了现有api可以获取当前运行对象，然后结合反射，强行注入patch类</li>
+<li>代码混淆问题<br> 解决方案有多重：<ul>
+<li>脚本方案</li>
+<li>android gradle插件1.5之后引入的transform API方案</li>
+</ul>
+</li>
+<li>由于混淆导致的ClassNotFound，以及解决方案</li>
+</ol>
+<h3 id="具体代码分析"><a href="#具体代码分析" class="headerlink" title="具体代码分析"></a>具体代码分析</h3><h3 id="反编译分析，理解AspectJ"><a href="#反编译分析，理解AspectJ" class="headerlink" title="反编译分析，理解AspectJ"></a>反编译分析，理解AspectJ</h3><h3 id="如何进行打补丁"><a href="#如何进行打补丁" class="headerlink" title="如何进行打补丁"></a>如何进行打补丁</h3><h3 id="后续安排"><a href="#后续安排" class="headerlink" title="后续安排"></a>后续安排</h3><ol>
+<li>开源</li>
+<li>编写gradle插件，方便移植和解耦</li>
+</ol>
+<h3 id="私下交流"><a href="#私下交流" class="headerlink" title="私下交流"></a>私下交流</h3><p>blog: <a href="www.glanwang.com">www.glanwang.com</a><br>pop: bjwangguangcong<br>微信:13241901436</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://glanwang.com/2016/06/21/Android/Android Patch实践/" data-id="cjt71hag9000ozg22octyy6w4" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+
+
+  <nav id="page-nav">
+    
+    <a class="extend prev" rel="prev" href="/page/4/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/6/">下一页 &raquo;</a>
+  </nav>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Gradle/">Gradle</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac/">Mac</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Other/">Other</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AOP/">AOP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android8-0适配/">Android8.0适配</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AspectJ-android/">AspectJ, android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Gradle/">Gradle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IDEA导出可执行jar/">IDEA导出可执行jar</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Too-many-classes-in-main-dex-list，-main-dex-capacity-exceeded/">Too many classes in --main-dex-list， main dex capacity exceeded</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/apktools/">apktools</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/design-appBarLayout/">design, appBarLayout</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git-clean/">git clean</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git迁移/">git迁移</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/glide-图片无法加载-获取缓存图片/">glide, 图片无法加载, 获取缓存图片</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/glide源码解读/">glide源码解读</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gradle-守护进程，org-gradle-daemon/">gradle 守护进程，org.gradle.daemon</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gradle教程/">gradle教程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gradle，屏蔽，task/">gradle，屏蔽，task</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/greenDao-数据库/">greenDao, 数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/https-httpDNS/">https, httpDNS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/memory-monitors-android-studio/">memory monitors, android studio</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/okhttp-header/">okhttp, header</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/proguard/">proguard</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/">shell</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell字符串/">shell字符串</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sqltie-GreenDao/">sqltie, GreenDao</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/transform-API-gradle/">transform API, gradle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/transient/">transient</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vim/">vim</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/widget-android-8-0/">widget, android 8.0</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/事件传递/">事件传递</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/堆，栈/">堆，栈</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/嵌套滚动-NestedScrolling/">嵌套滚动, NestedScrolling</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/嵌套滚动-viewpager/">嵌套滚动, viewpager</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/正则表达式，shell/">正则表达式，shell</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/热更新-热补丁/">热更新, 热补丁</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/瘦身/">瘦身</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/设计模式/">设计模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/请求追踪/">请求追踪</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/AOP/" style="font-size: 10px;">AOP</a> <a href="/tags/Android8-0适配/" style="font-size: 10px;">Android8.0适配</a> <a href="/tags/AspectJ-android/" style="font-size: 10px;">AspectJ, android</a> <a href="/tags/Gradle/" style="font-size: 10px;">Gradle</a> <a href="/tags/IDEA导出可执行jar/" style="font-size: 10px;">IDEA导出可执行jar</a> <a href="/tags/Too-many-classes-in-main-dex-list，-main-dex-capacity-exceeded/" style="font-size: 10px;">Too many classes in --main-dex-list， main dex capacity exceeded</a> <a href="/tags/apktools/" style="font-size: 10px;">apktools</a> <a href="/tags/design-appBarLayout/" style="font-size: 10px;">design, appBarLayout</a> <a href="/tags/git/" style="font-size: 20px;">git</a> <a href="/tags/git-clean/" style="font-size: 10px;">git clean</a> <a href="/tags/git迁移/" style="font-size: 10px;">git迁移</a> <a href="/tags/glide-图片无法加载-获取缓存图片/" style="font-size: 10px;">glide, 图片无法加载, 获取缓存图片</a> <a href="/tags/glide源码解读/" style="font-size: 10px;">glide源码解读</a> <a href="/tags/gradle-守护进程，org-gradle-daemon/" style="font-size: 10px;">gradle 守护进程，org.gradle.daemon</a> <a href="/tags/gradle教程/" style="font-size: 10px;">gradle教程</a> <a href="/tags/gradle，屏蔽，task/" style="font-size: 10px;">gradle，屏蔽，task</a> <a href="/tags/greenDao-数据库/" style="font-size: 10px;">greenDao, 数据库</a> <a href="/tags/https-httpDNS/" style="font-size: 10px;">https, httpDNS</a> <a href="/tags/memory-monitors-android-studio/" style="font-size: 10px;">memory monitors, android studio</a> <a href="/tags/okhttp-header/" style="font-size: 10px;">okhttp, header</a> <a href="/tags/proguard/" style="font-size: 10px;">proguard</a> <a href="/tags/shell/" style="font-size: 10px;">shell</a> <a href="/tags/shell字符串/" style="font-size: 10px;">shell字符串</a> <a href="/tags/sqltie-GreenDao/" style="font-size: 10px;">sqltie, GreenDao</a> <a href="/tags/transform-API-gradle/" style="font-size: 10px;">transform API, gradle</a> <a href="/tags/transient/" style="font-size: 10px;">transient</a> <a href="/tags/vim/" style="font-size: 10px;">vim</a> <a href="/tags/widget-android-8-0/" style="font-size: 10px;">widget, android 8.0</a> <a href="/tags/事件传递/" style="font-size: 10px;">事件传递</a> <a href="/tags/堆，栈/" style="font-size: 10px;">堆，栈</a> <a href="/tags/嵌套滚动-NestedScrolling/" style="font-size: 10px;">嵌套滚动, NestedScrolling</a> <a href="/tags/嵌套滚动-viewpager/" style="font-size: 10px;">嵌套滚动, viewpager</a> <a href="/tags/正则表达式，shell/" style="font-size: 10px;">正则表达式，shell</a> <a href="/tags/热更新-热补丁/" style="font-size: 10px;">热更新, 热补丁</a> <a href="/tags/瘦身/" style="font-size: 10px;">瘦身</a> <a href="/tags/设计模式/" style="font-size: 10px;">设计模式</a> <a href="/tags/请求追踪/" style="font-size: 15px;">请求追踪</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">三月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">八月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">六月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">五月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">二月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">六月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">十一月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">十月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">九月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">八月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">七月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">六月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">五月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/03/04/Test/">Test</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/12/Android/桌面Widget适配android8-0/">桌面Widget适配android8.0</a>
+          </li>
+        
+          <li>
+            <a href="/2018/08/24/Mac/Mac下提升效率的常用命令/">Mac提升效率的常用命令</a>
+          </li>
+        
+          <li>
+            <a href="/2018/07/09/Other/git-clean使用/">git-clean使用</a>
+          </li>
+        
+          <li>
+            <a href="/2018/07/04/Android/网易新闻全链路状态追踪解决方案/">网易新闻全链路状态追踪解决方案</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 GlanWang<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

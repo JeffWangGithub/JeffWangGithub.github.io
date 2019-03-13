@@ -1,8 +1,107 @@
-<!DOCTYPE html><html lang="zh-CN"><head><meta name="generator" content="Hexo 3.8.0"><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description"><title>ConcurrentModificationException异常以及产生的原因 | Glan Wang</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=0.0.0"><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/normalize/8.0.1/normalize.min.css"><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/pure/1.0.0/pure-min.css"><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/pure/1.0.0/grids-responsive-min.css"><link rel="stylesheet" href="//lib.baomitu.com/font-awesome/4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//lib.baomitu.com/jquery/3.3.1/jquery.min.js"></script><link rel="icon" mask sizes="any" href="/favicon.ico"><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">ConcurrentModificationException异常以及产生的原因</h1><a id="logo" href="/.">Glan Wang</a><p class="description">CoderGC</p></div><div id="nav-menu"><a class="current" href="/."><i class="fa fa-home"> 首页</i></a><a href="/archives/"><i class="fa fa-archive"> 归档</i></a><a href="/about/"><i class="fa fa-user"> 关于</i></a><a href="/atom.xml"><i class="fa fa-rss"> 订阅</i></a></div></div><div class="pure-g" id="layout"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title">ConcurrentModificationException异常以及产生的原因</h1><div class="post-meta">Jan 18, 2016<span> | </span><span class="category"><a href="/categories/Java/">Java</a></span></div><div class="post-content"><p>java.util.ConcurrentModificationException 这个异常是JAVA开发者刚刚接触java时经常产生的。但是什么情况下会产生这种异常呢？为什么会产生这种异常呢，如何避免呢？</p>
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+
+  
+  <title>ConcurrentModificationException异常以及产生的原因 | Glan Wang</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="java.util.ConcurrentModificationException 这个异常是JAVA开发者刚刚接触java时经常产生的。但是什么情况下会产生这种异常呢？为什么会产生这种异常呢，如何避免呢？ ###产生原因先来看看一下集中情况：1234567891011121314151617181920212223242526    public static void testArrary()">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ConcurrentModificationException异常以及产生的原因">
+<meta property="og:url" content="http://glanwang.com/2016/01/18/Java/ConcurrentModificationException异常以及产生的原因/index.html">
+<meta property="og:site_name" content="Glan Wang">
+<meta property="og:description" content="java.util.ConcurrentModificationException 这个异常是JAVA开发者刚刚接触java时经常产生的。但是什么情况下会产生这种异常呢？为什么会产生这种异常呢，如何避免呢？ ###产生原因先来看看一下集中情况：1234567891011121314151617181920212223242526    public static void testArrary()">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://glanwang.com/2016/01/18/Java/ConcurrentModificationException异常以及产生的原因/4B164369-B0AE-434B-87D5-4148EE03368D.png">
+<meta property="og:image" content="http://glanwang.com/2016/01/18/Java/ConcurrentModificationException异常以及产生的原因/44598E0E-CA6F-45E7-9E35-B62BB7114BCA.png">
+<meta property="og:updated_time" content="2019-03-13T08:18:56.568Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ConcurrentModificationException异常以及产生的原因">
+<meta name="twitter:description" content="java.util.ConcurrentModificationException 这个异常是JAVA开发者刚刚接触java时经常产生的。但是什么情况下会产生这种异常呢？为什么会产生这种异常呢，如何避免呢？ ###产生原因先来看看一下集中情况：1234567891011121314151617181920212223242526    public static void testArrary()">
+<meta name="twitter:image" content="http://glanwang.com/2016/01/18/Java/ConcurrentModificationException异常以及产生的原因/4B164369-B0AE-434B-87D5-4148EE03368D.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Glan Wang" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Glan Wang</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">CoderGC</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://glanwang.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Java/ConcurrentModificationException异常以及产生的原因" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/01/18/Java/ConcurrentModificationException异常以及产生的原因/" class="article-date">
+  <time datetime="2016-01-18T08:47:00.000Z" itemprop="datePublished">2016-01-18</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Java/">Java</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      ConcurrentModificationException异常以及产生的原因
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>java.util.ConcurrentModificationException 这个异常是JAVA开发者刚刚接触java时经常产生的。但是什么情况下会产生这种异常呢？为什么会产生这种异常呢，如何避免呢？</p>
 <p>###产生原因<br>先来看看一下集中情况：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">    public static void testArrary()&#123;</span><br><span class="line">        ArrayList&lt;Integer&gt; aList = new ArrayList&lt;Integer&gt;();</span><br><span class="line">        for (int i = 0; i &lt; 5; i++) &#123;</span><br><span class="line">            aList.add(i*i);</span><br><span class="line">        &#125;</span><br><span class="line">        for (Integer a : aList) &#123;</span><br><span class="line">            if(a == 4)&#123;</span><br><span class="line">                aList.add(100);//包异常</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        Iterator&lt;Integer&gt; iterator = aList.iterator();</span><br><span class="line">        while (iterator.hasNext())&#123;</span><br><span class="line">            Integer next = iterator.next();</span><br><span class="line">            if(next == 4)&#123;</span><br><span class="line">//                aList.remove(next);//报异常</span><br><span class="line">                iterator.remove();//不报异常</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        for (int i = 0; i &lt; aList.size(); i++) &#123;</span><br><span class="line">            Integer integer = aList.get(i);</span><br><span class="line">            if(integer == 4)&#123;</span><br><span class="line">                aList.remove(integer);//不报异常</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.println(aList.size());</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
 <p><code>foreach 循环的原理</code>:编译器编译的时候会将foreach 循环编译成Iteger 的形式进行遍历。<br>从上边的几个异常案例我们可以发现合适会发生呢？<code>当使用了iterator，并且再遍历的时候直接对集合进行了修改(包括添加和删除)</code>。我们去看看iterator的源码，这里已ArraryList的Iterator为例来看：</p>
-<p><img src="ConcurrentModificationException异常以及产生的原因/4B164369-B0AE-434B-87D5-4148EE03368D.png" alt><br>从源码中我们找到了包异常的位置。仔细观察会发现<code>modCount</code>这个变了其实就是记录了当前List被修改（添加或者删除元素）的次数，expectedModCount是生成Iterator的时候当前List被修改的次数。一旦调用Iterator之后又再次修改了modCount，这两个值就不相等了，这个时候就直接报这个异常了。<br>从List的增加和删除方法都会改变这个变量的值。</p>
-<p><img src="ConcurrentModificationException异常以及产生的原因/44598E0E-CA6F-45E7-9E35-B62BB7114BCA.png" alt></p>
+<p><img src="/2016/01/18/Java/ConcurrentModificationException异常以及产生的原因/4B164369-B0AE-434B-87D5-4148EE03368D.png" alt><br>从源码中我们找到了包异常的位置。仔细观察会发现<code>modCount</code>这个变了其实就是记录了当前List被修改（添加或者删除元素）的次数，expectedModCount是生成Iterator的时候当前List被修改的次数。一旦调用Iterator之后又再次修改了modCount，这两个值就不相等了，这个时候就直接报这个异常了。<br>从List的增加和删除方法都会改变这个变量的值。</p>
+<p><img src="/2016/01/18/Java/ConcurrentModificationException异常以及产生的原因/44598E0E-CA6F-45E7-9E35-B62BB7114BCA.png" alt></p>
 <p>###转载内容<br>以下内容转载：<br>原因： jdk5.0以上的for-each也是利用内部的iterator来遍历集合的（跟以前的iterator一样）获得的Iterator是一个内部类产生的迭代器，这个迭代器在调用next方法时，会检查列表是否被修改过，如果被修改过，就会抛出ConcurrentModificationException异常。进一步说，当使用 fail-fast iterator 对 Collection 或 Map 进行迭代操作过程中尝试直接修改 Collection / Map 的内容时，即使是在单线程下运xi,java.util.ConcurrentModificationException 异常也将被抛出。Iterator 是工作在一个独立的线程中，并且拥有一个 mutex 锁。 Iterator 被创建之后会建立一个指向原来对象的单链索引表，当原来的对象数量发生变化时，这个索引表的内容不会同步改变，所以当索引指针往后移动的时候就找不到要迭代的对象，所以按照 fail-fast 原则 Iterator 会马上抛出 java.util.ConcurrentModificationException 异常。　　所以 Iterator 在工作的时候是不允许被迭代的对象被改变的。但你可以使用 Iterator 本身的方法 remove() 来删除对象，Iterator.remove() 方法会在删除当前迭代对象的同时维护索引的一致性。<br>有意思的是如果你的 Collection / Map 对象实际只有一个元素的时候， ConcurrentModificationException 异常并不会被抛出。这也就是为什么在 javadoc 里面指出： it would be wrong to write a program that depended on this exception for its correctness: ConcurrentModificationException should be used only to detect bugs.<br>解决方法：在Map或者Collection的时候，不要用它们的API直接修改集合的内容，如果要修改可以用Iterator的remove()方法<br>由于for-each的写法，使我们无法获得iterator对象，所以这种遍历方式不能进行删除操作。</p>
 <p>###How<br>方法一： 直接使用fori循环<br>方法二： 使用Iterator，并且使用Iterator进行remove操作。<br>    <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">            Iterator&lt;Integer&gt; iterator = aList.iterator();</span><br><span class="line">        while (iterator.hasNext())&#123;</span><br><span class="line">            Integer next = iterator.next();</span><br><span class="line">            if(next == 4)&#123;</span><br><span class="line">//                aList.remove(next);//报异常</span><br><span class="line">                iterator.remove();//不报异常</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure></p>
 <pre><code>添加可以使用ListIterator.
@@ -12,4 +111,146 @@
 <li>ListIterator只能用于List，而Iterator可以用于List也可以用于Map等。</li>
 <li>ListIterator可以进行逆向获取等更多功能。   </li>
 </ol>
-</div><div class="tags"></div><div class="post-nav"><a class="pre" href="/2016/01/19/Java/Java类加载器/">Java类加载器</a><a class="next" href="/2016/01/12/Android/Android的Window和Window Manger/">Android的Window和Window Manger</a></div></div></div></div><div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar"><div class="widget"><form class="search-form" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank"><input type="text" name="q" maxlength="20" placeholder="Search"><input type="hidden" name="sitesearch" value="http://glanwang.com"></form></div><div class="widget"><div class="widget-title"><i class="fa fa-folder-o"> 分类</i></div><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Gradle/">Gradle</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac/">Mac</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Other/">Other</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-star-o"> 标签</i></div><div class="tagcloud"><a href="/tags/请求追踪/" style="font-size: 15px;">请求追踪</a> <a href="/tags/gradle-守护进程，org-gradle-daemon/" style="font-size: 15px;">gradle 守护进程，org.gradle.daemon</a> <a href="/tags/transform-API-gradle/" style="font-size: 15px;">transform API, gradle</a> <a href="/tags/Gradle/" style="font-size: 15px;">Gradle</a> <a href="/tags/IDEA导出可执行jar/" style="font-size: 15px;">IDEA导出可执行jar</a> <a href="/tags/堆，栈/" style="font-size: 15px;">堆，栈</a> <a href="/tags/设计模式/" style="font-size: 15px;">设计模式</a> <a href="/tags/transient/" style="font-size: 15px;">transient</a> <a href="/tags/shell/" style="font-size: 15px;">shell</a> <a href="/tags/shell字符串/" style="font-size: 15px;">shell字符串</a> <a href="/tags/正则表达式，shell/" style="font-size: 15px;">正则表达式，shell</a> <a href="/tags/git/" style="font-size: 15px;">git</a> <a href="/tags/git-clean/" style="font-size: 15px;">git clean</a> <a href="/tags/git迁移/" style="font-size: 15px;">git迁移</a> <a href="/tags/vim/" style="font-size: 15px;">vim</a> <a href="/tags/AOP/" style="font-size: 15px;">AOP</a> <a href="/tags/memory-monitors-android-studio/" style="font-size: 15px;">memory monitors, android studio</a> <a href="/tags/嵌套滚动-NestedScrolling/" style="font-size: 15px;">嵌套滚动, NestedScrolling</a> <a href="/tags/design-appBarLayout/" style="font-size: 15px;">design, appBarLayout</a> <a href="/tags/AspectJ-android/" style="font-size: 15px;">AspectJ, android</a> <a href="/tags/glide-图片无法加载-获取缓存图片/" style="font-size: 15px;">glide, 图片无法加载, 获取缓存图片</a> <a href="/tags/glide源码解读/" style="font-size: 15px;">glide源码解读</a> <a href="/tags/gradle教程/" style="font-size: 15px;">gradle教程</a> <a href="/tags/gradle，屏蔽，task/" style="font-size: 15px;">gradle，屏蔽，task</a> <a href="/tags/okhttp-header/" style="font-size: 15px;">okhttp, header</a> <a href="/tags/proguard/" style="font-size: 15px;">proguard</a> <a href="/tags/sqltie-GreenDao/" style="font-size: 15px;">sqltie, GreenDao</a> <a href="/tags/apktools/" style="font-size: 15px;">apktools</a> <a href="/tags/https-httpDNS/" style="font-size: 15px;">https, httpDNS</a> <a href="/tags/事件传递/" style="font-size: 15px;">事件传递</a> <a href="/tags/嵌套滚动-viewpager/" style="font-size: 15px;">嵌套滚动, viewpager</a> <a href="/tags/Too-many-classes-in-main-dex-list，-main-dex-capacity-exceeded/" style="font-size: 15px;">Too many classes in --main-dex-list， main dex capacity exceeded</a> <a href="/tags/widget-android-8-0/" style="font-size: 15px;">widget, android 8.0</a> <a href="/tags/瘦身/" style="font-size: 15px;">瘦身</a> <a href="/tags/Android8-0适配/" style="font-size: 15px;">Android8.0适配</a> <a href="/tags/greenDao-数据库/" style="font-size: 15px;">greenDao, 数据库</a> <a href="/tags/热更新-热补丁/" style="font-size: 15px;">热更新, 热补丁</a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> 最近文章</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2019/03/04/Test/">Test</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/10/12/Android/桌面Widget适配android8-0/">桌面Widget适配android8.0</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/24/Mac/Mac下提升效率的常用命令/">Mac提升效率的常用命令</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/09/Other/git-clean使用/">git-clean使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/04/Android/网易新闻全链路状态追踪解决方案/">网易新闻全链路状态追踪解决方案</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/15/Android/记Android8.0输入和导航变更引起的bug/">记Android8.0输入和导航变更引起的bug</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/11/Android/使用嵌套滚动实现viewpager和header的联动/">使用嵌套滚动实现viewpager和header的联动</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/29/Android/事件传递温习/">事件传递温习</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/23/Android/Android嵌套滚动入门/">Android嵌套滚动入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/02/01/Android/RecyclerView绑定View时更新数据问题解决/">RecyclerView绑定View时更新数据问题解决</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-external-link"> 友情链接</i></div><ul></ul><a href="http://www.example1.com/" title="site-name1" target="_blank">site-name1</a><ul></ul><a href="http://www.example2.com/" title="site-name2" target="_blank">site-name2</a><ul></ul><a href="http://www.example3.com/" title="site-name3" target="_blank">site-name3</a></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">Copyright © 2019 <a href="/." rel="nofollow">Glan Wang.</a> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></div></div><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=0.0.0" async></script><script type="text/javascript" src="//lib.baomitu.com/fancybox/3.5.2/jquery.fancybox.min.js" async></script><script type="text/javascript" src="/js/fancybox.js?v=0.0.0" async></script><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/fancybox/3.5.2/jquery.fancybox.min.css"><script type="text/javascript" src="/js/codeblock-resizer.js?v=0.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=0.0.0"></script></div></body></html>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://glanwang.com/2016/01/18/Java/ConcurrentModificationException异常以及产生的原因/" data-id="cjt71haqp0069zg22y5uwdrb0" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/01/19/Java/Java类加载器/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Java类加载器
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/01/12/Android/Android的Window和Window Manger/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Android的Window和Window Manger</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Gradle/">Gradle</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac/">Mac</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Other/">Other</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AOP/">AOP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android8-0适配/">Android8.0适配</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AspectJ-android/">AspectJ, android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Gradle/">Gradle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IDEA导出可执行jar/">IDEA导出可执行jar</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Too-many-classes-in-main-dex-list，-main-dex-capacity-exceeded/">Too many classes in --main-dex-list， main dex capacity exceeded</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/apktools/">apktools</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/design-appBarLayout/">design, appBarLayout</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git-clean/">git clean</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git迁移/">git迁移</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/glide-图片无法加载-获取缓存图片/">glide, 图片无法加载, 获取缓存图片</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/glide源码解读/">glide源码解读</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gradle-守护进程，org-gradle-daemon/">gradle 守护进程，org.gradle.daemon</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gradle教程/">gradle教程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gradle，屏蔽，task/">gradle，屏蔽，task</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/greenDao-数据库/">greenDao, 数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/https-httpDNS/">https, httpDNS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/memory-monitors-android-studio/">memory monitors, android studio</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/okhttp-header/">okhttp, header</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/proguard/">proguard</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/">shell</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell字符串/">shell字符串</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sqltie-GreenDao/">sqltie, GreenDao</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/transform-API-gradle/">transform API, gradle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/transient/">transient</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vim/">vim</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/widget-android-8-0/">widget, android 8.0</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/事件传递/">事件传递</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/堆，栈/">堆，栈</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/嵌套滚动-NestedScrolling/">嵌套滚动, NestedScrolling</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/嵌套滚动-viewpager/">嵌套滚动, viewpager</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/正则表达式，shell/">正则表达式，shell</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/热更新-热补丁/">热更新, 热补丁</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/瘦身/">瘦身</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/设计模式/">设计模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/请求追踪/">请求追踪</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/AOP/" style="font-size: 10px;">AOP</a> <a href="/tags/Android8-0适配/" style="font-size: 10px;">Android8.0适配</a> <a href="/tags/AspectJ-android/" style="font-size: 10px;">AspectJ, android</a> <a href="/tags/Gradle/" style="font-size: 10px;">Gradle</a> <a href="/tags/IDEA导出可执行jar/" style="font-size: 10px;">IDEA导出可执行jar</a> <a href="/tags/Too-many-classes-in-main-dex-list，-main-dex-capacity-exceeded/" style="font-size: 10px;">Too many classes in --main-dex-list， main dex capacity exceeded</a> <a href="/tags/apktools/" style="font-size: 10px;">apktools</a> <a href="/tags/design-appBarLayout/" style="font-size: 10px;">design, appBarLayout</a> <a href="/tags/git/" style="font-size: 20px;">git</a> <a href="/tags/git-clean/" style="font-size: 10px;">git clean</a> <a href="/tags/git迁移/" style="font-size: 10px;">git迁移</a> <a href="/tags/glide-图片无法加载-获取缓存图片/" style="font-size: 10px;">glide, 图片无法加载, 获取缓存图片</a> <a href="/tags/glide源码解读/" style="font-size: 10px;">glide源码解读</a> <a href="/tags/gradle-守护进程，org-gradle-daemon/" style="font-size: 10px;">gradle 守护进程，org.gradle.daemon</a> <a href="/tags/gradle教程/" style="font-size: 10px;">gradle教程</a> <a href="/tags/gradle，屏蔽，task/" style="font-size: 10px;">gradle，屏蔽，task</a> <a href="/tags/greenDao-数据库/" style="font-size: 10px;">greenDao, 数据库</a> <a href="/tags/https-httpDNS/" style="font-size: 10px;">https, httpDNS</a> <a href="/tags/memory-monitors-android-studio/" style="font-size: 10px;">memory monitors, android studio</a> <a href="/tags/okhttp-header/" style="font-size: 10px;">okhttp, header</a> <a href="/tags/proguard/" style="font-size: 10px;">proguard</a> <a href="/tags/shell/" style="font-size: 10px;">shell</a> <a href="/tags/shell字符串/" style="font-size: 10px;">shell字符串</a> <a href="/tags/sqltie-GreenDao/" style="font-size: 10px;">sqltie, GreenDao</a> <a href="/tags/transform-API-gradle/" style="font-size: 10px;">transform API, gradle</a> <a href="/tags/transient/" style="font-size: 10px;">transient</a> <a href="/tags/vim/" style="font-size: 10px;">vim</a> <a href="/tags/widget-android-8-0/" style="font-size: 10px;">widget, android 8.0</a> <a href="/tags/事件传递/" style="font-size: 10px;">事件传递</a> <a href="/tags/堆，栈/" style="font-size: 10px;">堆，栈</a> <a href="/tags/嵌套滚动-NestedScrolling/" style="font-size: 10px;">嵌套滚动, NestedScrolling</a> <a href="/tags/嵌套滚动-viewpager/" style="font-size: 10px;">嵌套滚动, viewpager</a> <a href="/tags/正则表达式，shell/" style="font-size: 10px;">正则表达式，shell</a> <a href="/tags/热更新-热补丁/" style="font-size: 10px;">热更新, 热补丁</a> <a href="/tags/瘦身/" style="font-size: 10px;">瘦身</a> <a href="/tags/设计模式/" style="font-size: 10px;">设计模式</a> <a href="/tags/请求追踪/" style="font-size: 15px;">请求追踪</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">三月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">八月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">六月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">五月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">二月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">六月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">十一月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">十月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">九月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">八月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">七月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">六月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">五月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/03/04/Test/">Test</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/12/Android/桌面Widget适配android8-0/">桌面Widget适配android8.0</a>
+          </li>
+        
+          <li>
+            <a href="/2018/08/24/Mac/Mac下提升效率的常用命令/">Mac提升效率的常用命令</a>
+          </li>
+        
+          <li>
+            <a href="/2018/07/09/Other/git-clean使用/">git-clean使用</a>
+          </li>
+        
+          <li>
+            <a href="/2018/07/04/Android/网易新闻全链路状态追踪解决方案/">网易新闻全链路状态追踪解决方案</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 GlanWang<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

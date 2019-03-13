@@ -1,6 +1,106 @@
-<!DOCTYPE html><html lang="zh-CN"><head><meta name="generator" content="Hexo 3.8.0"><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description"><title>网易新闻热补丁技术实践 | Glan Wang</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=0.0.0"><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/normalize/8.0.1/normalize.min.css"><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/pure/1.0.0/pure-min.css"><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/pure/1.0.0/grids-responsive-min.css"><link rel="stylesheet" href="//lib.baomitu.com/font-awesome/4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//lib.baomitu.com/jquery/3.3.1/jquery.min.js"></script><link rel="icon" mask sizes="any" href="/favicon.ico"><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">网易新闻热补丁技术实践</h1><a id="logo" href="/.">Glan Wang</a><p class="description">CoderGC</p></div><div id="nav-menu"><a class="current" href="/."><i class="fa fa-home"> 首页</i></a><a href="/archives/"><i class="fa fa-archive"> 归档</i></a><a href="/about/"><i class="fa fa-user"> 关于</i></a><a href="/atom.xml"><i class="fa fa-rss"> 订阅</i></a></div></div><div class="pure-g" id="layout"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title">网易新闻热补丁技术实践</h1><div class="post-meta">Jul 14, 2017<span> | </span><span class="category"><a href="/categories/Android/">Android</a></span></div><div class="post-content"><p>两年之前android hot fix技术炒的非常热，各大厂商也是花样百出，各自献计，一时间出现了百家齐鸣的现象。但是各家都有各家的问题。当然网易其实也不甘落后，公司不同部门也研发了自己的热更新热补丁方案。网易新闻也是不断的探索未知，先后实践过一些方案， 目前使用的还是基于AOP的方案。<br>到目前为止，新闻android客户端上线热补丁技术也已经将近两年的时间了。也曾经为部门立下赫赫战功。一直想给这套方案起一个优雅的名字，但是始终没有想到满意的。直到今天早上，偶然间看到了一个单词Vulcan([‘vʌlkən]伏尔加，罗马神话中的火神与金工神)，对这个词非常有感觉，那我就暂时已Vulcan对我们这套热补丁方案命名吧。<br>其实，很早之前就想写一下这套实践方案的思路，一直手懒没有写，今天看到了Vulcan这个词，一时兴起，提笔书之。</p>
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+
+  
+  <title>网易新闻热补丁技术实践 | Glan Wang</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="两年之前android hot fix技术炒的非常热，各大厂商也是花样百出，各自献计，一时间出现了百家齐鸣的现象。但是各家都有各家的问题。当然网易其实也不甘落后，公司不同部门也研发了自己的热更新热补丁方案。网易新闻也是不断的探索未知，先后实践过一些方案， 目前使用的还是基于AOP的方案。到目前为止，新闻android客户端上线热补丁技术也已经将近两年的时间了。也曾经为部门立下赫赫战功。一直想给这套">
+<meta name="keywords" content="热更新, 热补丁">
+<meta property="og:type" content="article">
+<meta property="og:title" content="网易新闻热补丁技术实践">
+<meta property="og:url" content="http://glanwang.com/2017/07/14/Android/网易新闻热补丁技术实践/index.html">
+<meta property="og:site_name" content="Glan Wang">
+<meta property="og:description" content="两年之前android hot fix技术炒的非常热，各大厂商也是花样百出，各自献计，一时间出现了百家齐鸣的现象。但是各家都有各家的问题。当然网易其实也不甘落后，公司不同部门也研发了自己的热更新热补丁方案。网易新闻也是不断的探索未知，先后实践过一些方案， 目前使用的还是基于AOP的方案。到目前为止，新闻android客户端上线热补丁技术也已经将近两年的时间了。也曾经为部门立下赫赫战功。一直想给这套">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://glanwang.com/2017/07/14/Android/网易新闻热补丁技术实践/vulcanpatch.jpg">
+<meta property="og:image" content="http://glanwang.com/2017/07/14/Android/网易新闻热补丁技术实践/createpatchapk.jpg">
+<meta property="og:updated_time" content="2019-03-13T08:18:56.543Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="网易新闻热补丁技术实践">
+<meta name="twitter:description" content="两年之前android hot fix技术炒的非常热，各大厂商也是花样百出，各自献计，一时间出现了百家齐鸣的现象。但是各家都有各家的问题。当然网易其实也不甘落后，公司不同部门也研发了自己的热更新热补丁方案。网易新闻也是不断的探索未知，先后实践过一些方案， 目前使用的还是基于AOP的方案。到目前为止，新闻android客户端上线热补丁技术也已经将近两年的时间了。也曾经为部门立下赫赫战功。一直想给这套">
+<meta name="twitter:image" content="http://glanwang.com/2017/07/14/Android/网易新闻热补丁技术实践/vulcanpatch.jpg">
+  
+    <link rel="alternate" href="/atom.xml" title="Glan Wang" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Glan Wang</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">CoderGC</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://glanwang.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Android/网易新闻热补丁技术实践" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/07/14/Android/网易新闻热补丁技术实践/" class="article-date">
+  <time datetime="2017-07-14T02:09:17.000Z" itemprop="datePublished">2017-07-14</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Android/">Android</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      网易新闻热补丁技术实践
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>两年之前android hot fix技术炒的非常热，各大厂商也是花样百出，各自献计，一时间出现了百家齐鸣的现象。但是各家都有各家的问题。当然网易其实也不甘落后，公司不同部门也研发了自己的热更新热补丁方案。网易新闻也是不断的探索未知，先后实践过一些方案， 目前使用的还是基于AOP的方案。<br>到目前为止，新闻android客户端上线热补丁技术也已经将近两年的时间了。也曾经为部门立下赫赫战功。一直想给这套方案起一个优雅的名字，但是始终没有想到满意的。直到今天早上，偶然间看到了一个单词Vulcan([‘vʌlkən]伏尔加，罗马神话中的火神与金工神)，对这个词非常有感觉，那我就暂时已Vulcan对我们这套热补丁方案命名吧。<br>其实，很早之前就想写一下这套实践方案的思路，一直手懒没有写，今天看到了Vulcan这个词，一时兴起，提笔书之。</p>
 <h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><p>原理来说很简单，简单来说就一句话:利用了java的 AOP技术，对字节码进行处理。 AOP技术已经不是一个新技术了，而是一个比较成熟的技术。也正因如此我们可以很快上手。java方面的aop技术有很多，如何选择呢？ 经过调研我们最终选的了AspectJ的方案。也许有人看到了AspectJ就感觉这个用来做热补丁是不是太重了，但是不得不说AspectJ对java确实太友好了，让我们不得不选择它。</p>
-<h4 id="一、-构建时利用aop技术对每个方法进行插桩的操作"><a href="#一、-构建时利用aop技术对每个方法进行插桩的操作" class="headerlink" title="一、 构建时利用aop技术对每个方法进行插桩的操作"></a>一、 构建时利用aop技术对每个方法进行插桩的操作</h4><p><img src="网易新闻热补丁技术实践/vulcanpatch.jpg" alt><br>如上图所示，gradle进行构建的时候，在Java源码编译完成之后，生成dex文件之前，我们调用AspectJ的编译器进行插桩。插桩的目的是给每一个方法注入一段寻找patch方法的逻辑。<br>简单来说就是每个方法执行时先去根据自己方法的签名寻找是否有自己对应的patch方法，如果有执行patch方法，没有执行自己原有的逻辑。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">public Object weaveJoinPoint(ProceedingJoinPoint joinPoint) throws Throwable &#123;</span><br><span class="line">        try &#123;</span><br><span class="line">            String e = joinPoint.toLongString(); //获取当前方法的签名</span><br><span class="line">            PatchDebug.printMethodDesByFile(e); </span><br><span class="line">            if(PatchUtils.hasMethodPatch(e)) &#123;  //查询是否有自己方法的patch方法</span><br><span class="line">                Object target = joinPoint.getTarget(); //获取当前的运行对象，方便设置给patch方法</span><br><span class="line">                Object[] params = joinPoint.getArgs(); //获取运行参数</span><br><span class="line">                .................................          //省略一些处理逻辑</span><br><span class="line">                return joinPoint.proceed();//执行原有逻辑</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; catch (Exception var8) &#123;</span><br><span class="line">            var8.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        return joinPoint.proceed(); </span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="一、-构建时利用aop技术对每个方法进行插桩的操作"><a href="#一、-构建时利用aop技术对每个方法进行插桩的操作" class="headerlink" title="一、 构建时利用aop技术对每个方法进行插桩的操作"></a>一、 构建时利用aop技术对每个方法进行插桩的操作</h4><p><img src="/2017/07/14/Android/网易新闻热补丁技术实践/vulcanpatch.jpg" alt><br>如上图所示，gradle进行构建的时候，在Java源码编译完成之后，生成dex文件之前，我们调用AspectJ的编译器进行插桩。插桩的目的是给每一个方法注入一段寻找patch方法的逻辑。<br>简单来说就是每个方法执行时先去根据自己方法的签名寻找是否有自己对应的patch方法，如果有执行patch方法，没有执行自己原有的逻辑。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">public Object weaveJoinPoint(ProceedingJoinPoint joinPoint) throws Throwable &#123;</span><br><span class="line">        try &#123;</span><br><span class="line">            String e = joinPoint.toLongString(); //获取当前方法的签名</span><br><span class="line">            PatchDebug.printMethodDesByFile(e); </span><br><span class="line">            if(PatchUtils.hasMethodPatch(e)) &#123;  //查询是否有自己方法的patch方法</span><br><span class="line">                Object target = joinPoint.getTarget(); //获取当前的运行对象，方便设置给patch方法</span><br><span class="line">                Object[] params = joinPoint.getArgs(); //获取运行参数</span><br><span class="line">                .................................          //省略一些处理逻辑</span><br><span class="line">                return joinPoint.proceed();//执行原有逻辑</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; catch (Exception var8) &#123;</span><br><span class="line">            var8.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        return joinPoint.proceed(); </span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
 <p>I 对于如何进行插桩？<br> 大家自行了解AOP的使用即可。<br>II 何时进行插桩？<br>最基本的原则是:java源码编译完成之后，Dex文件生成之前。<br>III 如何基于构建插桩<br>对于Ant打包估计已经很少有人再用了，这里就先忽略了。<br>对于gradle的构建， 其实也有很多方法，我就说一下网易新闻这边采用过的方案吧</p>
 <ol>
 <li><p>最开始使用的是直接hook java Compiler的Task，在java源码编译完成之后执行AspectJ的编译器，进行字节码插桩操作。</p>
@@ -9,7 +109,7 @@
 <li><p>gradle Transform API方案<br> 对于上述方法存在一些问题，对于一些jar包，其实已经是字节码了不会走这个过程，因此对一些jar的插桩操作不是很好处理。因此我们采用了Transform API的方案。 transform api是Android gradle plugin 1.5之后新api， 作用就是在生成dex之前，给开发者一个机会能够统一进行修改字节码。<br>用这个方案写了一个实现了Transform API的gradle 插件，具体对哪些jar包进行插桩我们通过gradle配置的方式实现。这就大大的方便了我们对自己的代码和第三方的代码进行字节码的处理。</p>
 </li>
 </ol>
-<h4 id="二、创建patch补丁包"><a href="#二、创建patch补丁包" class="headerlink" title="二、创建patch补丁包"></a>二、创建patch补丁包</h4><p>出现bug时将需要进行替换的方法放到指定类，然后生成一个只含有此java类字节码的apk包，进行下发<br><img src="网易新闻热补丁技术实践/createpatchapk.jpg" alt><br>patch 类sample<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">public class PicShowFragmentPatch &#123;</span><br><span class="line">    private String TAG = &quot;PicShowFragmentPatch&quot;;</span><br><span class="line">    private PicShowFragment mTarget;</span><br><span class="line">    //接受当前运行对象</span><br><span class="line">    public void setTarget(PicShowFragment target) &#123;</span><br><span class="line">        mTarget = target; </span><br><span class="line">    &#125;</span><br><span class="line">    /**注意：如果需打patch的类被混淆过 @PatchAnnotation 的信息需要填写混淆过之后的对应路径</span><br><span class="line">     *注解的value值为方法的签名，签名中要注意写类的全路径</span><br><span class="line">     * #before  先执行patch代码逻辑 再执行原代码逻辑</span><br><span class="line">     * #replace 只执行patch代码逻辑</span><br><span class="line">     * #after	 先执行原代码逻辑  再执行patch代码逻辑</span><br><span class="line">     */</span><br><span class="line">    @PatchAnnotation(value = &quot;public void com.netease.nr.biz.pics.PicShowFragment.onLocalLoadFinished(java.lang.Object)&quot;, intercept = &quot;after&quot;)</span><br><span class="line">    public void onLocalLoadFinished(Object object)&#123;</span><br><span class="line">        Toast.makeText(mTarget.getContext(), &quot;onLocalLoadFinished patch stat&quot;, Toast.LENGTH_LONG).show();</span><br><span class="line">    ...................................... //执行patch方法的逻辑</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="二、创建patch补丁包"><a href="#二、创建patch补丁包" class="headerlink" title="二、创建patch补丁包"></a>二、创建patch补丁包</h4><p>出现bug时将需要进行替换的方法放到指定类，然后生成一个只含有此java类字节码的apk包，进行下发<br><img src="/2017/07/14/Android/网易新闻热补丁技术实践/createpatchapk.jpg" alt><br>patch 类sample<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">public class PicShowFragmentPatch &#123;</span><br><span class="line">    private String TAG = &quot;PicShowFragmentPatch&quot;;</span><br><span class="line">    private PicShowFragment mTarget;</span><br><span class="line">    //接受当前运行对象</span><br><span class="line">    public void setTarget(PicShowFragment target) &#123;</span><br><span class="line">        mTarget = target; </span><br><span class="line">    &#125;</span><br><span class="line">    /**注意：如果需打patch的类被混淆过 @PatchAnnotation 的信息需要填写混淆过之后的对应路径</span><br><span class="line">     *注解的value值为方法的签名，签名中要注意写类的全路径</span><br><span class="line">     * #before  先执行patch代码逻辑 再执行原代码逻辑</span><br><span class="line">     * #replace 只执行patch代码逻辑</span><br><span class="line">     * #after	 先执行原代码逻辑  再执行patch代码逻辑</span><br><span class="line">     */</span><br><span class="line">    @PatchAnnotation(value = &quot;public void com.netease.nr.biz.pics.PicShowFragment.onLocalLoadFinished(java.lang.Object)&quot;, intercept = &quot;after&quot;)</span><br><span class="line">    public void onLocalLoadFinished(Object object)&#123;</span><br><span class="line">        Toast.makeText(mTarget.getContext(), &quot;onLocalLoadFinished patch stat&quot;, Toast.LENGTH_LONG).show();</span><br><span class="line">    ...................................... //执行patch方法的逻辑</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <h4 id="三、-补丁包的传输和加载"><a href="#三、-补丁包的传输和加载" class="headerlink" title="三、 补丁包的传输和加载"></a>三、 补丁包的传输和加载</h4><p>对于补丁包的传输，没有什么好说的。但是需要提示的是在补丁包加载之前一定要注意安全性校验、安全行校验、安全性校验。重要的事情已经说完。<br>加载patch包的方式: 由于最终的patch包的形式是一个apk，因此加载也很简单直接使用android的DexFile.loadDex()将apk加载。加载完成之后遍历每一个Enumeration， 并反射获取所有class的Method，进行缓存起来，方便每个方法在缓存中查找。</p>
 <h3 id="优点和缺点"><a href="#优点和缺点" class="headerlink" title="优点和缺点"></a>优点和缺点</h3><table>
 <thead>
@@ -37,4 +137,148 @@
 <li>探索其他的轻量级的aop技术，减小对字节码体积的影响；</li>
 <li>探索其他aop技术，减少对java方法数的影响</li>
 </ol>
-</div><div class="tags"><a href="/tags/热更新-热补丁/">热更新, 热补丁</a></div><div class="post-nav"><a class="pre" href="/2017/07/18/Android/AOP技术在网易新闻中的应用/">AOP技术在网易新闻中的应用</a><a class="next" href="/2017/07/06/Android/网易新闻瘦身实践/">网易新闻瘦身实践</a></div></div></div></div><div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar"><div class="widget"><form class="search-form" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank"><input type="text" name="q" maxlength="20" placeholder="Search"><input type="hidden" name="sitesearch" value="http://glanwang.com"></form></div><div class="widget"><div class="widget-title"><i class="fa fa-folder-o"> 分类</i></div><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Gradle/">Gradle</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac/">Mac</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Other/">Other</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-star-o"> 标签</i></div><div class="tagcloud"><a href="/tags/请求追踪/" style="font-size: 15px;">请求追踪</a> <a href="/tags/gradle-守护进程，org-gradle-daemon/" style="font-size: 15px;">gradle 守护进程，org.gradle.daemon</a> <a href="/tags/transform-API-gradle/" style="font-size: 15px;">transform API, gradle</a> <a href="/tags/Gradle/" style="font-size: 15px;">Gradle</a> <a href="/tags/IDEA导出可执行jar/" style="font-size: 15px;">IDEA导出可执行jar</a> <a href="/tags/堆，栈/" style="font-size: 15px;">堆，栈</a> <a href="/tags/设计模式/" style="font-size: 15px;">设计模式</a> <a href="/tags/transient/" style="font-size: 15px;">transient</a> <a href="/tags/shell/" style="font-size: 15px;">shell</a> <a href="/tags/shell字符串/" style="font-size: 15px;">shell字符串</a> <a href="/tags/正则表达式，shell/" style="font-size: 15px;">正则表达式，shell</a> <a href="/tags/git/" style="font-size: 15px;">git</a> <a href="/tags/git-clean/" style="font-size: 15px;">git clean</a> <a href="/tags/git迁移/" style="font-size: 15px;">git迁移</a> <a href="/tags/vim/" style="font-size: 15px;">vim</a> <a href="/tags/AOP/" style="font-size: 15px;">AOP</a> <a href="/tags/memory-monitors-android-studio/" style="font-size: 15px;">memory monitors, android studio</a> <a href="/tags/嵌套滚动-NestedScrolling/" style="font-size: 15px;">嵌套滚动, NestedScrolling</a> <a href="/tags/design-appBarLayout/" style="font-size: 15px;">design, appBarLayout</a> <a href="/tags/AspectJ-android/" style="font-size: 15px;">AspectJ, android</a> <a href="/tags/glide-图片无法加载-获取缓存图片/" style="font-size: 15px;">glide, 图片无法加载, 获取缓存图片</a> <a href="/tags/glide源码解读/" style="font-size: 15px;">glide源码解读</a> <a href="/tags/gradle教程/" style="font-size: 15px;">gradle教程</a> <a href="/tags/gradle，屏蔽，task/" style="font-size: 15px;">gradle，屏蔽，task</a> <a href="/tags/okhttp-header/" style="font-size: 15px;">okhttp, header</a> <a href="/tags/proguard/" style="font-size: 15px;">proguard</a> <a href="/tags/sqltie-GreenDao/" style="font-size: 15px;">sqltie, GreenDao</a> <a href="/tags/apktools/" style="font-size: 15px;">apktools</a> <a href="/tags/https-httpDNS/" style="font-size: 15px;">https, httpDNS</a> <a href="/tags/事件传递/" style="font-size: 15px;">事件传递</a> <a href="/tags/嵌套滚动-viewpager/" style="font-size: 15px;">嵌套滚动, viewpager</a> <a href="/tags/Too-many-classes-in-main-dex-list，-main-dex-capacity-exceeded/" style="font-size: 15px;">Too many classes in --main-dex-list， main dex capacity exceeded</a> <a href="/tags/widget-android-8-0/" style="font-size: 15px;">widget, android 8.0</a> <a href="/tags/瘦身/" style="font-size: 15px;">瘦身</a> <a href="/tags/Android8-0适配/" style="font-size: 15px;">Android8.0适配</a> <a href="/tags/greenDao-数据库/" style="font-size: 15px;">greenDao, 数据库</a> <a href="/tags/热更新-热补丁/" style="font-size: 15px;">热更新, 热补丁</a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> 最近文章</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2019/03/04/Test/">Test</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/10/12/Android/桌面Widget适配android8-0/">桌面Widget适配android8.0</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/24/Mac/Mac下提升效率的常用命令/">Mac提升效率的常用命令</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/09/Other/git-clean使用/">git-clean使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/04/Android/网易新闻全链路状态追踪解决方案/">网易新闻全链路状态追踪解决方案</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/15/Android/记Android8.0输入和导航变更引起的bug/">记Android8.0输入和导航变更引起的bug</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/11/Android/使用嵌套滚动实现viewpager和header的联动/">使用嵌套滚动实现viewpager和header的联动</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/29/Android/事件传递温习/">事件传递温习</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/23/Android/Android嵌套滚动入门/">Android嵌套滚动入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/02/01/Android/RecyclerView绑定View时更新数据问题解决/">RecyclerView绑定View时更新数据问题解决</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-external-link"> 友情链接</i></div><ul></ul><a href="http://www.example1.com/" title="site-name1" target="_blank">site-name1</a><ul></ul><a href="http://www.example2.com/" title="site-name2" target="_blank">site-name2</a><ul></ul><a href="http://www.example3.com/" title="site-name3" target="_blank">site-name3</a></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">Copyright © 2019 <a href="/." rel="nofollow">Glan Wang.</a> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></div></div><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=0.0.0" async></script><script type="text/javascript" src="//lib.baomitu.com/fancybox/3.5.2/jquery.fancybox.min.js" async></script><script type="text/javascript" src="/js/fancybox.js?v=0.0.0" async></script><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/fancybox/3.5.2/jquery.fancybox.min.css"><script type="text/javascript" src="/js/codeblock-resizer.js?v=0.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=0.0.0"></script></div></body></html>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://glanwang.com/2017/07/14/Android/网易新闻热补丁技术实践/" data-id="cjt71hatg009azg225i57mi5n" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/热更新-热补丁/">热更新, 热补丁</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2017/07/18/Android/AOP技术在网易新闻中的应用/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          AOP技术在网易新闻中的应用
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/07/06/Android/网易新闻瘦身实践/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">网易新闻瘦身实践</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Gradle/">Gradle</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac/">Mac</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Other/">Other</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AOP/">AOP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android8-0适配/">Android8.0适配</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AspectJ-android/">AspectJ, android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Gradle/">Gradle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IDEA导出可执行jar/">IDEA导出可执行jar</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Too-many-classes-in-main-dex-list，-main-dex-capacity-exceeded/">Too many classes in --main-dex-list， main dex capacity exceeded</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/apktools/">apktools</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/design-appBarLayout/">design, appBarLayout</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git-clean/">git clean</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git迁移/">git迁移</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/glide-图片无法加载-获取缓存图片/">glide, 图片无法加载, 获取缓存图片</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/glide源码解读/">glide源码解读</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gradle-守护进程，org-gradle-daemon/">gradle 守护进程，org.gradle.daemon</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gradle教程/">gradle教程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gradle，屏蔽，task/">gradle，屏蔽，task</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/greenDao-数据库/">greenDao, 数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/https-httpDNS/">https, httpDNS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/memory-monitors-android-studio/">memory monitors, android studio</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/okhttp-header/">okhttp, header</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/proguard/">proguard</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/">shell</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell字符串/">shell字符串</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sqltie-GreenDao/">sqltie, GreenDao</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/transform-API-gradle/">transform API, gradle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/transient/">transient</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vim/">vim</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/widget-android-8-0/">widget, android 8.0</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/事件传递/">事件传递</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/堆，栈/">堆，栈</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/嵌套滚动-NestedScrolling/">嵌套滚动, NestedScrolling</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/嵌套滚动-viewpager/">嵌套滚动, viewpager</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/正则表达式，shell/">正则表达式，shell</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/热更新-热补丁/">热更新, 热补丁</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/瘦身/">瘦身</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/设计模式/">设计模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/请求追踪/">请求追踪</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/AOP/" style="font-size: 10px;">AOP</a> <a href="/tags/Android8-0适配/" style="font-size: 10px;">Android8.0适配</a> <a href="/tags/AspectJ-android/" style="font-size: 10px;">AspectJ, android</a> <a href="/tags/Gradle/" style="font-size: 10px;">Gradle</a> <a href="/tags/IDEA导出可执行jar/" style="font-size: 10px;">IDEA导出可执行jar</a> <a href="/tags/Too-many-classes-in-main-dex-list，-main-dex-capacity-exceeded/" style="font-size: 10px;">Too many classes in --main-dex-list， main dex capacity exceeded</a> <a href="/tags/apktools/" style="font-size: 10px;">apktools</a> <a href="/tags/design-appBarLayout/" style="font-size: 10px;">design, appBarLayout</a> <a href="/tags/git/" style="font-size: 20px;">git</a> <a href="/tags/git-clean/" style="font-size: 10px;">git clean</a> <a href="/tags/git迁移/" style="font-size: 10px;">git迁移</a> <a href="/tags/glide-图片无法加载-获取缓存图片/" style="font-size: 10px;">glide, 图片无法加载, 获取缓存图片</a> <a href="/tags/glide源码解读/" style="font-size: 10px;">glide源码解读</a> <a href="/tags/gradle-守护进程，org-gradle-daemon/" style="font-size: 10px;">gradle 守护进程，org.gradle.daemon</a> <a href="/tags/gradle教程/" style="font-size: 10px;">gradle教程</a> <a href="/tags/gradle，屏蔽，task/" style="font-size: 10px;">gradle，屏蔽，task</a> <a href="/tags/greenDao-数据库/" style="font-size: 10px;">greenDao, 数据库</a> <a href="/tags/https-httpDNS/" style="font-size: 10px;">https, httpDNS</a> <a href="/tags/memory-monitors-android-studio/" style="font-size: 10px;">memory monitors, android studio</a> <a href="/tags/okhttp-header/" style="font-size: 10px;">okhttp, header</a> <a href="/tags/proguard/" style="font-size: 10px;">proguard</a> <a href="/tags/shell/" style="font-size: 10px;">shell</a> <a href="/tags/shell字符串/" style="font-size: 10px;">shell字符串</a> <a href="/tags/sqltie-GreenDao/" style="font-size: 10px;">sqltie, GreenDao</a> <a href="/tags/transform-API-gradle/" style="font-size: 10px;">transform API, gradle</a> <a href="/tags/transient/" style="font-size: 10px;">transient</a> <a href="/tags/vim/" style="font-size: 10px;">vim</a> <a href="/tags/widget-android-8-0/" style="font-size: 10px;">widget, android 8.0</a> <a href="/tags/事件传递/" style="font-size: 10px;">事件传递</a> <a href="/tags/堆，栈/" style="font-size: 10px;">堆，栈</a> <a href="/tags/嵌套滚动-NestedScrolling/" style="font-size: 10px;">嵌套滚动, NestedScrolling</a> <a href="/tags/嵌套滚动-viewpager/" style="font-size: 10px;">嵌套滚动, viewpager</a> <a href="/tags/正则表达式，shell/" style="font-size: 10px;">正则表达式，shell</a> <a href="/tags/热更新-热补丁/" style="font-size: 10px;">热更新, 热补丁</a> <a href="/tags/瘦身/" style="font-size: 10px;">瘦身</a> <a href="/tags/设计模式/" style="font-size: 10px;">设计模式</a> <a href="/tags/请求追踪/" style="font-size: 15px;">请求追踪</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">三月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">八月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">六月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">五月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">二月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">六月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">十一月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">十月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">九月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">八月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">七月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">六月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">五月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/03/04/Test/">Test</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/12/Android/桌面Widget适配android8-0/">桌面Widget适配android8.0</a>
+          </li>
+        
+          <li>
+            <a href="/2018/08/24/Mac/Mac下提升效率的常用命令/">Mac提升效率的常用命令</a>
+          </li>
+        
+          <li>
+            <a href="/2018/07/09/Other/git-clean使用/">git-clean使用</a>
+          </li>
+        
+          <li>
+            <a href="/2018/07/04/Android/网易新闻全链路状态追踪解决方案/">网易新闻全链路状态追踪解决方案</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 GlanWang<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

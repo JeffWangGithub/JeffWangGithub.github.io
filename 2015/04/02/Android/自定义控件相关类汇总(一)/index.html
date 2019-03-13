@@ -1,4 +1,110 @@
-<!DOCTYPE html><html lang="zh-CN"><head><meta name="generator" content="Hexo 3.8.0"><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description"><title>自定义控件相关类汇总(一) | Glan Wang</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=0.0.0"><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/normalize/8.0.1/normalize.min.css"><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/pure/1.0.0/pure-min.css"><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/pure/1.0.0/grids-responsive-min.css"><link rel="stylesheet" href="//lib.baomitu.com/font-awesome/4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//lib.baomitu.com/jquery/3.3.1/jquery.min.js"></script><link rel="icon" mask sizes="any" href="/favicon.ico"><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">自定义控件相关类汇总(一)</h1><a id="logo" href="/.">Glan Wang</a><p class="description">CoderGC</p></div><div id="nav-menu"><a class="current" href="/."><i class="fa fa-home"> 首页</i></a><a href="/archives/"><i class="fa fa-archive"> 归档</i></a><a href="/about/"><i class="fa fa-user"> 关于</i></a><a href="/atom.xml"><i class="fa fa-rss"> 订阅</i></a></div></div><div class="pure-g" id="layout"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title">自定义控件相关类汇总(一)</h1><div class="post-meta">Apr 2, 2015<span> | </span><span class="category"><a href="/categories/Android/">Android</a></span></div><div class="post-content"><h3 id="本文主要是记录自定义控件时常用到的几个类和相关方法"><a href="#本文主要是记录自定义控件时常用到的几个类和相关方法" class="headerlink" title="本文主要是记录自定义控件时常用到的几个类和相关方法"></a>本文主要是记录自定义控件时常用到的几个类和相关方法</h3><h3 id="1-Paint类"><a href="#1-Paint类" class="headerlink" title="1,Paint类"></a>1,Paint类</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">private void init() &#123;</span><br><span class="line">    paint = new Paint();</span><br><span class="line">    paint.setAntiAlias(true);//反锯齿</span><br><span class="line">    paint.setColor(Color.RED);</span><br><span class="line">    /*</span><br><span class="line">     * 设置画笔样式为描边，圆环嘛……当然不能填充不然就么意思了</span><br><span class="line">     *</span><br><span class="line">     * 画笔样式分三种：</span><br><span class="line">     * 1.Paint.Style.STROKE：描边</span><br><span class="line">     * 2.Paint.Style.FILL_AND_STROKE：描边并填充</span><br><span class="line">     * 3.Paint.Style.FILL：填充</span><br><span class="line">     */</span><br><span class="line">    paint.setStyle(Paint.Style.FILL);</span><br><span class="line">    /*</span><br><span class="line">     * 设置描边的粗细，单位：像素px</span><br><span class="line">     * 注意：当setStrokeWidth(0)的时候描边宽度并不为0而是只占一个像素</span><br><span class="line">     */</span><br><span class="line">    paint.setStrokeWidth(paintStrokeWidth);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+
+  
+  <title>自定义控件相关类汇总(一) | Glan Wang</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="本文主要是记录自定义控件时常用到的几个类和相关方法1,Paint类12345678910111213141516171819private void init() &amp;#123;    paint = new Paint();    paint.setAntiAlias(true);//反锯齿    paint.setColor(Color.RED);    /*     * 设置画笔样式为描边，圆">
+<meta property="og:type" content="article">
+<meta property="og:title" content="自定义控件相关类汇总(一)">
+<meta property="og:url" content="http://glanwang.com/2015/04/02/Android/自定义控件相关类汇总(一)/index.html">
+<meta property="og:site_name" content="Glan Wang">
+<meta property="og:description" content="本文主要是记录自定义控件时常用到的几个类和相关方法1,Paint类12345678910111213141516171819private void init() &amp;#123;    paint = new Paint();    paint.setAntiAlias(true);//反锯齿    paint.setColor(Color.RED);    /*     * 设置画笔样式为描边，圆">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://glanwang.com/2015/04/02/Android/自定义控件相关类汇总(一)/自定义控件相关类汇总(一">
+<meta property="og:image" content="http://glanwang.com/2015/04/02/Android/自定义控件相关类汇总(一)/自定义控件相关类汇总(一">
+<meta property="og:image" content="http://glanwang.com/2015/04/02/Android/自定义控件相关类汇总(一)/自定义控件相关类汇总(一">
+<meta property="og:image" content="http://glanwang.com/2015/04/02/Android/自定义控件相关类汇总(一)/自定义控件相关类汇总(一">
+<meta property="og:image" content="http://glanwang.com/2015/04/02/Android/自定义控件相关类汇总(一)/自定义控件相关类汇总(一">
+<meta property="og:image" content="http://glanwang.com/2015/04/02/Android/自定义控件相关类汇总(一)/自定义控件相关类汇总(一">
+<meta property="og:image" content="http://glanwang.com/2015/04/02/Android/自定义控件相关类汇总(一)/自定义控件相关类汇总(一">
+<meta property="og:image" content="http://glanwang.com/2015/04/02/Android/自定义控件相关类汇总(一)/自定义控件相关类汇总(一">
+<meta property="og:image" content="http://img.blog.csdn.net/20141216162838281?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYWlnZXN0dWRpbw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center">
+<meta property="og:updated_time" content="2019-03-13T08:18:56.546Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="自定义控件相关类汇总(一)">
+<meta name="twitter:description" content="本文主要是记录自定义控件时常用到的几个类和相关方法1,Paint类12345678910111213141516171819private void init() &amp;#123;    paint = new Paint();    paint.setAntiAlias(true);//反锯齿    paint.setColor(Color.RED);    /*     * 设置画笔样式为描边，圆">
+<meta name="twitter:image" content="http://glanwang.com/2015/04/02/Android/自定义控件相关类汇总(一)/自定义控件相关类汇总(一">
+  
+    <link rel="alternate" href="/atom.xml" title="Glan Wang" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Glan Wang</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">CoderGC</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://glanwang.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Android/自定义控件相关类汇总(一)" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/04/02/Android/自定义控件相关类汇总(一)/" class="article-date">
+  <time datetime="2015-04-02T06:50:00.000Z" itemprop="datePublished">2015-04-02</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Android/">Android</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      自定义控件相关类汇总(一)
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="本文主要是记录自定义控件时常用到的几个类和相关方法"><a href="#本文主要是记录自定义控件时常用到的几个类和相关方法" class="headerlink" title="本文主要是记录自定义控件时常用到的几个类和相关方法"></a>本文主要是记录自定义控件时常用到的几个类和相关方法</h3><h3 id="1-Paint类"><a href="#1-Paint类" class="headerlink" title="1,Paint类"></a>1,Paint类</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">private void init() &#123;</span><br><span class="line">    paint = new Paint();</span><br><span class="line">    paint.setAntiAlias(true);//反锯齿</span><br><span class="line">    paint.setColor(Color.RED);</span><br><span class="line">    /*</span><br><span class="line">     * 设置画笔样式为描边，圆环嘛……当然不能填充不然就么意思了</span><br><span class="line">     *</span><br><span class="line">     * 画笔样式分三种：</span><br><span class="line">     * 1.Paint.Style.STROKE：描边</span><br><span class="line">     * 2.Paint.Style.FILL_AND_STROKE：描边并填充</span><br><span class="line">     * 3.Paint.Style.FILL：填充</span><br><span class="line">     */</span><br><span class="line">    paint.setStyle(Paint.Style.FILL);</span><br><span class="line">    /*</span><br><span class="line">     * 设置描边的粗细，单位：像素px</span><br><span class="line">     * 注意：当setStrokeWidth(0)的时候描边宽度并不为0而是只占一个像素</span><br><span class="line">     */</span><br><span class="line">    paint.setStrokeWidth(paintStrokeWidth);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p><code>Paint的其他方法：</code></p>
 <ul>
 <li><p>setStrokeCap(Paint.Cap cap)<br>方法，该方法用来设置我们画笔的笔触风格，上面的例子中我使用的是ROUND，表示是圆角的笔触，那么什么叫笔触呢，其实很简单，就像我们现实世界中的笔，如果你用圆珠笔在纸上戳一点，那么这个点一定是个圆，即便很小，它代表了笔的笔触形状，如果我们把一支铅笔笔尖削成方形的，那么画出来的线条会是一条弯曲的“矩形”，这就是笔触的意思。除了ROUND，Paint.Cap还提供了另外两种类型：SQUARE和BUTT</p>
@@ -15,7 +121,7 @@
 <p>PorterDuffXfermode类，图形混合模式的意思</p>
 </blockquote>
 <h3 id="2-View类的invalidate-方法-和postInvalidate-方法"><a href="#2-View类的invalidate-方法-和postInvalidate-方法" class="headerlink" title="2,View类的invalidate()方法,和postInvalidate()方法"></a>2,View类的invalidate()方法,和postInvalidate()方法</h3><p>在Android中提供了一个叫invalidate()的方法来让我们重绘我们的View。poistInvalidate()方法和invaliadate方法相同，只是它可以在子线程中运行.<br><strong><em><code>nvalidate()方法只能在主线程中调用，而postInvalidate()方法可以在子线程中调用。</code></em></strong></p>
-<h3 id="3，Shader类（着色器）"><a href="#3，Shader类（着色器）" class="headerlink" title="3，Shader类（着色器）"></a>3，Shader类（着色器）</h3><p><img src="自定义控件相关类汇总(一" alt>/15-23-34.jpg)<br>Shader类呢也是个灰常灰常简单的类，它有五个子类，像PathEffect一样每个子类都实现了一种Shader，Shader在三维软件中我们称之为着色器，<strong><em>其作用嘛就像它的名字一样是来给图像着色的或者更通俗的说法是上色！</em></strong>这么说该懂了吧！再不懂去厕所哭去！这五个Shader里最异类的是BitmapShader，因为只有它是允许我们载入一张图片来给图像着色，那我们还是先来看看这个怪胎吧BitmapShader只有一个含参的构造方法BitmapShader (Bitmap bitmap, Shader.TileMode tileX, Shader.TileMode tileY)</p>
+<h3 id="3，Shader类（着色器）"><a href="#3，Shader类（着色器）" class="headerlink" title="3，Shader类（着色器）"></a>3，Shader类（着色器）</h3><p><img src="/2015/04/02/Android/自定义控件相关类汇总(一)/自定义控件相关类汇总(一" alt>/15-23-34.jpg)<br>Shader类呢也是个灰常灰常简单的类，它有五个子类，像PathEffect一样每个子类都实现了一种Shader，Shader在三维软件中我们称之为着色器，<strong><em>其作用嘛就像它的名字一样是来给图像着色的或者更通俗的说法是上色！</em></strong>这么说该懂了吧！再不懂去厕所哭去！这五个Shader里最异类的是BitmapShader，因为只有它是允许我们载入一张图片来给图像着色，那我们还是先来看看这个怪胎吧BitmapShader只有一个含参的构造方法BitmapShader (Bitmap bitmap, Shader.TileMode tileX, Shader.TileMode tileY)</p>
 <blockquote>
 <p>BitmapShader (Bitmap bitmap, Shader.TileMode tileX, Shader.TileMode tileY)的第一个参数是位图这个很显然，而后两个参数则分别表示XY方向上的着色模式。<br><strong><em>Shader.TileMode里有三种模式：CLAMP、MIRROR和REPETA。MIRROR镜像效果，REPETA重复，CLAMP的意思就是边缘拉伸的意思</em></strong></p>
 </blockquote>
@@ -26,9 +132,9 @@
 <li>canvas.translate(x, y);平移画布，就相当于将画布的原点移到x,y的位置 ，即相当于坐标系移动了。</li>
 </ul>
 </blockquote>
-<p><img src="自定义控件相关类汇总(一" alt>/15-24-19.jpg)</p>
+<p><img src="/2015/04/02/Android/自定义控件相关类汇总(一)/自定义控件相关类汇总(一" alt>/15-24-19.jpg)</p>
 <ul>
-<li>canvas.rotate(degrees);旋转画布，将画布按照一定角度进行旋转，即相当于坐标系进行了旋转。<br><img src="自定义控件相关类汇总(一" alt>/15-24-36.jpg)<br><code>注意：画布的平移旋转同样也会影响画布的自身坐标</code><h3 id="5，Canvas类-画布"><a href="#5，Canvas类-画布" class="headerlink" title="5，Canvas类(画布)"></a>5，Canvas类(画布)</h3></li>
+<li>canvas.rotate(degrees);旋转画布，将画布按照一定角度进行旋转，即相当于坐标系进行了旋转。<br><img src="/2015/04/02/Android/自定义控件相关类汇总(一)/自定义控件相关类汇总(一" alt>/15-24-36.jpg)<br><code>注意：画布的平移旋转同样也会影响画布的自身坐标</code><h3 id="5，Canvas类-画布"><a href="#5，Canvas类-画布" class="headerlink" title="5，Canvas类(画布)"></a>5，Canvas类(画布)</h3></li>
 </ul>
 <hr>
 <p>Canvas所提供的各种方法根据功能来看大致可以分为几类，第一是以drawXXX为主的绘制方法，第二是以clipXXX为主的裁剪方法，第三是以scale、skew、translate和rotate组成的Canvas变换方法，最后一类则是以saveXXX和restoreXXX构成的画布锁定和还原。</p>
@@ -51,7 +157,7 @@
 </ul>
 </blockquote>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">public class CanvasView extends View &#123;  </span><br><span class="line">    private Rect mRect;  </span><br><span class="line">  </span><br><span class="line">    public CanvasView(Context context, AttributeSet attrs) &#123;  </span><br><span class="line">        super(context, attrs);  </span><br><span class="line">        mRect = new Rect(0, 0, 500, 500);  </span><br><span class="line">  </span><br><span class="line">        mRect.intersect(250, 250, 750, 750);  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">    @Override  </span><br><span class="line">    protected void onDraw(Canvas canvas) &#123;  </span><br><span class="line">        canvas.drawColor(Color.BLUE);  </span><br><span class="line">  </span><br><span class="line">        canvas.clipRect(mRect);  </span><br><span class="line">  </span><br><span class="line">        canvas.drawColor(Color.RED);  </span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-<p><img src="自定义控件相关类汇总(一" alt>/15-26-50.jpg)<br><code>注意：黄色线框为后期加上的辅助线非程序生成</code></p>
+<p><img src="/2015/04/02/Android/自定义控件相关类汇总(一)/自定义控件相关类汇总(一" alt>/15-26-50.jpg)<br><code>注意：黄色线框为后期加上的辅助线非程序生成</code></p>
 <blockquote>
 <ul>
 <li>union(RectF rect) / union(float left, float top, float right, float bottom) 方法：<code>union方法与intersect相反，取的是相交区域最远的左上端点作为新区域的左上端点，而取最远的右下端点作为新区域的右下端点</code></li>
@@ -62,7 +168,7 @@
 <li>mRect.union(250, 250, 750, 750); </li>
 </ul>
 </blockquote>
-<p>运行后我们会看到如下结果：<br><img src="自定义控件相关类汇总(一" alt>/15-27-13.jpg)<br>是不是觉得不是我们想象中的那样单纯地两个区域相加。此方法是指的左上角的点和右下角的点的最远距离。</p>
+<p>运行后我们会看到如下结果：<br><img src="/2015/04/02/Android/自定义控件相关类汇总(一)/自定义控件相关类汇总(一" alt>/15-27-13.jpg)<br>是不是觉得不是我们想象中的那样单纯地两个区域相加。此方法是指的左上角的点和右下角的点的最远距离。</p>
 <h3 id="7-Path-类"><a href="#7-Path-类" class="headerlink" title="7 Path 类"></a>7 Path 类</h3><p><code>此类表示一个路径</code></p>
 <ul>
 <li>lineTo(float x, float y): 将路径连接至某个点坐标。（不适用moveTo方法时默认起点坐标为原点）。<code>我们可以考虑多次调用lineTo方法来绘制更复杂的图形.</code></li>
@@ -70,17 +176,17 @@
 <li>close() 此方法含义师闭合曲线。</li>
 </ul>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">// 实例化路径  </span><br><span class="line">mPath = new Path();    </span><br><span class="line">// 移动点至[300,300]  </span><br><span class="line">mPath.moveTo(100, 100);    </span><br><span class="line">// 连接路径到点  </span><br><span class="line">mPath.lineTo(300, 100);  </span><br><span class="line">mPath.lineTo(400, 200);  </span><br><span class="line">mPath.lineTo(200, 200);    </span><br><span class="line">// 闭合曲线  </span><br><span class="line">mPath.close();</span><br></pre></td></tr></table></figure>
-<p><img src="自定义控件相关类汇总(一" alt>/15-28-08.jpg)</p>
+<p><img src="/2015/04/02/Android/自定义控件相关类汇总(一)/自定义控件相关类汇总(一" alt>/15-28-08.jpg)</p>
 <ul>
 <li>XXXTo()  贝塞尔曲线相关方法<code>这些方法帮助我们绘制各类直线、曲线</code><br>– quadTo(float x1, float y1, float x2, float y2)  绘制二阶贝塞尔曲线。 <code>quadTo的前两个参数为控制点的坐标，后两个参数为终点坐标, 当然起点坐标就是path的起点坐标</code><br>– cubicTo(float x1, float y1, float x2, float y2, float x3, float y3)  绘制三阶贝塞尔曲线。<code>与quadTo类似，前四个参数表示两个控制点，最后两个参数表示终点：</code></li>
 </ul>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">// 实例化路径  </span><br><span class="line">mPath = new Path();    </span><br><span class="line">// 移动点至[100,100]  </span><br><span class="line">mPath.moveTo(100, 100);    </span><br><span class="line">// 连接路径到点  </span><br><span class="line">mPath.cubicTo(200, 200, 300, 0, 400, 100);</span><br></pre></td></tr></table></figure>
-<p><img src="自定义控件相关类汇总(一" alt>/15-28-37.jpg)</p>
+<p><img src="/2015/04/02/Android/自定义控件相关类汇总(一)/自定义控件相关类汇总(一" alt>/15-28-37.jpg)</p>
 <ul>
 <li>arcTo (RectF oval, float startAngle, float sweepAngle)   用来生成弧线的方法。说白了就是从圆或者椭圆上截取一部分而已。</li>
 </ul>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">// 实例化路径  </span><br><span class="line">mPath = new Path();    </span><br><span class="line">// 移动点至[100,100]  </span><br><span class="line">mPath.moveTo(100, 100);    </span><br><span class="line">// 连接路径到点  </span><br><span class="line">RectF oval = new RectF(100, 100, 200, 200);  </span><br><span class="line">mPath.arcTo(oval, 0, 90);</span><br></pre></td></tr></table></figure>
-<p><img src="自定义控件相关类汇总(一" alt>/15-29-02.jpg)<br>运行后效果跟我们想想的有点不一样，<code>这是因为使用Path生成的路径必定都是连贯的，虽然我们使用arcTo绘制的时一段狐，但是其最终都会与我们Path的起点链接起来。如果你不想要链接，那么path也提供了一种方法，而已设置是否强制链接起点。</code></p>
+<p><img src="/2015/04/02/Android/自定义控件相关类汇总(一)/自定义控件相关类汇总(一" alt>/15-29-02.jpg)<br>运行后效果跟我们想想的有点不一样，<code>这是因为使用Path生成的路径必定都是连贯的，虽然我们使用arcTo绘制的时一段狐，但是其最终都会与我们Path的起点链接起来。如果你不想要链接，那么path也提供了一种方法，而已设置是否强制链接起点。</code></p>
 <ul>
 <li><p>arcTo (RectF oval, float startAngle, float sweepAngle, boolean forceMoveTo)   该方法只是多了一个布尔值，值为true时将会把弧的起点作为Path的起点</p>
 </li>
@@ -209,4 +315,141 @@ canvas.restore();
 canvas.drawRect(0, 0, canvas.getWidth(), canvas.getHeight(), mPaint);  
 </code></pre><p>}<br><code>`</code><br>这时我们会看到，Rect随着Canvas的缩放一起缩放了，但是Region依旧泰山不动地淡定：<br><img src="http://img.blog.csdn.net/20141216162838281?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYWlnZXN0dWRpbw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt></p>
 <p><code>本文参考了以下blog</code><br>1，<a href="http://blog.csdn.net/aigestudio/article/details/41212583" target="_blank" rel="noopener">http://blog.csdn.net/aigestudio/article/details/41212583</a><br>2，<a href="http://blog.csdn.net/aigestudio/article/details/41316141" target="_blank" rel="noopener">http://blog.csdn.net/aigestudio/article/details/41316141</a><br>3，<a href="http://blog.csdn.net/aigestudio/article/details/41447349" target="_blank" rel="noopener">http://blog.csdn.net/aigestudio/article/details/41447349</a><br>4，<a href="http://blog.csdn.net/aigestudio/article/details/41960507" target="_blank" rel="noopener">http://blog.csdn.net/aigestudio/article/details/41960507</a></p>
-</div><div class="tags"></div><div class="post-nav"><a class="pre" href="/2015/04/03/Mac/Mac下配置hosts/"></a></div></div></div></div><div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar"><div class="widget"><form class="search-form" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank"><input type="text" name="q" maxlength="20" placeholder="Search"><input type="hidden" name="sitesearch" value="http://glanwang.com"></form></div><div class="widget"><div class="widget-title"><i class="fa fa-folder-o"> 分类</i></div><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Gradle/">Gradle</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac/">Mac</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Other/">Other</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-star-o"> 标签</i></div><div class="tagcloud"><a href="/tags/请求追踪/" style="font-size: 15px;">请求追踪</a> <a href="/tags/gradle-守护进程，org-gradle-daemon/" style="font-size: 15px;">gradle 守护进程，org.gradle.daemon</a> <a href="/tags/transform-API-gradle/" style="font-size: 15px;">transform API, gradle</a> <a href="/tags/Gradle/" style="font-size: 15px;">Gradle</a> <a href="/tags/IDEA导出可执行jar/" style="font-size: 15px;">IDEA导出可执行jar</a> <a href="/tags/堆，栈/" style="font-size: 15px;">堆，栈</a> <a href="/tags/设计模式/" style="font-size: 15px;">设计模式</a> <a href="/tags/transient/" style="font-size: 15px;">transient</a> <a href="/tags/shell/" style="font-size: 15px;">shell</a> <a href="/tags/shell字符串/" style="font-size: 15px;">shell字符串</a> <a href="/tags/正则表达式，shell/" style="font-size: 15px;">正则表达式，shell</a> <a href="/tags/git/" style="font-size: 15px;">git</a> <a href="/tags/git-clean/" style="font-size: 15px;">git clean</a> <a href="/tags/git迁移/" style="font-size: 15px;">git迁移</a> <a href="/tags/vim/" style="font-size: 15px;">vim</a> <a href="/tags/AOP/" style="font-size: 15px;">AOP</a> <a href="/tags/memory-monitors-android-studio/" style="font-size: 15px;">memory monitors, android studio</a> <a href="/tags/嵌套滚动-NestedScrolling/" style="font-size: 15px;">嵌套滚动, NestedScrolling</a> <a href="/tags/design-appBarLayout/" style="font-size: 15px;">design, appBarLayout</a> <a href="/tags/AspectJ-android/" style="font-size: 15px;">AspectJ, android</a> <a href="/tags/glide-图片无法加载-获取缓存图片/" style="font-size: 15px;">glide, 图片无法加载, 获取缓存图片</a> <a href="/tags/glide源码解读/" style="font-size: 15px;">glide源码解读</a> <a href="/tags/gradle教程/" style="font-size: 15px;">gradle教程</a> <a href="/tags/gradle，屏蔽，task/" style="font-size: 15px;">gradle，屏蔽，task</a> <a href="/tags/okhttp-header/" style="font-size: 15px;">okhttp, header</a> <a href="/tags/proguard/" style="font-size: 15px;">proguard</a> <a href="/tags/sqltie-GreenDao/" style="font-size: 15px;">sqltie, GreenDao</a> <a href="/tags/apktools/" style="font-size: 15px;">apktools</a> <a href="/tags/https-httpDNS/" style="font-size: 15px;">https, httpDNS</a> <a href="/tags/事件传递/" style="font-size: 15px;">事件传递</a> <a href="/tags/嵌套滚动-viewpager/" style="font-size: 15px;">嵌套滚动, viewpager</a> <a href="/tags/Too-many-classes-in-main-dex-list，-main-dex-capacity-exceeded/" style="font-size: 15px;">Too many classes in --main-dex-list， main dex capacity exceeded</a> <a href="/tags/widget-android-8-0/" style="font-size: 15px;">widget, android 8.0</a> <a href="/tags/瘦身/" style="font-size: 15px;">瘦身</a> <a href="/tags/Android8-0适配/" style="font-size: 15px;">Android8.0适配</a> <a href="/tags/greenDao-数据库/" style="font-size: 15px;">greenDao, 数据库</a> <a href="/tags/热更新-热补丁/" style="font-size: 15px;">热更新, 热补丁</a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> 最近文章</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2019/03/04/Test/">Test</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/10/12/Android/桌面Widget适配android8-0/">桌面Widget适配android8.0</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/24/Mac/Mac下提升效率的常用命令/">Mac提升效率的常用命令</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/09/Other/git-clean使用/">git-clean使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/04/Android/网易新闻全链路状态追踪解决方案/">网易新闻全链路状态追踪解决方案</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/15/Android/记Android8.0输入和导航变更引起的bug/">记Android8.0输入和导航变更引起的bug</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/11/Android/使用嵌套滚动实现viewpager和header的联动/">使用嵌套滚动实现viewpager和header的联动</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/29/Android/事件传递温习/">事件传递温习</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/23/Android/Android嵌套滚动入门/">Android嵌套滚动入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/02/01/Android/RecyclerView绑定View时更新数据问题解决/">RecyclerView绑定View时更新数据问题解决</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-external-link"> 友情链接</i></div><ul></ul><a href="http://www.example1.com/" title="site-name1" target="_blank">site-name1</a><ul></ul><a href="http://www.example2.com/" title="site-name2" target="_blank">site-name2</a><ul></ul><a href="http://www.example3.com/" title="site-name3" target="_blank">site-name3</a></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">Copyright © 2019 <a href="/." rel="nofollow">Glan Wang.</a> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></div></div><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=0.0.0" async></script><script type="text/javascript" src="//lib.baomitu.com/fancybox/3.5.2/jquery.fancybox.min.js" async></script><script type="text/javascript" src="/js/fancybox.js?v=0.0.0" async></script><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/fancybox/3.5.2/jquery.fancybox.min.css"><script type="text/javascript" src="/js/codeblock-resizer.js?v=0.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=0.0.0"></script></div></body></html>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://glanwang.com/2015/04/02/Android/自定义控件相关类汇总(一)/" data-id="cjt71hb02009lzg22inib789c" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2015/04/03/Mac/Mac下配置hosts/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Gradle/">Gradle</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac/">Mac</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Other/">Other</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AOP/">AOP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android8-0适配/">Android8.0适配</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AspectJ-android/">AspectJ, android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Gradle/">Gradle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IDEA导出可执行jar/">IDEA导出可执行jar</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Too-many-classes-in-main-dex-list，-main-dex-capacity-exceeded/">Too many classes in --main-dex-list， main dex capacity exceeded</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/apktools/">apktools</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/design-appBarLayout/">design, appBarLayout</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git-clean/">git clean</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git迁移/">git迁移</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/glide-图片无法加载-获取缓存图片/">glide, 图片无法加载, 获取缓存图片</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/glide源码解读/">glide源码解读</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gradle-守护进程，org-gradle-daemon/">gradle 守护进程，org.gradle.daemon</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gradle教程/">gradle教程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gradle，屏蔽，task/">gradle，屏蔽，task</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/greenDao-数据库/">greenDao, 数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/https-httpDNS/">https, httpDNS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/memory-monitors-android-studio/">memory monitors, android studio</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/okhttp-header/">okhttp, header</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/proguard/">proguard</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/">shell</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell字符串/">shell字符串</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sqltie-GreenDao/">sqltie, GreenDao</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/transform-API-gradle/">transform API, gradle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/transient/">transient</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vim/">vim</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/widget-android-8-0/">widget, android 8.0</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/事件传递/">事件传递</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/堆，栈/">堆，栈</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/嵌套滚动-NestedScrolling/">嵌套滚动, NestedScrolling</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/嵌套滚动-viewpager/">嵌套滚动, viewpager</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/正则表达式，shell/">正则表达式，shell</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/热更新-热补丁/">热更新, 热补丁</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/瘦身/">瘦身</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/设计模式/">设计模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/请求追踪/">请求追踪</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/AOP/" style="font-size: 10px;">AOP</a> <a href="/tags/Android8-0适配/" style="font-size: 10px;">Android8.0适配</a> <a href="/tags/AspectJ-android/" style="font-size: 10px;">AspectJ, android</a> <a href="/tags/Gradle/" style="font-size: 10px;">Gradle</a> <a href="/tags/IDEA导出可执行jar/" style="font-size: 10px;">IDEA导出可执行jar</a> <a href="/tags/Too-many-classes-in-main-dex-list，-main-dex-capacity-exceeded/" style="font-size: 10px;">Too many classes in --main-dex-list， main dex capacity exceeded</a> <a href="/tags/apktools/" style="font-size: 10px;">apktools</a> <a href="/tags/design-appBarLayout/" style="font-size: 10px;">design, appBarLayout</a> <a href="/tags/git/" style="font-size: 20px;">git</a> <a href="/tags/git-clean/" style="font-size: 10px;">git clean</a> <a href="/tags/git迁移/" style="font-size: 10px;">git迁移</a> <a href="/tags/glide-图片无法加载-获取缓存图片/" style="font-size: 10px;">glide, 图片无法加载, 获取缓存图片</a> <a href="/tags/glide源码解读/" style="font-size: 10px;">glide源码解读</a> <a href="/tags/gradle-守护进程，org-gradle-daemon/" style="font-size: 10px;">gradle 守护进程，org.gradle.daemon</a> <a href="/tags/gradle教程/" style="font-size: 10px;">gradle教程</a> <a href="/tags/gradle，屏蔽，task/" style="font-size: 10px;">gradle，屏蔽，task</a> <a href="/tags/greenDao-数据库/" style="font-size: 10px;">greenDao, 数据库</a> <a href="/tags/https-httpDNS/" style="font-size: 10px;">https, httpDNS</a> <a href="/tags/memory-monitors-android-studio/" style="font-size: 10px;">memory monitors, android studio</a> <a href="/tags/okhttp-header/" style="font-size: 10px;">okhttp, header</a> <a href="/tags/proguard/" style="font-size: 10px;">proguard</a> <a href="/tags/shell/" style="font-size: 10px;">shell</a> <a href="/tags/shell字符串/" style="font-size: 10px;">shell字符串</a> <a href="/tags/sqltie-GreenDao/" style="font-size: 10px;">sqltie, GreenDao</a> <a href="/tags/transform-API-gradle/" style="font-size: 10px;">transform API, gradle</a> <a href="/tags/transient/" style="font-size: 10px;">transient</a> <a href="/tags/vim/" style="font-size: 10px;">vim</a> <a href="/tags/widget-android-8-0/" style="font-size: 10px;">widget, android 8.0</a> <a href="/tags/事件传递/" style="font-size: 10px;">事件传递</a> <a href="/tags/堆，栈/" style="font-size: 10px;">堆，栈</a> <a href="/tags/嵌套滚动-NestedScrolling/" style="font-size: 10px;">嵌套滚动, NestedScrolling</a> <a href="/tags/嵌套滚动-viewpager/" style="font-size: 10px;">嵌套滚动, viewpager</a> <a href="/tags/正则表达式，shell/" style="font-size: 10px;">正则表达式，shell</a> <a href="/tags/热更新-热补丁/" style="font-size: 10px;">热更新, 热补丁</a> <a href="/tags/瘦身/" style="font-size: 10px;">瘦身</a> <a href="/tags/设计模式/" style="font-size: 10px;">设计模式</a> <a href="/tags/请求追踪/" style="font-size: 15px;">请求追踪</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">三月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">八月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">六月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">五月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">二月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">六月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">十一月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">十月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">九月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">八月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">七月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">六月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">五月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/03/04/Test/">Test</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/12/Android/桌面Widget适配android8-0/">桌面Widget适配android8.0</a>
+          </li>
+        
+          <li>
+            <a href="/2018/08/24/Mac/Mac下提升效率的常用命令/">Mac提升效率的常用命令</a>
+          </li>
+        
+          <li>
+            <a href="/2018/07/09/Other/git-clean使用/">git-clean使用</a>
+          </li>
+        
+          <li>
+            <a href="/2018/07/04/Android/网易新闻全链路状态追踪解决方案/">网易新闻全链路状态追踪解决方案</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 GlanWang<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>
