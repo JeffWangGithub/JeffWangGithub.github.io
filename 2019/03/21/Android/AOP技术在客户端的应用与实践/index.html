@@ -1,0 +1,121 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta name="generator" content="Hexo 3.8.0"><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description"><title>AOP技术在客户端的应用与实践 | Glan Wang</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=0.0.0"><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/normalize/8.0.1/normalize.min.css"><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/pure/1.0.0/pure-min.css"><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/pure/1.0.0/grids-responsive-min.css"><link rel="stylesheet" href="//lib.baomitu.com/font-awesome/4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//lib.baomitu.com/jquery/3.3.1/jquery.min.js"></script><link rel="icon" mask sizes="any" href="/favicon.ico"><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">AOP技术在客户端的应用与实践</h1><a id="logo" href="/.">Glan Wang</a><p class="description">CoderGC</p></div><div id="nav-menu"><a class="current" href="/."><i class="fa fa-home"> 首页</i></a><a href="/archives/"><i class="fa fa-archive"> 归档</i></a><a href="/about/"><i class="fa fa-user"> 关于</i></a><a href="/atom.xml"><i class="fa fa-rss"> 订阅</i></a></div></div><div class="pure-g" id="layout"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title">AOP技术在客户端的应用与实践</h1><div class="post-meta">Mar 21, 2019<span> | </span><span class="category"><a href="/categories/Android/">Android</a></span></div><div class="post-content"><h3 id="常见的编程架构思想"><a href="#常见的编程架构思想" class="headerlink" title="常见的编程架构思想"></a>常见的编程架构思想</h3><ul>
+<li>面向对象(Object Oriented Programming) </li>
+<li>面向过程(Procedure Oriented Programming)</li>
+<li>面向切面(Aspect Oriented Programming)</li>
+</ul>
+<p>以上三种编程架构思想中，面向对象和面向过程是我们大多数开发人员接触比较多的。</p>
+<p>其实，对于大部分开发者，前两者编程思想并不陌生。接触更少的应该是面向切面的编程，本文重点和大家浅析一下切面编程以及切面编程在客户端的应用。</p>
+<h3 id="面向切面编程-AOP"><a href="#面向切面编程-AOP" class="headerlink" title="面向切面编程(AOP)"></a>面向切面编程(AOP)</h3><p>AOP是Aspect Oriented Programming的缩写，意为：面向切面编程，通过预编译方式和运行期动态代理实现程序功能的统一维护的一种技术。</p>
+<p>AOP是OOP的延续，是软件开发中的一个热点，是函数式编程的一种衍生范型。利用AOP可以对业务逻辑的各个部分进行隔离，从而使得业务逻辑各部分之间的耦合度降低，提高程序的可重用性，同时提高了开发的效率。</p>
+<p>AOP其实是OOP的补充，OOP从横向上区分出一个个的类来，而AOP则从纵向上向对象中加入特定的代码。用一句更加形象的话讲，AOP就像一把刀，它能将整个过程按照你想要的切点进行切片，让整个过程清晰可见。</p>
+<p><img src="/2019/03/21/Android/AOP技术在客户端的应用与实践/image_aop.png" alt="image-20190321165445019"></p>
+<h3 id="AOP的分类以及常见概念"><a href="#AOP的分类以及常见概念" class="headerlink" title="AOP的分类以及常见概念"></a>AOP的分类以及常见概念</h3><p>AOP技术可以简单的分为两类，一类是运行期的AOP，例如Java的动态代理；另一类可以归结为编译期的AOP，例如经常听说的ASM，AspecJ等框架。</p>
+<p>对于客户端而言，对性能的影响度是一个重要的考量目标，因为客户端本身运行的环境是有限的，不过随着手机技术的不断更新迭代，性能不断的飙升，这个问题也逐渐慢慢退化。然而，和大型服务器的处理能力相比，手机的处理能力还是略显逊色的。因此，在客户端应用我们重点考虑的仍然是编译期的AOP方案，以提高运行期的效率。</p>
+<p>AOP常见概念一般包含: <code>连接点(Joinpoint)</code> <code>切点（*Pointcut*）</code> <code>增强（*Advice*）</code>  <code>目标对象 (Target)</code> <code>引介(Introduction)</code> <code>织入（Weaving）</code> <code>代理（Proxy）</code>  <code>切面（Aspect）</code> 等，不太了解的可以自行搜索一下。</p>
+<h3 id="客户端开发中的应用"><a href="#客户端开发中的应用" class="headerlink" title="客户端开发中的应用"></a>客户端开发中的应用</h3><p>目前来说AOP在后端应用的场景已经非常完善了，比如说Spring框架自身对就AOP编程有一个很好的支持。对于起步稍晚的客户端而言，AOP却显得没有那么多的应用场景。如何能将AOP的思想，融入到客户端的开发，从而提升客户端的开发效率，是我们一直在思考与实践的一个问题。</p>
+<p>了解了以上内容之后，下边着重介绍一下AOP编程思想在网易新闻客户端的应用与实践：</p>
+<h3 id="Hot-Fix-热修复"><a href="#Hot-Fix-热修复" class="headerlink" title="Hot Fix (热修复)"></a>Hot Fix (热修复)</h3><p>两年之前 Hot Fix技术炒的非常热，各大友商也是花样百出，各自献计，一时间出现了百家齐鸣的现象。当然网易其实也不甘落后，公司各个部门也研发了自己的热更新热补丁方案。网易新闻也是不断的探索未知，先后实践过一些方案， 最终还是基于AOP的方案，制定了一套相同成熟稳定的热修复技术。</p>
+<ul>
+<li><strong>原理</strong></li>
+</ul>
+<p>基于AOP技术，编译期修改Java字节码，对每一个方法进行插装操作，以便于hook每一个方法，做到方法级别的热修复。</p>
+<ul>
+<li><strong>AOP框架选型</strong></li>
+</ul>
+<p>编译期的AOP框架有很多，例如 ASM， AspectJ，Javassist等等。如何选择框架其实是我们研发初期面临的一个问题。我们最终选的是使用AspectJ作为研发框架，原因有以下几点：</p>
+<ol>
+<li>易用性/门槛低：API设计非常简单，无需你深入的了解.class文件的结构，就能轻易的驾驭它。</li>
+<li>对Java语言的完美支持：支持各种表达式，满足你对切点的自定义。</li>
+</ol>
+<p>当然，它也有缺点，这个后面我们会介绍。</p>
+<ul>
+<li><strong>Android热修复的实现</strong></li>
+</ul>
+<p><img src="/2019/03/21/Android/AOP技术在客户端的应用与实践/img_android_patch.jpg" alt="img_android_patch"></p>
+<p>如上图，实现过程主要有以下几个关键点： </p>
+<ol>
+<li><strong>方法级别的hook</strong></li>
+</ol>
+<p>如图所示，gradle进行构建的时候，在Java源码编译完成之后，生成dex文件之前，我们调用AspectJ的编译器进行插桩。插桩的目的是给每一个方法注入一段寻找patch方法的逻辑。<br>简单来说就是每个方法执行时先去根据自己方法的签名寻找是否有自己对应的patch方法，如果有执行patch方法，没有执行自己原有的逻辑。大致代码逻辑如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> Object <span class="title">weaveJoinPoint</span><span class="params">(ProceedingJoinPoint joinPoint)</span> <span class="keyword">throws</span> Throwable </span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            String e = joinPoint.toLongString(); <span class="comment">//获取当前方法的签名</span></span><br><span class="line">            PatchDebug.printMethodDesByFile(e); </span><br><span class="line">            <span class="keyword">if</span>(PatchUtils.hasMethodPatch(e)) &#123;  <span class="comment">//查询是否有自己方法的patch方法</span></span><br><span class="line">                Object target = joinPoint.getTarget(); <span class="comment">//获取当前的运行对象，方便设置给patch方法</span></span><br><span class="line">                Object[] params = joinPoint.getArgs(); <span class="comment">//获取运行参数</span></span><br><span class="line">                .................................          <span class="comment">//省略一些处理逻辑</span></span><br><span class="line">                <span class="keyword">return</span> joinPoint.proceed();<span class="comment">//执行原有逻辑</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception var8) &#123;</span><br><span class="line">            var8.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> joinPoint.proceed(); </span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li><strong>何时进行插桩操作以及如何进行插庄</strong></li>
+</ol>
+<p>插桩的时机：最基本的原则是:java源码编译完成之后，Dex文件生成之前。</p>
+<p>对于gradle构建来说，我们可以有两种选择：</p>
+<p>a. 直接hook java Compiler的Task，在java源码编译完成之后执行AspectJ的编译器，进行字节码插桩操作。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">project.android.applicationVariants.all &#123; variant -&gt;</span><br><span class="line">    <span class="keyword">if</span> (variant.buildType.name != <span class="string">"release"</span>) &#123;</span><br><span class="line">        log.debug(<span class="string">"Skipping non-release build type '$&#123;variant.buildType.name&#125;'."</span>)</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    JavaCompile javaCompile = variant.javaCompile</span><br><span class="line">    javaCompile.doLast &#123;</span><br><span class="line">      							<span class="comment">//执行aspectJ编译操作</span></span><br><span class="line">                    String[] args = [<span class="string">"-showWeaveInfo"</span>,</span><br><span class="line">                                     <span class="string">"-1.5"</span>,</span><br><span class="line">                                     <span class="string">"-inpath"</span>, javaCompile.destinationDir.toString(),</span><br><span class="line">                                     <span class="string">"-aspectpath"</span>, javaCompile.classpath.asPath,</span><br><span class="line">                                     <span class="string">"-d"</span>, javaCompile.destinationDir.toString(),</span><br><span class="line">                                     <span class="string">"-classpath"</span>, javaCompile.classpath.asPath,</span><br><span class="line">                                     <span class="string">"-bootclasspath"</span>, project.android.bootClasspath.join(File.pathSeparator)]</span><br><span class="line">                    log.debug <span class="string">"ajc args: "</span> + Arrays.toString(args)</span><br><span class="line">                    MessageHandler handler = <span class="keyword">new</span> MessageHandler(<span class="keyword">true</span>);</span><br><span class="line">                    <span class="keyword">new</span> Main().run(args, handler);                    </span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>b. gradle Transform API方案(<strong>推荐使用</strong>)</p>
+<p>Transform API是Android gradle plugin 1.5之后新API， 作用就是在生成dex之前，给开发者一个机会能够统一进行修改字节码。</p>
+<p>对于上述a方案存在一些问题，对于一些jar包或者三方sdk的类，不太方便处理。因此采用android官方推荐的Transform API的方案是一个比较理想的方案，可以根据需求选择性定制处理哪些文件。<br>用Transform API实现一个gradle 插件，对字节码处理。能够动态可配置的选择处理那些jar或者那些文件。这就大大的方便了对自己的代码和第三方的代码进行字节码的处理。</p>
+<ul>
+<li><strong>补丁包如何生成</strong></li>
+</ul>
+<p>出现bug时将需要进行替换的方法放到指定类，然后生成一个只含有此java类字节码的apk包，进行下发。</p>
+<p>如何将patch包做到最小？ 我们的方案是：使用发版是的mapping文件，正常进行apk的编译，在生成dex之前，我们强制性的移除掉现有的类，只保留新增的含有patch方法的class文件；按照同样的思想移除掉多余的资源文件，最终生一个只含有补丁方法的类的apk或者jar。</p>
+<p><img src="/2019/03/21/Android/AOP技术在客户端的应用与实践/img_patch2.png" alt="image-20190321180340590"></p>
+<ul>
+<li><strong>补丁包加载与运行</strong></li>
+</ul>
+<p>运行时通过DexFile.loadDex()将apk加载。然后按照方法签名将补丁方法做缓存处理，每一个方法运行时会去缓存里查找是否有自己对应的patch方法，如果有则执行patch方法。</p>
+<ul>
+<li><strong>优缺点</strong></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>优点</th>
+<th>缺点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>无兼容行问题</td>
+<td>apk原始包方法数增大，体积增大</td>
+</tr>
+<tr>
+<td>实时生效</td>
+<td>打release包时间变长</td>
+</tr>
+<tr>
+<td>patch包体积小</td>
+<td>运行时性能有一定影响</td>
+</tr>
+</tbody>
+</table>
+<p>对性能的影响：</p>
+<p>我们通过对线上埋点测试发现，对方法的影响是毫秒级的，但是从整体来讲，例如从整个启动到主页面加载完成这个过程性能影响在500ms左右。</p>
+<ul>
+<li>优化方案</li>
+</ul>
+<p>a. 使用更轻量级别的AOP框架，减少包体积和性能影响；</p>
+<p>b. 使用类级别的热修复方案。</p>
+<h3 id="自动化工具"><a href="#自动化工具" class="headerlink" title="自动化工具"></a>自动化工具</h3><ul>
+<li><strong>自动化监测方法耗时</strong></li>
+</ul>
+<p>如何自动化的检测和监控主线程方法耗时，降低ANR产生的风险，是一个客户端开发非常关注的问题。为了能快速针对方法耗时做一个监控，我们利用AspectJ框架，hook每一个方法，获取方法执行的耗时时间，如果是主线程方法并且超过了我们设置的耗时阀值，则自动输出警告日志，便于开发人员检测此方法是否存在耗时逻辑。</p>
+<p>如下图所示：打印了主线程方法的耗时：</p>
+<p><img src="/2019/03/21/Android/AOP技术在客户端的应用与实践/img_method_cost.jpg" alt="methodtime"></p>
+<ul>
+<li><strong>自动化日志记录</strong></li>
+</ul>
+<p>用户行为操作日志，无论是客户端排查问题，还是对用户行为的分析都是一个非常重要的埋点日志。因此为了能够自动化的记录用户的操作日志，我们通用使用AOP的思想，自动化hook Activity生命周期和Fragment声明周期的方法，从而自动化的做到用户行为的埋点上报和日志记录。</p>
+<ul>
+<li><strong>三方SDK的检测与修改</strong></li>
+</ul>
+<p>a. 检测三方sdk方法级别耗时，以便于对SDK有一个整体的评估。</p>
+<p>b. 上线前临时修改或者hook三方SDK的方法，做到快速容灾上线。</p>
+<p>c. 自动化抓取三方SDK网络和行为日志。</p>
+<ul>
+<li><strong>统一处理点击抖动</strong></li>
+</ul>
+<p>客户端点击抖动是一个比较尴尬的问题，一方面此问题是客观存在的，确实对用户的体验有一定的影响；另一方面从开发角度讲，case by case的处理是一个繁琐的过程。所以整体来看是一个收益不高但是代价不小的问题。</p>
+<p>为了能够以自小的代价，解决这个全局性的问题，我们使用了AOP的思想，编译阶段统一hook android.view.View.OnClickListener#onClick(View v)方法; 做一个快速点击无效的防抖动效果，统一解决客户端快速点击多次响应的问题。</p>
+<p>这种方案的优点在于，统一处理，全局生效，开发阶段代码无切入性，开发人员完全无感知，同时代价又很低。</p>
+<h3 id="APM-应用性能监控"><a href="#APM-应用性能监控" class="headerlink" title="APM(应用性能监控)"></a>APM(应用性能监控)</h3><p>应用程序性能的监控，是一个商业化应用发展到一定阶段不得不关注的问题。如果纯粹依靠开发人员手动埋点，去监控客户端性能，则存在一些弊端，比如说：维护成本高，和业务耦合性强，无法快速迁移到其他产品中。</p>
+<p>为了解决这一问题，我们公司内部也是依靠AOP思想，开发了一套完整的应用性能监控平台。尽量做到开发人员无感知，无侵入的实现，应用网路、UI交互的性能监控。</p>
+<p>网络数据监控：网络层通过对网络库的方法hook和拦截器的自动化注入，实现网络过程的全过程监控，包括：握手时长，首包时间，DNS耗时，网络耗时等阶段信息的获取。通过对整个网络过程的数据表现分析，找到网络层面性能的问题点，做出一些列的优化措施。</p>
+<p>通过APM对网络性能的监控，新闻客户端不断的采取了HttpDNS，错误数据同步CND优化CND调度链等一些列措施，将网络错误率降最小化。</p>
+<h4 id="AOP与APT区别"><a href="#AOP与APT区别" class="headerlink" title="AOP与APT区别"></a>AOP与APT区别</h4><p><strong>APT</strong>(Annotation Processing Tool)即<strong>注解处理器</strong>，是一种处理注解的工具，确切的说它是javac的一个工具，它用来在编译时扫描和处理注解。注解处理器以<strong>Java代码</strong>(或者编译过的字节码)作为输入，生成<strong>.java文件</strong>作为输出。</p>
+<p>简单来说APT就是在编译期，通过注解生成<strong>.java</strong>文件，然后.java文件仍然需要进一步编译生成<strong>.class</strong>文件。而AOP是在编译完成后直接通过修改<strong>.class</strong>文件，添加或者修改代码逻辑。</p>
+</div><div class="tags"><a href="/tags/aop-aspectJ/">aop, aspectJ</a></div><div class="post-nav"><a class="pre" href="/2019/04/03/Android/Tinker接入实践/">Tinker接入实践</a><a class="next" href="/2019/03/13/Other/Git-Repo/">Git-Repo</a></div></div></div></div><div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar"><div class="widget"><form class="search-form" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank"><input type="text" name="q" maxlength="20" placeholder="Search"><input type="hidden" name="sitesearch" value="http://glanwang.com"></form></div><div class="widget"><div class="widget-title"><i class="fa fa-folder-o"> 分类</i></div><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Gradle/">Gradle</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac/">Mac</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Other/">Other</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-star-o"> 标签</i></div><div class="tagcloud"><a href="/tags/AOP/" style="font-size: 15px;">AOP</a> <a href="/tags/memory-monitors-android-studio/" style="font-size: 15px;">memory monitors, android studio</a> <a href="/tags/嵌套滚动-NestedScrolling/" style="font-size: 15px;">嵌套滚动, NestedScrolling</a> <a href="/tags/design-appBarLayout/" style="font-size: 15px;">design, appBarLayout</a> <a href="/tags/AspectJ-android/" style="font-size: 15px;">AspectJ, android</a> <a href="/tags/glide-图片无法加载-获取缓存图片/" style="font-size: 15px;">glide, 图片无法加载, 获取缓存图片</a> <a href="/tags/glide源码解读/" style="font-size: 15px;">glide源码解读</a> <a href="/tags/gradle教程/" style="font-size: 15px;">gradle教程</a> <a href="/tags/gradle，屏蔽，task/" style="font-size: 15px;">gradle，屏蔽，task</a> <a href="/tags/okhttp-header/" style="font-size: 15px;">okhttp, header</a> <a href="/tags/proguard/" style="font-size: 15px;">proguard</a> <a href="/tags/sqltie-GreenDao/" style="font-size: 15px;">sqltie, GreenDao</a> <a href="/tags/Tinker-patch/" style="font-size: 15px;">Tinker, patch</a> <a href="/tags/apktools/" style="font-size: 15px;">apktools</a> <a href="/tags/https-httpDNS/" style="font-size: 15px;">https, httpDNS</a> <a href="/tags/事件传递/" style="font-size: 15px;">事件传递</a> <a href="/tags/嵌套滚动-viewpager/" style="font-size: 15px;">嵌套滚动, viewpager</a> <a href="/tags/Too-many-classes-in-main-dex-list，-main-dex-capacity-exceeded/" style="font-size: 15px;">Too many classes in --main-dex-list， main dex capacity exceeded</a> <a href="/tags/widget-android-8-0/" style="font-size: 15px;">widget, android 8.0</a> <a href="/tags/请求追踪/" style="font-size: 15px;">请求追踪</a> <a href="/tags/瘦身/" style="font-size: 15px;">瘦身</a> <a href="/tags/Android8-0适配/" style="font-size: 15px;">Android8.0适配</a> <a href="/tags/transform-API-gradle/" style="font-size: 15px;">transform API, gradle</a> <a href="/tags/gradle-守护进程，org-gradle-daemon/" style="font-size: 15px;">gradle 守护进程，org.gradle.daemon</a> <a href="/tags/Gradle/" style="font-size: 15px;">Gradle</a> <a href="/tags/IDEA导出可执行jar/" style="font-size: 15px;">IDEA导出可执行jar</a> <a href="/tags/堆，栈/" style="font-size: 15px;">堆，栈</a> <a href="/tags/设计模式/" style="font-size: 15px;">设计模式</a> <a href="/tags/transient/" style="font-size: 15px;">transient</a> <a href="/tags/shell字符串/" style="font-size: 15px;">shell字符串</a> <a href="/tags/shell/" style="font-size: 15px;">shell</a> <a href="/tags/正则表达式，shell/" style="font-size: 15px;">正则表达式，shell</a> <a href="/tags/git/" style="font-size: 15px;">git</a> <a href="/tags/git-clean/" style="font-size: 15px;">git clean</a> <a href="/tags/git迁移/" style="font-size: 15px;">git迁移</a> <a href="/tags/vim/" style="font-size: 15px;">vim</a> <a href="/tags/greenDao-数据库/" style="font-size: 15px;">greenDao, 数据库</a> <a href="/tags/aop-aspectJ/" style="font-size: 15px;">aop, aspectJ</a> <a href="/tags/热更新-热补丁/" style="font-size: 15px;">热更新, 热补丁</a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> 最近文章</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2019/07/19/output/tags/index/">output/tags/index</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/07/19/output/styles/main/">output/styles/main</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/07/19/output/index/">output/index</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/07/19/output/archives/index/">output/archives/index</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/04/03/Android/Tinker接入实践/">Tinker接入实践</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/03/21/Android/AOP技术在客户端的应用与实践/">AOP技术在客户端的应用与实践</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/03/13/Other/Git-Repo/">Git-Repo</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/10/12/Android/桌面Widget适配android8-0/">桌面Widget适配android8.0</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/24/Mac/Mac下提升效率的常用命令/">Mac提升效率的常用命令</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/09/Other/git-clean使用/">git-clean使用</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-external-link"> 友情链接</i></div><ul></ul><a href="http://www.example1.com/" title="site-name1" target="_blank">site-name1</a><ul></ul><a href="http://www.example2.com/" title="site-name2" target="_blank">site-name2</a><ul></ul><a href="http://www.example3.com/" title="site-name3" target="_blank">site-name3</a></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">Copyright © 2019 <a href="/." rel="nofollow">Glan Wang.</a> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></div></div><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=0.0.0" async></script><script type="text/javascript" src="//lib.baomitu.com/fancybox/3.5.2/jquery.fancybox.min.js" async></script><script type="text/javascript" src="/js/fancybox.js?v=0.0.0" async></script><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/fancybox/3.5.2/jquery.fancybox.min.css"><script type="text/javascript" src="/js/codeblock-resizer.js?v=0.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=0.0.0"></script></div></body></html>
