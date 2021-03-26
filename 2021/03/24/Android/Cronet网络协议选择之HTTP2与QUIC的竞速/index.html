@@ -13,15 +13,14 @@
 <p>既然Cronet能够同时Http协议和QUIC协议，那么他是如何做出选择使用哪种协议进行通信的呢？</p>
 <h4 id="Cronet对HTTP和QUIC协议的选择原理分析"><a href="#Cronet对HTTP和QUIC协议的选择原理分析" class="headerlink" title="Cronet对HTTP和QUIC协议的选择原理分析"></a>Cronet对HTTP和QUIC协议的选择原理分析</h4><p>针对Cronet真正发起请求时采用的网络协议，其实没有太多相关资料给与解释。首先我先拿一个我们线上的事故来举例分析一下Cronet对网络协议的选择原理。</p>
 <h4 id="1-线上事故"><a href="#1-线上事故" class="headerlink" title="1. 线上事故"></a>1. 线上事故</h4><p>事故描述:  广东地区，线上突发报警，网络请求超时比例严重超过预订阀值？拉取用户日志发现，超时请求均是由于CDN调度问题，将广东的用户全部调度到了陕西的CDN节点上。但是奇怪的是日志显示DNS解析的CDN节点均在广东省，那为什么客户端会将请求全部打到陕西节点呢？具体日志如下:</p>
-<p><img src="/2021/03/24/Android/Cronet网络协议选择之HTTP2与QUIC的竞速/Xnip2021-03-26_09-17-56.png" alt></p>
+<p><img src="/2021/03/24/Android/Cronet网络协议选择之HTTP2与QUIC的竞速/image-20210325173432017.png" alt></p>
 <ul>
 <li>客户端dns解析结果均为14.152.86.35(广东)，没有出现跨地域调用</li>
 <li>客户端实际建连的CDN IP为36.42.75.35(陕西)，竟然是跨省调用</li>
 </ul>
 <p>为什么会出现这种现象呢？ 我们带着问题看一下Cronet的建连原理</p>
 <h4 id="2-Cronet建连协议选择原理"><a href="#2-Cronet建连协议选择原理" class="headerlink" title="2. Cronet建连协议选择原理"></a>2. Cronet建连协议选择原理</h4><h5 id="2-1-首次请求"><a href="#2-1-首次请求" class="headerlink" title="2.1 首次请求"></a>2.1 首次请求</h5><p>此处的首次请求和后续请求均是指的相同域名下的请求</p>
-<p><img src="Cronet网络协议选择之HTTP2与QUIC的竞速/cronet_quic_http1.png" alt></p>
-<p><img src="/2021/03/24/Android/Cronet网络协议选择之HTTP2与QUIC的竞速/image-20210325173432017.png" alt></p>
+<p><img src="Cronet网络协议选择之HTTP2与QUIC的竞速/cronet-quic-http1.png" alt></p>
 <ul>
 <li><p>1、首次请求，客户端发送正常的HTTP协议请求，此过程与正常HTTP请求的唯一区别是，携带了支持QUIC协议的信息，告诉Server端，Client支持QUIC请求</p>
 </li>
@@ -38,7 +37,7 @@
 <li><p>3-2、如果Server端不支持QUIC协议，则直接按照HTTP协议返回，response header中不包含:alt-syc头部信息</p>
 </li>
 </ul>
-<h5 id="2-2-第二次请求"><a href="#2-2-第二次请求" class="headerlink" title="2.2 第二次请求"></a>2.2 第二次请求</h5><p><img src="Cronet网络协议选择之HTTP2与QUIC的竞速/cronet_quic_http2.png" alt></p>
+<h5 id="2-2-第二次请求"><a href="#2-2-第二次请求" class="headerlink" title="2.2 第二次请求"></a>2.2 第二次请求</h5><p><img src="/2021/03/24/Android/Cronet网络协议选择之HTTP2与QUIC的竞速/image-20210325173432017.png" style="zoom:33%;"></p>
 <ul>
 <li>1、客户端第二次请求，Cronet网络库同时发出基于TCP的HTTP连接和基于UDP的QUIC连接<ul>
 <li>TCP连接基于正常的DNS解析进行建连</li>
