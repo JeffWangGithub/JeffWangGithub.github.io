@@ -37,7 +37,8 @@
 <li><p>3-2、如果Server端不支持QUIC协议，则直接按照HTTP协议返回，response header中不包含:alt-syc头部信息</p>
 </li>
 </ul>
-<h5 id="2-2-第二次请求"><a href="#2-2-第二次请求" class="headerlink" title="2.2 第二次请求"></a>2.2 第二次请求</h5><h5 id><a href="#" class="headerlink" title></a><img src="Cronet网络协议选择之HTTP2与QUIC的竞速/cronet_quic_http2.png" alt="cronet_quic_http_2"></h5><ul>
+<h5 id="2-2-第二次请求"><a href="#2-2-第二次请求" class="headerlink" title="2.2 第二次请求"></a>2.2 第二次请求</h5><p><img src="Cronet网络协议选择之HTTP2与QUIC的竞速/cronet_quic_http2.png" alt="cronet_quic_http2"></p>
+<ul>
 <li>1、客户端第二次请求，Cronet网络库同时发出基于TCP的HTTP连接和基于UDP的QUIC连接<ul>
 <li>TCP连接基于正常的DNS解析进行建连</li>
 <li>QUIC连接是基于第一次请求时Server端在alt-syc头信息中标注的ServerIP和端口号进行发起的，而不走DNS解析</li>
