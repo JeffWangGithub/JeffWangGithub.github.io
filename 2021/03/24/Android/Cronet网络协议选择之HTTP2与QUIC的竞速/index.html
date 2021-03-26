@@ -21,6 +21,7 @@
 <p>为什么会出现这种现象呢？ 我们带着问题看一下Cronet的建连原理</p>
 <h4 id="2-Cronet建连协议选择原理"><a href="#2-Cronet建连协议选择原理" class="headerlink" title="2. Cronet建连协议选择原理"></a>2. Cronet建连协议选择原理</h4><h5 id="2-1-首次请求"><a href="#2-1-首次请求" class="headerlink" title="2.1 首次请求"></a>2.1 首次请求</h5><p>此处的首次请求和后续请求均是指的相同域名下的请求</p>
 <p><img src="Cronet网络协议选择之HTTP2与QUIC的竞速/cronet_quic_http1.png" alt></p>
+<p><img src="assets/cronet_quic_http1-6721078.png" alt></p>
 <ul>
 <li><p>1、首次请求，客户端发送正常的HTTP协议请求，此过程与正常HTTP请求的唯一区别是，携带了支持QUIC协议的信息，告诉Server端，Client支持QUIC请求</p>
 </li>
